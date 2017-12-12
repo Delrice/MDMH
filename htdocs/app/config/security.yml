@@ -2,16 +2,26 @@
 # https://symfony.com/doc/current/security.html
 security:
     encoders:
-        Symfony\Component\Security\Core\User\User: plaintext
+        Symfony\Component\Security\Core\User\User: bcrypt
+        AppBundle\Document\User: bcrypt
 
     # https://symfony.com/doc/current/security.html#b-configuring-how-users-are-loaded
     providers:
-        in_memory:
+        in_memory_users:
             memory:
                 users:
                     fabrice:
-                        password: fabrice
+                        password: "$2a$10$d.rfCQmi6YulyoUWhvSmxOz60tCoxP8eWk0KTiCIjFPDl.kZkgngi"
                         roles: ['ROLE_ADMIN']
+
+        mongodb_users:
+            mongodb:
+                class: AppBundle:User
+                property: username
+
+        app_users:
+            chain:
+                providers: [in_memory_users, mongodb_users]
 
     # ROLES :
     # ROLE_USERS
@@ -36,20 +46,30 @@ security:
             security: false
 
         main:
+            security: true
             pattern: ^/
             anonymous: ~
             form_login:
-                provider: in_memory
-                check_path:           security_login_check
-                username_parameter:   login
-                password_parameter:   password
-                login_path:           security_login
+                provider: app_users
+                login_path: security_login
+                check_path: security_login_check
+                username_parameter: login
+                password_parameter: password
+                success_handler: AppBundle\Security\LoginSuccessHandler
+                failure_handler: AppBundle\Security\LoginFailureHandler
+
 
             logout:
                 path: security_logout
+                invalidate_session: false
+                success_handler: AppBundle\Security\LogoutSuccessHandler
 
             switch_user:
+                provider: in_memory_users
                 parameter: _admin_switch_user
+                role: ROLE_ALLOWED_TO_SWITCH
+
+            logout_on_user_change: true
 
 
 

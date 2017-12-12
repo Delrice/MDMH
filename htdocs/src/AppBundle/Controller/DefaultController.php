@@ -14,14 +14,13 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $product = new Product();
-        $product->setName('A Foo Bar');
-        $product->setPrice('19.99');
-
-        $dm = $this->get('doctrine_mongodb')->getManager();
-        $dm->persist($product);
-        $dm->flush();
-
+//        $product = new Product();
+//        $product->setName('A Foo Bar');
+//        $product->setPrice('19.99');
+//
+//        $dm = $this->get('doctrine_mongodb')->getManager();
+//        $dm->persist($product);
+//        $dm->flush();
 
         // replace this example code with whatever you need
         return $this->render('default/index.html.twig', [

@@ -1,0 +1,3 @@
+user.logout.success: Vous vous êtes déconnecté avec succès !
+user.login.success: Vous êtes maintenant connecté !
+user.login.failure: Impossible de vous connecter. Veuillez vérifier vos identifiants !

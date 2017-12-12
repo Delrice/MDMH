@@ -1,0 +1,12 @@
+language: php
+
+php:
+    - '7.1'
+
+before_script:
+    - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    - cd htdocs/
+
+script:
+    - composer install
+    - bin/phpunit
