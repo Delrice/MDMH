@@ -9,4 +9,4 @@ before_script:
 
 script:
     - composer install
-    - bin/phpunit
+    - bin/phpunit.phar
