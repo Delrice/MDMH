@@ -1,0 +1,59 @@
+# Adopt version 2 syntax:
+#   https://docs.docker.com/compose/compose-file/#/versioning
+version: '2'
+
+volumes:
+    sf3code-native-osx-sync:
+        external: true
+
+services:
+###########################
+# Setup the Apache container
+###########################
+    httpd:
+        container_name: httpd_sf3
+        restart: always
+        image: httpd:latest
+        ports:
+            - 8080:80
+        volumes:
+            - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
+            - ./docker/apache/vhosts/:/usr/local/apache2/conf/vhosts
+            #- ./docker/logs/httpd:/usr/local/apache2/logs
+        volumes_from:
+            - php
+        working_dir: /usr/local/apache2/htdocs
+
+###########################
+# Setup the PHP container
+###########################
+    php:
+        container_name: php_sf3
+        restart: always
+        build: ./docker/php/
+        expose:
+            - 9000
+        volumes:
+            - sf3code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
+            #- ./docker/logs/symfony:/usr/local/apache2/htdocs/var/logs
+        working_dir: /usr/local/apache2/htdocs
+        links:
+            - mongo:mongo
+
+###########################
+# Setup the Database (MongoDB) container
+###########################
+    mongo:
+        container_name: mongo_sf3
+        restart: always
+        image: alexpunct/mongo:3.4
+        ports:
+            - 27017:27017
+        environment:
+            - MONGODB_ADMIN_USER=admin
+            - MONGODB_ADMIN_PASS=admin
+            - MONGODB_APPLICATION_DATABASE=project
+            - MONGODB_APPLICATION_USER=project
+            - MONGODB_APPLICATION_PASS=project
+        volumes:
+            - ./docker/mongo:/data/db
