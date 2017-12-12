@@ -13,6 +13,22 @@ security:
                         password: fabrice
                         roles: ['ROLE_ADMIN']
 
+    # ROLES :
+    # ROLE_USERS
+    # ROLE_RESTAURANT_CV
+    # ROLE_RESTAURANT_MH
+    # ROLE_RESTAURANT_DR
+    # ROLE_SUPERVISOR
+    # ROLE_FRANCHISE
+    # ROLE_ADMIN
+    role_hierarchy:
+        ROLE_RESTAURANT_CV: [ROLE_USERS]
+        ROLE_RESTAURANT_MH: [ROLE_USERS]
+        ROLE_RESTAURANT_DR: [ROLE_USERS]
+        ROLE_SUPERVISOR: [ROLE_RESTAURANT_CV, ROLE_RESTAURANT_MH, ROLE_RESTAURANT_DR]
+        ROLE_FRANCHISE: [ROLE_SUPERVISOR]
+        ROLE_ADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_FRANCHISE, ROLE_SUPERVISOR]
+
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
@@ -36,8 +52,7 @@ security:
                 parameter: _admin_switch_user
 
 
-    role_hierarchy:
-        ROLE_ADMIN: [ROLE_ALLOWED_TO_SWITCH, ROLE_USERS]
+
 
     access_control:
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }

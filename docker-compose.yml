@@ -3,7 +3,7 @@
 version: '2'
 
 volumes:
-    sf3code-native-osx-sync:
+    sf34code-native-osx-sync:
         external: true
 
 services:
@@ -11,7 +11,7 @@ services:
 # Setup the Apache container
 ###########################
     httpd:
-        container_name: httpd_sf3
+        container_name: httpd_sf34
         restart: always
         image: httpd:latest
         ports:
@@ -28,13 +28,13 @@ services:
 # Setup the PHP container
 ###########################
     php:
-        container_name: php_sf3
+        container_name: php_sf34
         restart: always
         build: ./docker/php/
         expose:
             - 9000
         volumes:
-            - sf3code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
+            - sf34code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
             #- ./docker/logs/symfony:/usr/local/apache2/htdocs/var/logs
         working_dir: /usr/local/apache2/htdocs
         links:
@@ -44,7 +44,7 @@ services:
 # Setup the Database (MongoDB) container
 ###########################
     mongo:
-        container_name: mongo_sf3
+        container_name: mongo_sf34
         restart: always
         image: alexpunct/mongo:3.4
         ports:
