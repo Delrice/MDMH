@@ -68,7 +68,7 @@ doctrine_mongodb:
                 username: "%mongodb_server_username%"
                 password: "%mongodb_server_password%"
 
-    default_database: project
+    default_database: "project"
     document_managers:
         default:
             auto_mapping: true

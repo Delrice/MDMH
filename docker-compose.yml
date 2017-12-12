@@ -3,7 +3,7 @@
 version: '2'
 
 volumes:
-    sf34code-native-osx-sync:
+    mdmh-code-native-osx-sync:
         external: true
 
 services:
@@ -15,7 +15,7 @@ services:
         restart: always
         image: httpd:latest
         ports:
-            - 8080:80
+            - 81:80
         volumes:
             - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
             - ./docker/apache/vhosts/:/usr/local/apache2/conf/vhosts
@@ -34,7 +34,7 @@ services:
         expose:
             - 9000
         volumes:
-            - sf34code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
+            - mdmh-code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
             #- ./docker/logs/symfony:/usr/local/apache2/htdocs/var/logs
         working_dir: /usr/local/apache2/htdocs
         links:
