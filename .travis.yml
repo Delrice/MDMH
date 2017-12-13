@@ -6,6 +6,10 @@ php:
 services:
     - mongodb
 
+branches:
+    only:
+        - master
+
 install:
     - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     # Enabling mongodb php extension & disabling xdebug
@@ -31,8 +35,9 @@ script:
 #    - bin/behat --no-snippets --verbose
 
 after_failure:
+    - cat var/logs/dev.log
     - cat var/logs/test.log
-    - mongo .travis/debug-mongo.js
+    - mongo ../.travis/debug-mongo.js
 
 
 
