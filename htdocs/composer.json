@@ -29,6 +29,7 @@
         "twig/twig": "^1.0||^2.0"
     },
     "require-dev": {
+        "phpspec/phpspec": "^4.2",
         "sensio/generator-bundle": "^3.0",
         "symfony/phpunit-bridge": "^3.0"
     },
@@ -50,7 +51,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.1.0",
+            "php": "7.1",
             "ext-mongo": "1.6.16"
         },
         "sort-packages": true

@@ -1,0 +1,45 @@
+language: php
+
+php:
+    - '7.1'
+
+services:
+    - mongodb
+
+branches:
+    only:
+        - master
+
+install:
+    - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    # Enabling mongodb php extension & disabling xdebug
+    - echo 'extension = mongodb.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - phpenv config-rm xdebug.ini
+    # Debuging
+    - mongo .travis/enable-mongo-logs.js
+
+before_script:
+    # Place into the right directory
+    - cd htdocs/
+    # Create user on MongoDB
+    - sleep 10
+    - mongo project --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
+    - cp app/config/config_dev.yml.dist app/config/config_dev.yml
+    # Installing dependencies
+    - composer install --prefer-source --optimize-autoloader
+    - php -S localhost:8000 -t web/ &
+
+script:
+#    - bin/phpunit.phar
+    - vendor/bin/phpspec run -fpretty
+#    - bin/phpspec run -fpretty
+#    - bin/behat --no-snippets --verbose
+
+after_failure:
+    - cat var/logs/dev.log
+    - cat var/logs/test.log
+    - mongo ../.travis/debug-mongo.js
+
+
+
+
