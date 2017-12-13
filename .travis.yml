@@ -3,10 +3,40 @@ language: php
 php:
     - '7.1'
 
-before_script:
+services:
+    - mongodb
+
+install:
     - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
+    # Enabling mongodb php extension & disabling xdebug
+    - echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - phpenv config-rm xdebug.ini
+    # Debuging
+    - mongo .travis/enable-mongo-logs.js
+
+before_script:
+    # Place into the right directory
     - cd htdocs/
+    # Installing dependencies
+    - composer install --prefer-source --optimize-autoloader
+    - php -S localhost:8000 -t web/ &
 
 script:
-    - composer install
     - bin/phpunit.phar
+#    - bin/phpspec run -fpretty
+#    - bin/behat --no-snippets --verbose
+
+after_failure:
+    - cat var/logs/test.log
+    - mongo .travis/debug-mongo.js
+
+notifications:
+    hipchat:
+        rooms:
+            - xPjzIv8wTp9dgt06ibIaPnecZZaU5F520PJ4a9Ib@1202488
+        template:
+            - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
+
+
+
+

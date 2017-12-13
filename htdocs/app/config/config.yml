@@ -22,8 +22,11 @@ framework:
     default_locale: '%locale%'
     trusted_hosts: ~
     session:
-        # https://symfony.com/doc/current/reference/configuration/framework.html#handler-id
-        handler_id: session.handler.native_file
+        # Using MongoDB for Session storage, becarfull with the index :
+        # @see https://symfony.com/doc/3.4/doctrine/mongodb_session_storage.html#setting-up-the-mongodb-collection
+        # use %mongodb.database%
+        # db.Session.ensureIndex( { "expires_at": 1 }, { expireAfterSeconds: 0 } )
+        handler_id: Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler
         save_path: '%kernel.project_dir%/var/sessions/%kernel.environment%'
     fragments: ~
     http_method_override: true
@@ -62,11 +65,11 @@ twig:
 doctrine_mongodb:
     connections:
         default:
-            server: "%mongodb_server_host%"
+            server: "mongodb://%mongodb.host%:27017"
             options:
-                db: "%mongodb_server_database%"
-                username: "%mongodb_server_username%"
-                password: "%mongodb_server_password%"
+                db: "%mongodb.database%"
+                username: "%mongodb.username%"
+                password: "%mongodb.password%"
 
     default_database: project
     document_managers:
