@@ -9,7 +9,7 @@ services:
 install:
     - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     # Enabling mongodb php extension & disabling xdebug
-    - echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    #- echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
     # Debuging
     - mongo .travis/enable-mongo-logs.js
@@ -18,7 +18,7 @@ before_script:
     # Place into the right directory
     - cd htdocs/
     # Create user on MongoDB
-    - sleep 15
+    - sleep 10
     - mongo project --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
     # Installing dependencies
     - composer install --prefer-source --optimize-autoloader
