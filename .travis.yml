@@ -30,13 +30,6 @@ after_failure:
     - cat var/logs/test.log
     - mongo .travis/debug-mongo.js
 
-notifications:
-    hipchat:
-        rooms:
-            - xPjzIv8wTp9dgt06ibIaPnecZZaU5F520PJ4a9Ib@1202488
-        template:
-            - '%{repository}#%{build_number} (%{branch} - %{commit} : %{author}): %{message}'
-
 
 
 
