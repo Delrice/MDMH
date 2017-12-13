@@ -9,7 +9,7 @@ services:
 install:
     - echo 'date.timezone = "Europe/Paris"' >> ~/.phpenv/versions/$(phpenv version-name)/etc/conf.d/travis.ini
     # Enabling mongodb php extension & disabling xdebug
-    #- echo 'extension = mongo.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
+    - echo 'extension = mongodb.so' >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - phpenv config-rm xdebug.ini
     # Debuging
     - mongo .travis/enable-mongo-logs.js
