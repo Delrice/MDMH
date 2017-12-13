@@ -17,6 +17,9 @@ install:
 before_script:
     # Place into the right directory
     - cd htdocs/
+    # Create user on MongoDB
+    - sleep 15
+    - mongo project --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
     # Installing dependencies
     - composer install --prefer-source --optimize-autoloader
     - php -S localhost:8000 -t web/ &
