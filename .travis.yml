@@ -30,7 +30,8 @@ before_script:
     - php -S localhost:8000 -t web/ &
 
 script:
-    - bin/phpunit.phar
+#    - bin/phpunit.phar
+    - vendor/bin/phpspec run -fpretty
 #    - bin/phpspec run -fpretty
 #    - bin/behat --no-snippets --verbose
 
