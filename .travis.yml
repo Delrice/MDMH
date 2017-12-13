@@ -20,6 +20,7 @@ before_script:
     # Create user on MongoDB
     - sleep 10
     - mongo project --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
+    - cp app/config/config_dev.yml.dist app/config/config_dev.yml
     # Installing dependencies
     - composer install --prefer-source --optimize-autoloader
     - php -S localhost:8000 -t web/ &
