@@ -17,8 +17,18 @@ Feature: Authentication
 
     Examples:
       | login | password | message |
-      | fabrice | rightpassword | user.login.success |
-      | fabrice | wrongpassword | user.login.failure |
+      | ROLE_ADMIN | ROLE_ADMIN | user.login.success |
+      | ROLE_ADMIN | ROLE_ADMINN | user.login.failure |
 
+  Scenario Outline: Roles
+    When I fill in "login" with "<login>"
+    When I fill in "password" with "<password>"
+    When I press "LoginButton"
+    Then I should see "<menu>"
+    And I should not see "<nomenu>"
 
+    Examples:
+      | login | password | menu | nomenu |
+      | ROLE_ADMIN | ROLE_ADMIN | menu.administrator | menu.administratorr |
+      | ROLE_USERS | ROLE_USERS | menu.restaurants | menu.administrator |
 

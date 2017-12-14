@@ -11,16 +11,7 @@ use Behat\Behat\Definition\Call\Then;
  */
 class FeatureContext extends MinkContext implements Context
 {
-    /**
-     * Initializes context.
-     *
-     * Every scenario gets its own context instance.
-     * You can also pass arbitrary arguments to the
-     * context constructor through behat.yml.
-     */
-    public function __construct()
-    {
-    }
+    use \Behat\Symfony2Extension\Context\KernelDictionary;
 
     /**
      * @Given I do not follow redirects
@@ -29,7 +20,6 @@ class FeatureContext extends MinkContext implements Context
     {
         $this->getSession()->getDriver()->getClient()->followRedirects(false);
     }
-
 
     /**
      * @Then I should be redirected
@@ -41,4 +31,34 @@ class FeatureContext extends MinkContext implements Context
         $client->followRedirects(true);
         $client->followRedirect(true);
     }
+
+    /**
+     * @BeforeScenario
+     */
+    public function clearData()
+    {
+//        $purger = new OR($this->getContainer()->get('doctrine')->getManager());
+//        $purger->purge();
+    }
+
+    /**
+     * @BeforeScenario @fixtures
+     */
+    public function loadFixtures()
+    {
+//        $loader = new ContainerAwareLoader($this->getContainer());
+//        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
+//        $executor = new ORMExecutor($this->getEntityManager());
+//        $executor->execute($loader->getFixtures(), true);
+    }
+
+
+    /**
+     * @Given there are :count users
+     */
+    public function thereAreUsers($count)
+    {
+        throw new PendingException();
+    }
+
 }

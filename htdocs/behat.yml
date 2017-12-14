@@ -1,6 +1,16 @@
 default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+
+        authentication:
+            contexts:
+                - AuthenticationContext
+
     extensions:
         Behat\MinkExtension:
             base_url: http://localhost:81/app_test.php
             goutte: ~
             selenium2: ~
+        Behat\Symfony2Extension: ~

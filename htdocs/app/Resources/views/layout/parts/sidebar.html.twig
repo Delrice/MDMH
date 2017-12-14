@@ -1,21 +1,55 @@
 <!-- Left side column. contains the logo and sidebar -->
 <aside class="main-sidebar">
-
     <!-- sidebar: style can be found in sidebar.less -->
     <section class="sidebar">
 
         <!-- Sidebar user panel (optional) -->
         <div class="user-panel">
-            <div class="pull-left image">
-                <img src="dist/img/user2-160x160.jpg" class="img-circle" alt="User Image">
-            </div>
             <div class="pull-left info">
-                <p>Alexander Pierce</p>
+                <p class="text-blue text-uppercase">{{ app.user.username }}</p>
+                {% set userRole = 'ROLE_USERS' %}
+                {% if app.user.roles.0|default(false) %}
+                    {% set userRole = app.user.roles.0 %}
+                {% endif %}
+
                 <!-- Status -->
-                <a href="#"><i class="fa fa-circle text-success"></i> Online</a>
+                <p class="text-gray">
+                    <i class="fa fa-circle {{ (userRole ~ '-color')|trans }}"></i> {{ (userRole ~ '-text')|trans }}
+                </p>
+
             </div>
         </div>
 
+        {% if is_granted('ROLE_ADMIN') %}
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header text-uppercase "><span class="text-danger">{{ 'menu.administrator'|trans }}</span></li>
+                <li>
+                    <a href="{{ path('user_list') }}" title="{{ 'menu.administrator.users'|trans }}">
+                        <i class="fa fa-users"></i> <span>{{ 'menu.administrator.users'|trans }}</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('restaurant_list') }}" title="{{ 'menu.administrator.restaurants'|trans }}">
+                        <i class="fa fa-cutlery"></i> <span>{{ 'menu.administrator.restaurants'|trans }}</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
+        {% endif %}
+
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
+            <li>
+                <a href="#" title="{{ 'menu.restaurants'|trans }}">
+                    <i class="fa fa-cutlery"></i> <span>{{ 'menu.restaurants'|trans }}</span>
+                </a>
+            </li>
+        </ul>
+        <!-- /.sidebar-menu -->
+
+        {#
         <!-- search form (Optional) -->
         <form action="#" method="get" class="sidebar-form">
             <div class="input-group">
@@ -27,7 +61,8 @@
             </div>
         </form>
         <!-- /.search form -->
-
+        #}
+        {#
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">HEADER</li>
@@ -47,6 +82,7 @@
             </li>
         </ul>
         <!-- /.sidebar-menu -->
+        #}
     </section>
     <!-- /.sidebar -->
 </aside>

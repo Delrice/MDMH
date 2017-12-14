@@ -26,6 +26,24 @@ security:
         in_memory_users:
             memory:
                 users:
-                    fabrice:
-                        password: "rightpassword"
+                    ROLE_USERS:
+                        password: "ROLE_USERS"
+                        roles: ['ROLE_USERS']
+                    ROLE_RESTAURANT_CV:
+                        password: "ROLE_RESTAURANT_CV"
+                        roles: ['ROLE_RESTAURANT_CV']
+                    ROLE_RESTAURANT_MH:
+                        password: "ROLE_RESTAURANT_MH"
+                        roles: ['ROLE_RESTAURANT_MH']
+                    ROLE_RESTAURANT_DR:
+                        password: "ROLE_RESTAURANT_DR"
+                        roles: ['ROLE_RESTAURANT_DR']
+                    ROLE_SUPERVISOR:
+                        password: "ROLE_SUPERVISOR"
+                        roles: ['ROLE_SUPERVISOR']
+                    ROLE_FRANCHISE:
+                        password: "ROLE_FRANCHISE"
+                        roles: ['ROLE_FRANCHISE']
+                    ROLE_ADMIN:
+                        password: "ROLE_ADMIN"
                         roles: ['ROLE_ADMIN']

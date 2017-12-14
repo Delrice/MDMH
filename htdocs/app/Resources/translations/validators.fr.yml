@@ -1,0 +1,2 @@
+user.username.validator: 'Ce nom d''utilisateur n''est pas valide. Il ne doit être composé que de lettre de a-z.'
+user.email.validator: 'Cette adresse email n''est pas valide.'

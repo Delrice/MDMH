@@ -10,14 +10,28 @@ namespace AppBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
+use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
+
 
 /**
  * Class User
  * @package AppBundle\Document
  * @ODM\Document
+ * @Unique("username")
+ * @Unique("email")
  */
 class User implements UserInterface
 {
+    public static $ROLES = [
+        'ROLE_RESTAURANT_CV' => 'ROLE_RESTAURANT_CV',
+        'ROLE_RESTAURANT_MH' => 'ROLE_RESTAURANT_MH',
+        'ROLE_RESTAURANT_DR' => 'ROLE_RESTAURANT_DR',
+        'ROLE_SUPERVISOR' => 'ROLE_SUPERVISOR',
+        'ROLE_FRANCHISE' => 'ROLE_FRANCHISE',
+        'ROLE_ADMIN' => 'ROLE_ADMIN'
+    ];
+
     /**
      * @ODM\Id
      */
@@ -25,11 +39,22 @@ class User implements UserInterface
 
     /**
      * @ODM\Field(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Regex(
+     *     pattern     = "/^[a-z]+$/i",
+     *     message = "user.username.validator"
+     * )
+     * @ODM\UniqueIndex()
      */
     private $username;
 
     /**
      * @ODM\Field(type="string")
+     * @Assert\NotBlank()
+     * @Assert\Email(
+     *     message = "user.email.validator",
+     *     checkMX = true
+     * )
      */
     private $email;
 
@@ -39,13 +64,23 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @var \AppBundle\Document\Restaurant
-     * @ODM\ReferenceOne(targetDocument="Documents\Restaurant")
+     * @ODM\Field(type="collection")
+     * @Assert\NotBlank(groups={"registration"})
      */
-    private $restaurant;
+    private $roles;
+
+    /**
+     * @var \AppBundle\Document\Restaurant
+     * @ODM\ReferenceMany(targetDocument="Restaurant")
+     * @Assert\NotBlank(groups={"registration"})
+     */
+    private $restaurants;
+
+    private $plainPassword;
 
     public function __construct()
     {
+        $this->roles = [];
     }
 
     /**
@@ -73,24 +108,72 @@ class User implements UserInterface
     }
 
     /**
-     * @return \AppBundle\Document\Restaurant
+     * @return \AppBundle\Document\Restaurant[]
      */
-    public function getRestaurant()
+    public function getRestaurants()
     {
-        return $this->restaurant;
+        return $this->restaurants;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
     /**
      * @param \AppBundle\Document\Restaurant $restaurant
      */
-    public function setRestaurant(\AppBundle\Document\Restaurant $restaurant)
+    public function addRestaurant(\AppBundle\Document\Restaurant $restaurant)
     {
-        $this->restaurant = $restaurant;
+        $this->restaurants[] = $restaurant;
+    }
+
+    /**
+     * @param \AppBundle\Document\Restaurant[] $restaurant
+     */
+    public function setRestaurants($restaurants)
+    {
+        $this->restaurants = $restaurants;
+    }
+
+    /**
+     * @param mixed $roles
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
     }
 
     public function getRoles()
     {
-        return ['ROLE_USERS', $this->restaurant->getRole()];
+        return empty($this->roles)? ['ROLE_USERS']: $this->roles;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPlainPassword()
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param mixed $plainPassword
+     */
+    public function setPlainPassword($plainPassword)
+    {
+        $this->plainPassword = $plainPassword;
     }
 
     public function getPassword()

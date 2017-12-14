@@ -10,18 +10,23 @@ security:
         in_memory_users:
             memory:
                 users:
-                    fabrice:
+                    admin:
                         password: "$2a$10$d.rfCQmi6YulyoUWhvSmxOz60tCoxP8eWk0KTiCIjFPDl.kZkgngi"
                         roles: ['ROLE_ADMIN']
 
-        mongodb_users:
+        mongodb_users_username:
             mongodb:
                 class: AppBundle:User
                 property: username
 
+        mongodb_users_email:
+            mongodb:
+                class: AppBundle:User
+                property: email
+
         app_users:
             chain:
-                providers: [in_memory_users, mongodb_users]
+                providers: [in_memory_users, mongodb_users_username, mongodb_users_email]
 
     # ROLES :
     # ROLE_USERS
@@ -46,11 +51,11 @@ security:
             security: false
 
         main:
+            provider: app_users
             security: true
             pattern: ^/
             anonymous: ~
             form_login:
-                provider: app_users
                 login_path: security_login
                 check_path: security_login_check
                 username_parameter: login
