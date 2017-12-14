@@ -42,7 +42,7 @@ security:
     firewalls:
         # disables authentication for assets and the profiler, adapt it according to your needs
         dev:
-            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            pattern: ^/(_(profiler|wdt)|css|images|js|bower_components|dist|plugins)/
             security: false
 
         main:
@@ -58,7 +58,6 @@ security:
                 success_handler: AppBundle\Security\LoginSuccessHandler
                 failure_handler: AppBundle\Security\LoginFailureHandler
 
-
             logout:
                 path: security_logout
                 invalidate_session: false
@@ -71,6 +70,11 @@ security:
 
             logout_on_user_change: true
 
+            remember_me:
+                secret:   '%secret%'
+                lifetime: 604800 # 1 week in seconds
+                path:     /
+                always_remember_me: true
 
 
 
