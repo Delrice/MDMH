@@ -64,10 +64,12 @@ class User implements UserInterface
     private $password;
 
     /**
-     * @ODM\Field(type="collection")
+     * @ODM\Field(type="string")
      * @Assert\NotBlank(groups={"registration"})
      */
-    private $roles;
+    private $access_role;
+
+
 
     /**
      * @var \AppBundle\Document\Restaurant
@@ -148,16 +150,21 @@ class User implements UserInterface
     }
 
     /**
-     * @param mixed $roles
+     * @param string $role
      */
-    public function setRoles($roles)
+    public function setAccessRole($role)
     {
-        $this->roles = $roles;
+        $this->access_role = $role;
+    }
+
+    public function getAccessRole()
+    {
+        return empty($this->access_role)? 'ROLE_USERS': $this->access_role;
     }
 
     public function getRoles()
     {
-        return empty($this->roles)? ['ROLE_USERS']: $this->roles;
+        return [$this->access_role];
     }
 
     /**

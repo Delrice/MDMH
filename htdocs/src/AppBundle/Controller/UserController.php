@@ -101,4 +101,19 @@ class UserController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+    /**
+     * @Route("/delete/{id}", name="user_delete")
+     */
+    public function deleteAction($id)
+    {
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $user = $dm->getRepository('AppBundle:User')->find($id);
+        $dm->remove($user);
+        $dm->flush();
+
+        $this->addFlash('success', 'user.delete.success');
+
+        return $this->redirectToRoute('user_list');
+    }
 }

@@ -8,8 +8,12 @@
             <div class="pull-left info">
                 <p class="text-blue text-uppercase">{{ app.user.username }}</p>
                 {% set userRole = 'ROLE_USERS' %}
-                {% if app.user.roles.0|default(false) %}
-                    {% set userRole = app.user.roles.0 %}
+                {% if app.user.accessRole|default() %}
+                    {% set userRole = app.user.accessRole %}
+                {% else %}
+                    {% if app.user.roles.0|default(false) %}
+                        {% set userRole = app.user.roles.0 %}
+                    {% endif %}
                 {% endif %}
 
                 <!-- Status -->

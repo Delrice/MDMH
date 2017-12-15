@@ -10,6 +10,6 @@ Feature: User administration
   @fixtures
   Scenario: List available users
     When I follow "menu.administrator.users"
-    Then I should see 5 "a.show-user" elements
+    Then I should see some "a.show-user" elements
 
 

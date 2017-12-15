@@ -16,13 +16,8 @@
 {% block content %}
     <section class="content">
         <div class="row">
-            <div class="col-lg-4 col-md-8 col-sm-12">
-                {{ form_start(form) }}
-
-                {{ form_widget(form) }}
-                <button type="submit" class="btn btn-success">{{ 'user.edit.create_button'|trans }}</button>
-
-                {{ form_end(form) }}
+            <div class="col-lg-5 col-md-8 col-sm-12">
+                {{ include('users/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'user.edit.create_button'}}) }}
             </div>
         </div>
 

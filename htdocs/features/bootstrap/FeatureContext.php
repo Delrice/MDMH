@@ -74,6 +74,13 @@ class FeatureContext extends MinkContext implements Context
         $this->getPage()->pressButton('user.login.sign-in');
     }
 
+    /**
+     * @Then I should see some :name elements
+     */
+    public function iShouldSeeSomeElements($name)
+    {
+        $this->getPage()->has('css', $name);
+    }
 
 
 
