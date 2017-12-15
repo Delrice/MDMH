@@ -1,0 +1,18 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'dashboard.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.dashboard'|trans }}
+            <small>{{ 'header.dashboard.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig', {'page': false}) }}
+    </section>
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

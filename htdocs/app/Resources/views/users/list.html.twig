@@ -1,0 +1,86 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'users.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.users'|trans }}
+            <small>{{ 'header.users.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.users'|trans}) }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">{{ 'users.list.table_header'|trans }}</h3>
+
+                        {#<div class="box-tools">
+                            <div class="input-group input-group-sm" style="width: 150px;">
+                                <input type="text" name="table_search" class="form-control pull-right" placeholder="Search">
+
+                                <div class="input-group-btn">
+                                    <button type="submit" class="btn btn-default"><i class="fa fa-search"></i></button>
+                                </div>
+                            </div>
+                        </div>#}
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body table-responsive no-padding">
+
+
+
+
+                        {% if user_list %}
+                            <table class="table table-hover">
+                                <tr>
+                                    <th class="col-xs-2">ID</th>
+                                    <th class="col-xs-2">User</th>
+                                    <th class="col-xs-2">Restaurant(s)</th>
+                                </tr>
+                                {% for user in user_list %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('user_profile', {'id': user.id}) }}" class="show-user">{{ user.id }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('user_profile', {'id': user.id}) }}">{{ user.username }}</a>
+                                        </td>
+                                        <td>
+                                            {% for restaurant in user.restaurants %}
+                                                {{ restaurant.name }},
+                                            {% endfor %}
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                        <table class="table table-hover">
+                            <tr>
+                                <td>
+                                    <p>{{ 'users.list.empty'|trans }}</p>
+                                </td>
+                            </tr>
+                        </table>
+                        {% endif %}
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="{{ path('user_new') }}" class="btn btn-success">{{ 'users.create_new'|trans }}</a>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

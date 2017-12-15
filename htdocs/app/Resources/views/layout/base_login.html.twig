@@ -1,0 +1,17 @@
+{% extends 'layout.html.twig' %}
+
+{% block body_class %}hold-transition login-page{% endblock %}
+{% block wrapper_class %}login-box{% endblock %}
+
+{% block body %}
+        {{ include('layout/parts/callout.html.twig') }}
+
+        <div class="login-logo">
+            <a href="{{ path('homepage') }}"><b>HMD</b> Extranet</a>
+        </div>
+        <!-- /.login-logo -->
+        <div class="login-box-body">
+            {% block content %}{% endblock %}
+        </div>
+        <!-- /.login-box-body -->
+{% endblock %}

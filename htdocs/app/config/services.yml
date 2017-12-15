@@ -41,3 +41,6 @@ services:
 
     Symfony\Component\HttpFoundation\Session\Storage\Handler\MongoDbSessionHandler:
         arguments: ['@MongoDB\Client', '%mongodb.session.options%']
+
+    #AppBundle\DataFixtures\MongoDB\LoadFixtures:
+        #arguments: ['@security.user_password_encoder']

@@ -1,0 +1,18 @@
+.user-panel {
+    min-height: 60px;
+}
+
+.sidebar-mini.sidebar-collapse .main-sidebar .user-panel {
+    display: none !important;
+}
+
+.user-panel .info {
+    left: 0;
+}
+
+.fa-danger:before {
+    content: "\f05e";
+}
+.fa-success:before {
+    content: "\f00c";
+}

@@ -1,0 +1,34 @@
+<!-- Main Header -->
+<header class="main-header">
+
+    <!-- Logo -->
+    <a href="{{ path('homepage') }}" class="logo">
+        <!-- mini logo for sidebar mini 50x50 pixels -->
+        <span class="logo-mini"><b>HMD</b></span>
+        <!-- logo for regular state and mobile devices -->
+        <span class="logo-lg"><b>HMD</b> Extranet</span>
+    </a>
+
+    <!-- Header Navbar -->
+    <nav class="navbar navbar-static-top" role="navigation">
+        <!-- Sidebar toggle button-->
+        <a href="#" class="sidebar-toggle" data-toggle="push-menu" role="button">
+            <span class="sr-only">{{ 'site.design.toggle_navigation'|trans }}</span>
+        </a>
+
+        <!-- Navbar Right Menu -->
+        <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+                <!-- User profile -->
+                <li>
+                    <a href="{{ path('user_profile') }}">{{ 'user.profile'|trans }}</a>
+                </li>
+                <!-- User logout -->
+                <li>
+                    <a href="{{ path('security_logout') }}">{{ 'user.logout'|trans }}</a>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+</header>

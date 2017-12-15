@@ -1,0 +1,44 @@
+{% extends 'layout.html.twig' %}
+
+{% block body_class %}hold-transition skin-blue sidebar-mini{% endblock %}
+{% block wrapper_class %}wrapper{% endblock %}
+
+{% block body %}
+    {% if app.user %}
+        {{ include('layout/parts/header.html.twig') }}
+        {{ include('layout/parts/sidebar.html.twig') }}
+    {% endif %}
+
+    <!-- Content Wrapper. Contains page content -->
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        {% block page_header %}{% endblock %}
+
+        {{ include('layout/parts/callout.html.twig') }}
+
+        <!-- Main content -->
+        <section class="content container-fluid">
+            {% block content %}{% endblock %}
+        </section>
+        <!-- /.content -->
+    </div>
+    <!-- /.content-wrapper -->
+
+
+    <!-- Main Footer -->
+    <footer class="main-footer">
+        <!-- To the right -->
+        {#<div class="pull-right hidden-xs">
+            Anything you want
+        </div>#}
+        <!-- Default to the left -->
+        <strong>Copyright &copy; {{ "now"|date("Y") }} <span class="text-aqua">HMD</span>.</strong>
+    </footer>
+
+    {#{ include('layout/parts/control_sidebar.html.twig') }#}
+{% endblock %}
+
+{% block javascripts %}
+<!-- AdminLTE App -->
+<script src="{{ asset('dist/js/adminlte.min.js') }}"></script>
+{% endblock%}

@@ -1,0 +1,12 @@
+default:
+    suites:
+        default:
+            contexts:
+                - FeatureContext
+
+    extensions:
+        Behat\MinkExtension:
+            base_url: http://httpd/app_test.php
+            goutte: ~
+            selenium2: ~
+        Behat\Symfony2Extension: ~
