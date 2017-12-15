@@ -47,3 +47,12 @@ security:
                     ROLE_ADMIN:
                         password: "ROLE_ADMIN"
                         roles: ['ROLE_ADMIN']
+
+doctrine_mongodb:
+    connections:
+        default:
+            server: "mongodb://localhost:27017"
+            options:
+                db: "%mongodb.database%"
+                username: "%mongodb.username%"
+                password: "%mongodb.password%"

@@ -28,7 +28,7 @@ Feature: Authentication
     And I should not see "<nomenu>"
 
     Examples:
-      | login | password | menu | nomenu |
+      | login      | password   | menu               | nomenu              |
       | ROLE_ADMIN | ROLE_ADMIN | menu.administrator | menu.administratorr |
-      | ROLE_USERS | ROLE_USERS | menu.restaurants | menu.administrator |
+      | ROLE_USERS | ROLE_USERS | menu.restaurants   | menu.administrator  |
 
