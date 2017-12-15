@@ -17,12 +17,23 @@ class FeatureContext extends MinkContext implements Context
     use \Behat\Symfony2Extension\Context\KernelDictionary;
 
     /**
-     * @BeforeScenario
+     * @BeforeScenario @fixtures
      */
     public function clearData()
     {
         $purger = new MongoDBPurger($this->getContainer()->get('doctrine_mongodb')->getManager());
         $purger->purge();
+    }
+
+    /**
+     * @BeforeScenario @fixtures
+     */
+    public function loadFixtures()
+    {
+        $loader = new ContainerAwareLoader($this->getContainer());
+        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
+        $executor = new MongoDBExecutor($this->getDocumentManager());
+        $executor->execute($loader->getFixtures(), true);
     }
 
     /**************************************************/
@@ -63,16 +74,7 @@ class FeatureContext extends MinkContext implements Context
         $this->getPage()->pressButton('user.login.sign-in');
     }
 
-    /**
-     * @Given there are :count users
-     */
-    public function thereAreUsers($count)
-    {
-        $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
-        $executor = new MongoDBExecutor($this->getDocumentManager());
-        $executor->execute($loader->getFixtures(), true);
-    }
+
 
 
 
