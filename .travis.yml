@@ -29,11 +29,11 @@ before_script:
     - cd htdocs/
     # Create user on MongoDB
     - sleep 15
-    - mongo project --eval 'db.createUser({user:"admin",pwd:"admin",roles:["readWrite"]});'
+    - mongo admin --eval 'db.createUser({user:"admin",pwd:"admin",roles:["root"]});'
     - cp app/config/config_dev.yml.dist app/config/config_dev.yml
     # Installing dependencies
     - composer install --prefer-source --optimize-autoloader
-    - php -S localhost:8000 -t web/ &
+    - php -S localhost:80 -t web/ &
 
 script:
     - vendor/bin/behat --no-snippets --verbose
