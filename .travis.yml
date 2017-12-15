@@ -33,7 +33,7 @@ before_script:
     - cp app/config/config_dev.yml.dist app/config/config_dev.yml
     # Installing dependencies
     - composer install --prefer-source --optimize-autoloader
-    - php -S localhost:80 -t web/ &
+    - php -S localhost:8080 -t web/ &
 
 script:
     - vendor/bin/behat --no-snippets --verbose

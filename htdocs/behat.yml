@@ -6,7 +6,7 @@ default:
 
     extensions:
         Behat\MinkExtension:
-            base_url: http://httpd/app_test.php
+            base_url: http://httpd:8080/app_test.php
             goutte: ~
             selenium2: ~
         Behat\Symfony2Extension: ~
