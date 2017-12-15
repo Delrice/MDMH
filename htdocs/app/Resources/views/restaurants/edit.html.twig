@@ -1,0 +1,42 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurant.edit.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.restaurants'|trans }}
+            <small>{{ 'header.restaurants.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.restaurants'|trans}) }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                {{ include('restaurants/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'restaurant.edit.create_button'}}) }}
+
+                {% if restaurant.users|default() %}
+                    <div class="box box-info">
+                        <div class="box-header">{{ 'restaurant.edit.users'|trans }}</div>
+                        <div class="box-body">
+                            <ul>
+                                {% for user in restaurant.users if user.accessRole == 'ROLE_USERS' %}
+                                    <li>
+                                        <a href="{{ path('user_profile', {'id': user.id}) }}" target="_blank">{{ user.username }}</a>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+
+
+    </section>
+    <!-- /.content -->
+{% endblock %}

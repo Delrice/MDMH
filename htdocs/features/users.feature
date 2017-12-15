@@ -19,7 +19,7 @@ Feature: User administration
     And I fill in "user_creation_form[email]" with "email@email.fr"
     And I fill in "user_creation_form[plainPassword][first]" with "password"
     And I fill in "user_creation_form[plainPassword][second]" with "password"
-    And I select "ROLE_ADMIN" from "user_creation_form[accessRole]"
+    And I select "ROLE_ADMIN" from "user_creation_form[access_role]"
     And I press "user.new.create_button"
     Then I should see "user.new.success"
     And I should see "addnewusername"

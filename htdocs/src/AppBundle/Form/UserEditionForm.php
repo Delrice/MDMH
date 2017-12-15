@@ -37,7 +37,7 @@ class UserEditionForm extends AbstractType
             ->add('restaurants', null, [
                 'label' => 'user.restaurants.label'
             ])
-            ->add('accessRole', ChoiceType::class, [
+            ->add('access_role', ChoiceType::class, [
                 'choices' => User::$ROLES,
                 'multiple' => false,
                 'expanded' => true,

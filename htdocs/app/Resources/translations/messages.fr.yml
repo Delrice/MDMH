@@ -9,32 +9,26 @@ user.login.sign-in: 'Se connecter'
 dashboard.page_title: 'Tableau de bord'
 site.design.toggle_navigation: 'Réduire le menu de navigation'
 user.profile: 'Mon profile'
-user.logout: 'Deconnexion'
-ROLE_USERS-text: 'Non reconnu'
-ROLE_RESTAURANT_CV-text: 'Centre-ville'
-ROLE_RESTAURANT_MH-text: 'Mas d''hours'
-ROLE_RESTAURANT_DR-text: 'Alès Nord'
-ROLE_SUPERVISOR-text: 'Superviseur'
-ROLE_FRANCHISE-text: 'Gérant'
+user.logout: Deconnexion
+ROLE_USERS-text: Directeur
+ROLE_SUPERVISOR-text: Superviseur
+ROLE_FRANCHISE-text: Gérant
 ROLE_ADMIN-text: 'Administrateur global'
-ROLE_USERS-color: 'text-info'
-ROLE_RESTAURANT_CV-color: 'text-success'
-ROLE_RESTAURANT_MH-color: 'text-success'
-ROLE_RESTAURANT_DR-color: 'text-success'
-ROLE_SUPERVISOR-color: 'text-primary'
-ROLE_FRANCHISE-color: 'text-warning'
-ROLE_ADMIN-color: 'text-danger'
-menu.administrator: 'Administration'
-menu.administrator.users: 'Utilisateurs'
-menu.administrator.restaurants: 'Restaurants'
-users.page_title: 'Utilisateurs'
-menu.homepage: 'Accueil'
-menu.users: 'Utilisateurs'
-header.users: 'Utilisateurs'
+ROLE_USERS-color: text-success
+ROLE_SUPERVISOR-color: text-primary
+ROLE_FRANCHISE-color: text-warning
+ROLE_ADMIN-color: text-danger
+menu.administrator: Administration
+menu.administrator.users: Utilisateurs
+menu.administrator.restaurants: Restaurants
+users.page_title: Utilisateurs
+menu.homepage: Accueil
+menu.users: Utilisateurs
+header.users: Utilisateurs
 header.users.optional: 'Gestion des utilisateurs'
 header.dashboard: 'Mon tableau de bord'
 header.dashboard.optional: 'Tous mes outils'
-menu.restaurants: 'Restaurants'
+menu.restaurants: Restaurants
 users.list.table_header: 'Liste des utilisateurs'
 users.list.empty: 'Il n''y a aucun utilisateur'
 users.create_new: 'Créer un utilisateur'
@@ -48,16 +42,34 @@ user.access_role.label: 'Profile d''accès'
 user.restaurants.label: 'Restaurant(s) géré(s)'
 user.new.success: 'Votre utilisateur a été créé avec succès'
 user.new.create_button: 'Créer l''utilisateur'
-user.edit.create_button: 'Enregistrer'
+user.edit.create_button: Enregistrer
 user.update.success: 'Votre utilisateur a été modifié avec succès'
 user.delete.success: 'Utilisateur supprimé avec succès'
-users.list.table.id: 'Identifiant'
+users.list.table.id: 'Id interne'
 users.list.table.username: 'Nom d''utilisateur'
-users.list.table.restaurants: 'Restaurant(s)'
+users.list.table.restaurants: Restaurant(s)
 users.list.table.accessRole: 'Profile d''accès'
-users.list.table.actions: 'Actions'
+users.list.table.actions: Actions
 modal.delete.title: 'Confirmer la suppression'
 modal.delete.message: 'Vous êtes sur le point de supprimer cet élément !'
-modal.close: 'Annuler'
+modal.close: Annuler
 modal.delete.confirm: 'Confirmer la suppression'
 form.cancel: 'Annuler et revenir'
+restaurant.new.page_title: 'Ajouter un nouveau restaurant'
+header.restaurants: Restaurants
+header.restaurants.optional: 'Gestion des restaurants'
+restaurants.page_title: Restaurants
+restaurants.list.table_header: 'Liste des restaurants'
+restaurants.list.table.id: 'Id interne'
+restaurants.list.table.name: Nom
+restaurants.list.table.identifier: Identifiant
+restaurants.list.table.actions: Actions
+restaurants.list.empty: 'Il n''y a aucun restaurant'
+restaurants.create_new: 'Créer un restaurant'
+restaurant.name.label: Nom
+restaurant.identifier.label: Identifiant
+restaurant.new.create_button: 'Créer le restaurant'
+restaurant.edit.create_button: Enregistrer
+restaurant.edit.page_title: 'Modifier un restaurant'
+restaurant.edit.users: 'Directeur(s) rattaché(s) :'
+user.edit.page_title: 'Modifier un utilisateur'

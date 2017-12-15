@@ -36,7 +36,7 @@ class UserController extends Controller
         if ($form->isSubmitted() && $form->isValid()) {
 
             /**
-             * @var User $userUpdated
+             * @var User $user
              */
             $user = $form->getData();
             if (!empty($user->getPlainPassword()))
@@ -52,7 +52,8 @@ class UserController extends Controller
         }
 
         return $this->render('users/edit.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'currentMenuActive' => ['administrator.users']
         ]);
     }
 
@@ -66,7 +67,8 @@ class UserController extends Controller
             ->findAll();
 
         return $this->render('users/list.html.twig', [
-            'user_list' => $userList
+            'user_list' => $userList,
+            'currentMenuActive' => ['administrator.users']
         ]);
     }
 
@@ -98,7 +100,8 @@ class UserController extends Controller
         }
 
         return $this->render('users/create.html.twig', [
-            'form' => $form->createView()
+            'form' => $form->createView(),
+            'currentMenuActive' => ['administrator.users']
         ]);
     }
 

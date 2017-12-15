@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\MongoDB;
 
 use AppBundle\Document\Restaurant;
+use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
@@ -10,7 +11,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 
-class RestaurantFixtures implements FixtureInterface, ContainerAwareInterface
+class RestaurantFixtures extends Fixture implements FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var UserPasswordEncoder
@@ -27,51 +28,28 @@ class RestaurantFixtures implements FixtureInterface, ContainerAwareInterface
 
     public function load(ObjectManager $manager)
     {
-        $userListToCreate = [
+        $restaurantListToCreate = [
             [
-                'username' => 'fabrice',
-                'password' => 'fabrice',
-                'email' => 'fabrice@hmd.fr',
-                'role' => 'ROLE_ADMIN'
+                'name' => 'Centre ville',
+                'identifier' => 'CV'
             ],[
-                'username' => 'michel',
-                'password' => 'michel',
-                'email' => 'michel@hmd.fr',
-                'role' => 'ROLE_FRANCHISE'
+                'name' => 'Mas d\'Hours',
+                'identifier' => 'MH'
             ],[
-                'username' => 'delphine',
-                'password' => 'delphine',
-                'email' => 'delphine@hmd.fr',
-                'role' => 'ROLE_SUPERVISOR'
-            ],[
-                'username' => 'aurore',
-                'password' => 'aurore',
-                'email' => 'aurore@hmd.fr',
-                'role' => 'ROLE_RESTAURANT_DR'
-            ],[
-                'username' => 'aline',
-                'password' => 'aline',
-                'email' => 'aline@hmd.fr',
-                'role' => 'ROLE_RESTAURANT_CV'
-            ],[
-                'username' => 'sebastien',
-                'password' => 'sebastien',
-                'email' => 'sebastien@hmd.fr',
-                'role' => 'ROLE_RESTAURANT_MH'
+                'name' => 'Alès Nord',
+                'identifier' => 'DR'
             ],
 
         ];
 
-        foreach($userListToCreate as $userDatas) {
-            $user = new User();
-            $user->setUsername($userDatas['username']);
+        foreach($restaurantListToCreate as $restaurantDatas) {
+            $restaurant = new Restaurant();
+            $restaurant->setName($restaurantDatas['name']);
+            $restaurant->setIdentifier($restaurantDatas['identifier']);
 
-            $password = $this->encoder->encodePassword($user, $userDatas['password']);
-            $user->setPassword($password);
-            $user->setEmail($userDatas['email']);
-            $user->setAccessRole($userDatas['role']);
+            $manager->persist($restaurant);
 
-            $manager->persist($user);
+            $this->addReference($restaurantDatas['identifier'], $restaurant);
         }
         $manager->flush();
     }

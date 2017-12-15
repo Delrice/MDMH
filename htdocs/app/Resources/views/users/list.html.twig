@@ -52,7 +52,7 @@
                                         </td>
                                         <td>
                                             {% for restaurant in user.restaurants %}
-                                                {{ restaurant.name }},
+                                                {{ restaurant.name }}{% if not loop.last %}, {% endif %}
                                             {% endfor %}
                                         </td>
                                         <td>

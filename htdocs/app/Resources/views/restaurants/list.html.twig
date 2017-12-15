@@ -1,0 +1,98 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurants.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.restaurants'|trans }}
+            <small>{{ 'header.restaurants.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.restaurants'|trans}) }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="box">
+                    <div class="box-header">
+                        <h3 class="box-title">{{ 'restaurants.list.table_header'|trans }}</h3>
+                    </div>
+                    <!-- /.box-header -->
+                    <div class="box-body no-padding">
+                        {% if restaurant_list %}
+                            <table class="table table-responsive table-hover">
+                                <tr>
+                                    <th class="col-lg-2">{{ 'restaurants.list.table.id'|trans }}</th>
+                                    <th class="col-lg-3">{{ 'restaurants.list.table.name'|trans }}</th>
+                                    <th >{{ 'restaurants.list.table.identifier'|trans }}</th>
+                                    <th class="col-lg-1">{{ 'restaurants.list.table.actions'|trans }}</th>
+                                </tr>
+                                {% for restaurant in restaurant_list %}
+                                    <tr>
+                                        <td>
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="show-user">{{ restaurant.id }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">{{ restaurant.name }}</a>
+                                        </td>
+                                        <td>
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">{{ restaurant.identifier }}</a>
+                                        </td>
+                                        <td class="align-right">
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="btn btn-flat btn-info"><li class="fa fa-edit"></li></a>
+
+                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ restaurant.id }}">
+                                                <li class="fa fa-remove"></li>
+                                            </button>
+
+                                            <div class="modal modal-danger fade" id="modal-danger-{{ restaurant.id }}" style="display: none;">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+                                                            <h4 class="modal-title">{{ 'modal.delete.title'|trans }}</h4>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>{{ 'modal.delete.message'|trans }}</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-outline pull-left" data-dismiss="modal">{{ 'modal.close'|trans }}</button>
+                                                            <a href="{{ path('restaurant_delete', {'id': restaurant.id}) }}" class="btn btn-outline">{{ 'modal.delete.confirm'|trans }}</a>
+                                                        </div>
+                                                    </div>
+                                                    <!-- /.modal-content -->
+                                                </div>
+                                                <!-- /.modal-dialog -->
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </table>
+                        {% else %}
+                            <table class="table table-hover">
+                                <tr>
+                                    <td>
+                                        <p>{{ 'restaurants.list.empty'|trans }}</p>
+                                    </td>
+                                </tr>
+                            </table>
+                        {% endif %}
+
+                    </div>
+                    <!-- /.box-body -->
+
+                    <div class="box-footer">
+                        <a href="{{ path('restaurant_new') }}" class="btn btn-success">{{ 'restaurants.create_new'|trans }}</a>
+                    </div>
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

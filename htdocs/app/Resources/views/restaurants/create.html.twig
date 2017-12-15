@@ -1,0 +1,27 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurant.new.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.restaurants'|trans }}
+            <small>{{ 'header.restaurants.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.restaurants'|trans}) }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 col-sm-12">
+                {{ include('restaurants/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'restaurant.new.create_button'}}) }}
+            </div>
+        </div>
+
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

@@ -8,28 +8,26 @@
 
 namespace AppBundle\Document;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 
-
 /**
  * Class User
  * @package AppBundle\Document
- * @ODM\Document
+ * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\UserRepository")
  * @Unique("username")
  * @Unique("email")
  */
 class User implements UserInterface
 {
     public static $ROLES = [
-        'ROLE_RESTAURANT_CV' => 'ROLE_RESTAURANT_CV',
-        'ROLE_RESTAURANT_MH' => 'ROLE_RESTAURANT_MH',
-        'ROLE_RESTAURANT_DR' => 'ROLE_RESTAURANT_DR',
-        'ROLE_SUPERVISOR' => 'ROLE_SUPERVISOR',
-        'ROLE_FRANCHISE' => 'ROLE_FRANCHISE',
-        'ROLE_ADMIN' => 'ROLE_ADMIN'
+        'ROLE_USERS-text' => 'ROLE_USERS',
+        'ROLE_SUPERVISOR-text' => 'ROLE_SUPERVISOR',
+        'ROLE_FRANCHISE-text' => 'ROLE_FRANCHISE',
+        'ROLE_ADMIN-text' => 'ROLE_ADMIN'
     ];
 
     /**
@@ -69,11 +67,9 @@ class User implements UserInterface
      */
     private $access_role;
 
-
-
     /**
-     * @var \AppBundle\Document\Restaurant
-     * @ODM\ReferenceMany(targetDocument="Restaurant")
+     * @var \AppBundle\Document\Restaurant[]
+     * @ODM\ReferenceMany(targetDocument="Restaurant", inversedBy="users")
      * @Assert\NotBlank(groups={"registration"})
      */
     private $restaurants;
@@ -83,6 +79,7 @@ class User implements UserInterface
     public function __construct()
     {
         $this->roles = [];
+        $this->restaurants = new ArrayCollection();
     }
 
     /**
@@ -159,7 +156,7 @@ class User implements UserInterface
 
     public function getAccessRole()
     {
-        return empty($this->access_role)? 'ROLE_USERS': $this->access_role;
+        return $this->access_role;
     }
 
     public function getRoles()
@@ -202,4 +199,5 @@ class User implements UserInterface
     {
         // TODO: Implement eraseCredentials() method.
     }
+
 }
