@@ -10,7 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 
-class LoadFixtures implements FixtureInterface, ContainerAwareInterface
+class UserFixtures implements FixtureInterface, ContainerAwareInterface
 {
     /**
      * @var UserPasswordEncoder

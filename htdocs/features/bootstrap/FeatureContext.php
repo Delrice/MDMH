@@ -26,14 +26,11 @@ class FeatureContext extends MinkContext implements Context
     }
 
     /**
-     * @BeforeScenario @fixtures
+     * @BeforeScenario @fixtures-users
      */
     public function loadFixtures()
     {
-        $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
-        $executor = new MongoDBExecutor($this->getDocumentManager());
-        $executor->execute($loader->getFixtures(), true);
+        $this->loadFixture('UserFixtures');
     }
 
     /**************************************************/
@@ -115,5 +112,13 @@ class FeatureContext extends MinkContext implements Context
     private function getDocumentManager()
     {
         return $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
+    }
+
+    public function loadFixture($filename)
+    {
+        $loader = new ContainerAwareLoader($this->getContainer());
+        $loader->loadFromFile(__DIR__."/../../src/AppBundle/DataFixtures/MongoDB/$filename.php");
+        $executor = new MongoDBExecutor($this->getDocumentManager());
+        $executor->execute($loader->getFixtures(), true);
     }
 }
