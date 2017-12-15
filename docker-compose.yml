@@ -15,7 +15,7 @@ services:
         restart: always
         image: httpd:latest
         ports:
-            - 81:80
+            - 80:80
         volumes:
             - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
             - ./docker/apache/vhosts/:/usr/local/apache2/conf/vhosts

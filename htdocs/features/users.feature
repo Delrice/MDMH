@@ -8,8 +8,9 @@ Feature: User administration
     And I am on "/"
     And there are 5 users
 
+
   Scenario: List available users
     When I follow "menu.administrator.users"
-    Then I should see 5 "show-user" elements
+    Then I should see 5 "a.show-user" elements
 
 

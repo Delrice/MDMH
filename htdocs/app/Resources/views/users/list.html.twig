@@ -47,7 +47,7 @@
                                 {% for user in user_list %}
                                     <tr>
                                         <td>
-                                            <a href="{{ path('user_profile', {'id': user.id}) }}">{{ user.id }}</a>
+                                            <a href="{{ path('user_profile', {'id': user.id}) }}" class="show-user">{{ user.id }}</a>
                                         </td>
                                         <td>
                                             <a href="{{ path('user_profile', {'id': user.id}) }}">{{ user.username }}</a>

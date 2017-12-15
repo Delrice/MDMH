@@ -3,6 +3,12 @@ language: php
 php:
     - '7.1'
 
+addons:
+    hosts:
+        - php
+        - httpd
+        - mongo
+
 services:
     - mongodb
 

@@ -5,6 +5,9 @@ use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Definition\Call\Given;
 use Behat\Behat\Definition\Call\When;
 use Behat\Behat\Definition\Call\Then;
+use Doctrine\Common\DataFixtures\Purger\MongoDBPurger;
+use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
+use Doctrine\Common\DataFixtures\Executor\MongoDBExecutor;
 
 /**
  * Defines application features from the specific context.
@@ -12,6 +15,19 @@ use Behat\Behat\Definition\Call\Then;
 class FeatureContext extends MinkContext implements Context
 {
     use \Behat\Symfony2Extension\Context\KernelDictionary;
+
+    /**
+     * @BeforeScenario
+     */
+    public function clearData()
+    {
+        $purger = new MongoDBPurger($this->getContainer()->get('doctrine_mongodb')->getManager());
+        $purger->purge();
+    }
+
+    /**************************************************/
+    /***************** AUTHENTICATION *****************/
+    /**************************************************/
 
     /**
      * @Given I do not follow redirects
@@ -32,33 +48,63 @@ class FeatureContext extends MinkContext implements Context
         $client->followRedirect(true);
     }
 
-    /**
-     * @BeforeScenario
-     */
-    public function clearData()
-    {
-//        $purger = new OR($this->getContainer()->get('doctrine')->getManager());
-//        $purger->purge();
-    }
+    /**************************************************/
+    /********************** USERS *********************/
+    /**************************************************/
 
     /**
-     * @BeforeScenario @fixtures
+     * @Given /^I am authenticated as "([^"]*)"$/
      */
-    public function loadFixtures()
+    public function iAmAuthenticatedAs($username)
     {
-//        $loader = new ContainerAwareLoader($this->getContainer());
-//        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
-//        $executor = new ORMExecutor($this->getEntityManager());
-//        $executor->execute($loader->getFixtures(), true);
+        $this->visitPath('/login');
+        $this->getPage()->fillField('login', $username);
+        $this->getPage()->fillField('password', $username);
+        $this->getPage()->pressButton('user.login.sign-in');
     }
-
 
     /**
      * @Given there are :count users
      */
     public function thereAreUsers($count)
     {
-        throw new PendingException();
+        $loader = new ContainerAwareLoader($this->getContainer());
+        $loader->loadFromDirectory(__DIR__.'/../../src/AppBundle/DataFixtures');
+        $executor = new MongoDBExecutor($this->getDocumentManager());
+        $executor->execute($loader->getFixtures(), true);
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /**************************************************/
+    /******************** PRIVATE *********************/
+    /**************************************************/
+
+    /**
+     * @return \Behat\Mink\Element\DocumentElement
+     */
+    private function getPage()
+    {
+        return $this->getSession()->getPage();
+    }
+
+    /**
+     * @return \Doctrine\ODM\MongoDB\DocumentManager
+     */
+    private function getDocumentManager()
+    {
+        return $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
+    }
 }
