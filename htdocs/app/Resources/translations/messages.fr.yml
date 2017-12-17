@@ -1,34 +1,31 @@
-user.logout.success: 'Vous vous êtes déconnecté avec succès !'
-user.login.success: 'Vous êtes maintenant connecté !'
-user.login.failure: 'Impossible de vous connecter.<br>Veuillez vérifier vos identifiants !'
-user.login.page_title: 'Accès restreint'
+### LOGIN PAGE
 user.login.title: 'Veuillez vous identifier.'
+user.login.page_title: 'Accès restreint'
 user.login.username: 'Nom d''utilisateur ou adresse email'
 user.login.password: 'Mot de passe'
 user.login.sign-in: 'Se connecter'
-dashboard.page_title: 'Tableau de bord'
+### LAYOUT
 site.design.toggle_navigation: 'Réduire le menu de navigation'
 user.profile: 'Mon profil'
 user.logout: Deconnexion
-ROLE_USERS-text: Directeur
-ROLE_SUPERVISOR-text: Superviseur
-ROLE_FRANCHISE-text: Gérant
-ROLE_ADMIN-text: 'Administrateur global'
-ROLE_USERS-color: text-success
-ROLE_SUPERVISOR-color: text-primary
-ROLE_FRANCHISE-color: text-warning
-ROLE_ADMIN-color: text-danger
+menu.homepage: Accueil
+menu.users: Utilisateurs
 menu.administrator: Administration
 menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
-users.page_title: Utilisateurs
-menu.homepage: Accueil
-menu.users: Utilisateurs
-header.users: Utilisateurs
-header.users.optional: 'Gestion des utilisateurs'
+menu.restaurants: Restaurants
+### FLASH
+user.logout.success: 'Vous vous êtes déconnecté avec succès !'
+user.login.success: 'Vous êtes maintenant connecté !'
+user.login.failure: 'Impossible de vous connecter.<br>Veuillez vérifier vos identifiants !'
+### DASHBOARD
+dashboard.page_title: 'Tableau de bord'
 header.dashboard: 'Mon tableau de bord'
 header.dashboard.optional: 'Tous mes outils'
-menu.restaurants: Restaurants
+### USERS
+users.page_title: Utilisateurs
+header.users: Utilisateurs
+header.users.optional: 'Gestion des utilisateurs'
 users.list.table_header: 'Liste des utilisateurs'
 users.list.empty: 'Il n''y a aucun utilisateur'
 users.create_new: 'Créer un utilisateur'
@@ -50,15 +47,27 @@ users.list.table.username: 'Nom d''utilisateur'
 users.list.table.restaurants: Restaurant(s)
 users.list.table.accessRole: 'Profile d''accès'
 users.list.table.actions: Actions
+user.edit.page_title: 'Modifier un utilisateur'
+ROLE_USERS-text: Directeur
+ROLE_SUPERVISOR-text: Superviseur
+ROLE_FRANCHISE-text: Gérant
+ROLE_ADMIN-text: 'Administrateur global'
+ROLE_USERS-color: text-success
+ROLE_SUPERVISOR-color: text-primary
+ROLE_FRANCHISE-color: text-warning
+ROLE_ADMIN-color: text-danger
+### MODALS
 modal.delete.title: 'Confirmer la suppression'
 modal.delete.message: 'Vous êtes sur le point de supprimer cet élément !'
 modal.close: Annuler
 modal.delete.confirm: 'Confirmer la suppression'
+### FORMS
 form.cancel: 'Annuler et revenir'
-restaurant.new.page_title: 'Ajouter un nouveau restaurant'
+### RESTAURANTS
+restaurants.page_title: Restaurants
 header.restaurants: Restaurants
 header.restaurants.optional: 'Gestion des restaurants'
-restaurants.page_title: Restaurants
+restaurant.new.page_title: 'Ajouter un nouveau restaurant'
 restaurants.list.table_header: 'Liste des restaurants'
 restaurants.list.table.id: 'Id interne'
 restaurants.list.table.name: Nom
@@ -72,4 +81,10 @@ restaurant.new.create_button: 'Créer le restaurant'
 restaurant.edit.create_button: Enregistrer
 restaurant.edit.page_title: 'Modifier un restaurant'
 restaurant.edit.users: 'Directeur(s) rattaché(s) :'
-user.edit.page_title: 'Modifier un utilisateur'
+
+
+
+
+
+
+
