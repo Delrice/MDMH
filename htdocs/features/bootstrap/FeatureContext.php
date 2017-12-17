@@ -1,6 +1,7 @@
 <?php
 
 use Behat\Behat\Context\Context;
+use Behat\MinkExtension\Context\RawMinkContext;
 use Behat\MinkExtension\Context\MinkContext;
 use Behat\Behat\Definition\Call\Given;
 use Behat\Behat\Definition\Call\When;
@@ -8,11 +9,13 @@ use Behat\Behat\Definition\Call\Then;
 use Doctrine\Common\DataFixtures\Purger\MongoDBPurger;
 use Symfony\Bridge\Doctrine\DataFixtures\ContainerAwareLoader;
 use Doctrine\Common\DataFixtures\Executor\MongoDBExecutor;
+use AppBundle\Document\User;
+use AppBundle\Document\Restaurant;
 
 /**
  * Defines application features from the specific context.
  */
-class FeatureContext extends MinkContext implements Context
+class FeatureContext extends RawMinkContext implements Context
 {
     use \Behat\Symfony2Extension\Context\KernelDictionary;
 
@@ -79,6 +82,45 @@ class FeatureContext extends MinkContext implements Context
         $this->getPage()->has('css', $name);
     }
 
+    /**
+     * @Given There is :count user in database
+     */
+    public function thereIsUserInDatabase($count)
+    {
+        if ($count == 1) {
+            $user = new User();
+            $user->setUsername('editme');
+            $user->setPassword('editme');
+            $user->setEmail('editme@hmd.fr');
+            $user->setAccessRole('ROLE_USERS');
+            $this->getDocumentManager()->persist($user);
+            $this->getDocumentManager()->flush();
+        }else{
+            throw new PendingException();
+        }
+    }
+
+    /**************************************************/
+    /******************* RESTAURANTS ******************/
+    /**************************************************/
+
+    /**
+     * @Given There is :count restaurant in database
+     */
+    public function thereIsRestaurantInDatabase($count)
+    {
+        if ($count == 1) {
+            $restaurant = new Restaurant();
+            $restaurant->setName('editme');
+            $restaurant->setIdentifier('FAKEIDENTIFIER');
+            $this->getDocumentManager()->persist($restaurant);
+            $this->getDocumentManager()->flush();
+        }else{
+            throw new PendingException();
+        }
+    }
+
+
 
 
 
@@ -117,8 +159,13 @@ class FeatureContext extends MinkContext implements Context
     public function loadFixture($filename)
     {
         $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromFile(__DIR__."/../../src/AppBundle/DataFixtures/MongoDB/$filename.php");
+        $loader->loadFromDirectory(__DIR__."/../DataFixtures/MongoDB");
         $executor = new MongoDBExecutor($this->getDocumentManager());
         $executor->execute($loader->getFixtures(), true);
+    }
+
+    private function assertResponseStatus($code)
+    {
+        $this->assertSession()->statusCodeEquals($code);
     }
 }

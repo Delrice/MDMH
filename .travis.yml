@@ -25,6 +25,12 @@ install:
     - mongo .travis/enable-mongo-logs.js
 
 before_script:
+    # Selenium
+    - sh -e /etc/init.d/xvfb start
+    - export DISPLAY=:99.0
+    - wget https://goo.gl/hvDPsK -O selenium-server-standalone.jar
+    - java -jar selenium-server-standalone.jar > /dev/null &
+    - sleep 5
     # Place into the right directory
     - cd htdocs/
     # Create user on MongoDB

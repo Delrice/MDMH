@@ -1,3 +1,4 @@
 # Created by .ignore support plugin (hsz.mobi)
 docker/mongo
 .docker-sync
+selenium-server-standalone.jar

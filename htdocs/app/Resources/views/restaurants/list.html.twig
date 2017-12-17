@@ -34,7 +34,7 @@
                                 {% for restaurant in restaurant_list %}
                                     <tr>
                                         <td>
-                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="show-user">{{ restaurant.id }}</a>
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="show-restaurant">{{ restaurant.id }}</a>
                                         </td>
                                         <td>
                                             <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">{{ restaurant.name }}</a>
@@ -43,11 +43,15 @@
                                             <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}">{{ restaurant.identifier }}</a>
                                         </td>
                                         <td class="align-right">
-                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="btn btn-flat btn-info"><li class="fa fa-edit"></li></a>
+                                            <a href="{{ path('restaurant_edit', {'id': restaurant.id}) }}" class="btn btn-flat btn-info" id="edit-restaurant-{{ restaurant.identifier }}"><li class="fa fa-edit"></li></a>
 
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ restaurant.id }}">
+                                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ restaurant.id }}" id="remove-restaurant-{{ restaurant.identifier }}">
                                                 <li class="fa fa-remove"></li>
-                                            </button>
+                                            </a>
+
+                                            {#<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ restaurant.id }}" id="remove-restaurant-{{ restaurant.identifier }}">
+                                                <li class="fa fa-remove"></li>
+                                            </button>#}
 
                                             <div class="modal modal-danger fade" id="modal-danger-{{ restaurant.id }}" style="display: none;">
                                                 <div class="modal-dialog">

@@ -39,7 +39,6 @@ class RestaurantController extends Controller
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
         $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
-        dump($restaurant);
 
         $form = $this->createForm(RestaurantEditionForm::class, $restaurant);
         $form->handleRequest($request);

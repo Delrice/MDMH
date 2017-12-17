@@ -3,10 +3,28 @@ default:
         default:
             contexts:
                 - FeatureContext
-
+                - Behat\MinkExtension\Context\MinkContext
+            mink_javascript_session: javascript_session
+        firefox_js:
+            contexts:
+                - FeatureContext
+                - Behat\MinkExtension\Context\MinkContext
+            mink_session: default_session
+            mink_javascript_session: javascript_session
+            filters:
+                tags: "@js"
     extensions:
         Behat\MinkExtension:
             base_url: http://httpd:8080/app_test.php
             goutte: ~
             selenium2: ~
+            show_auto: true
+            show_cmd: 'firefox %s'
+            sessions:
+                default_session:
+                    symfony2: ~
+                javascript_session:
+                    selenium2:
+                        wd_host: "http://localhost:4444/wd/hub"
+                        browser: firefox
         Behat\Symfony2Extension: ~

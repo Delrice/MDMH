@@ -59,11 +59,15 @@
                                             {{ (user.accessRole ~ '-text')|trans }}
                                         </td>
                                         <td class="align-right">
-                                            <a href="{{ path('user_profile', {'id': user.id}) }}" class="btn btn-flat btn-info"><li class="fa fa-edit"></li></a>
+                                            <a href="{{ path('user_profile', {'id': user.id}) }}" class="btn btn-flat btn-info" id="edit-user-{{ user.username }}"><li class="fa fa-edit"></li></a>
 
-                                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ user.id }}">
+                                            <a href="#" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ user.id }}" id="remove-user-{{ user.username }}">
                                                 <li class="fa fa-remove"></li>
-                                            </button>
+                                            </a>
+
+                                            {#<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#modal-danger-{{ user.id }}" id="remove-user-{{ user.username }}">
+                                                <li class="fa fa-remove"></li>
+                                            </button>#}
 
                                             <div class="modal modal-danger fade" id="modal-danger-{{ user.id }}" style="display: none;">
                                                 <div class="modal-dialog">
