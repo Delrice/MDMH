@@ -66,7 +66,7 @@ security:
                 success_handler: AppBundle\Security\LogoutSuccessHandler
 
             switch_user:
-                provider: in_memory_users
+                provider: app_users
                 parameter: _admin_switch_user
                 role: ROLE_ALLOWED_TO_SWITCH
 

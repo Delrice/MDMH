@@ -24,7 +24,7 @@
             </div>
         </div>
 
-        {% if is_granted('ROLE_ADMIN') %}
+        {% if is_granted('ROLE_SUPERVISOR') %}
             <!-- Sidebar Menu -->
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header text-uppercase">
@@ -44,16 +44,42 @@
             <!-- /.sidebar-menu -->
         {% endif %}
 
-        <!-- Sidebar Menu -->
-        <ul class="sidebar-menu" data-widget="tree">
-            <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
-            <li>
-                <a href="#" title="{{ 'menu.restaurants'|trans }}">
-                    <i class="fa fa-cutlery"></i> <span>{{ 'menu.restaurants'|trans }}</span>
-                </a>
-            </li>
-        </ul>
-        <!-- /.sidebar-menu -->
+        {% if restaurants|default([]) %}
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
+                {% for restaurant in restaurants %}
+                    <li class="treeview">
+                        <a href="{{ path('restaurant_view', {'id': restaurant.id}) }}" title="{{ 'menu.restaurants'|trans }}" id="restaurant-view-{{ restaurant.identifier }}">
+                            <i class="fa fa-folder"></i> <span>{{ restaurant.name }}</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-left pull-right"></i>
+                            </span>
+                        </a>
+
+                        <ul class="treeview-menu">
+                            <li>
+                                <a href="{{ path('restaurant_budget', {'id': restaurant.id}) }}" id="restaurant-budget-{{ restaurant.identifier }}">
+                                    <i class="fa fa-balance-scale"></i> <span>{{ 'menu.restaurant.budget'|trans }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('restaurant_daily_sales', {'id': restaurant.id}) }}" id="restaurant-sales-{{ restaurant.identifier }}">
+                                    <i class="fa fa-calculator"></i> <span>{{ 'menu.restaurant.daily_sales'|trans }}</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="{{ path('restaurant_track_sales', {'id': restaurant.id}) }}" id="restaurant-track-{{ restaurant.identifier }}">
+                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_sales'|trans }}</span>
+                                </a>
+                            </li>
+                        </ul>
+
+                    </li>
+                {% endfor %}
+            </ul>
+            <!-- /.sidebar-menu -->
+        {% endif %}
     </section>
     <!-- /.sidebar -->
 </aside>

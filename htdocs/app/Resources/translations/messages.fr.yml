@@ -14,6 +14,11 @@ menu.administrator: Administration
 menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
 menu.restaurants: Restaurants
+menu.restaurant.budget: 'Budget'
+menu.restaurant.daily_sales: 'Ventes journalières'
+menu.restaurant.track_sales: 'Suivi des ventes'
+
+
 ### FLASH
 user.logout.success: 'Vous vous êtes déconnecté avec succès !'
 user.login.success: 'Vous êtes maintenant connecté !'
@@ -81,6 +86,8 @@ restaurant.new.create_button: 'Créer le restaurant'
 restaurant.edit.create_button: Enregistrer
 restaurant.edit.page_title: 'Modifier un restaurant'
 restaurant.edit.users: 'Directeur(s) rattaché(s) :'
+exception.access.restaurant: 'Vous n''êtes pas autorisé à accéder à cette resource'
+
 
 
 

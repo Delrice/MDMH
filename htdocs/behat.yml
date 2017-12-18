@@ -19,7 +19,7 @@ default:
             goutte: ~
             selenium2: ~
             show_auto: true
-            show_cmd: 'firefox %s'
+            show_cmd: 'open %s'
             sessions:
                 default_session:
                     symfony2: ~

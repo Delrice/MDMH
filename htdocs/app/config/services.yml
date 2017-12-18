@@ -29,6 +29,13 @@ services:
         public: true
         tags: ['controller.service_arguments']
 
+#    AppBundle\Controller\LayoutController:
+#        arguments:
+#            $securityService: '@AppBundle\Services\Security'
+    AppBundle\Services\Security:
+        arguments:
+            $dm: '@doctrine_mongodb.odm.document_manager'
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:

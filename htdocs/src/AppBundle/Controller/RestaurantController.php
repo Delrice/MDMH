@@ -5,9 +5,13 @@ namespace AppBundle\Controller;
 use AppBundle\Document\Restaurant;
 use AppBundle\Form\RestaurantCreationForm;
 use AppBundle\Form\RestaurantEditionForm;
+use AppBundle\Services\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
 /**
  * Class RestaurantController
@@ -29,6 +33,14 @@ class RestaurantController extends Controller
             'restaurant_list' => $restaurantList,
             'currentMenuActive' => ['administrator.restaurants']
         ]);
+    }
+
+    /**
+     * @Route("/view/{id}", name="restaurant_view")
+     */
+    public function viewAction($id)
+    {
+        return new Response('ok');
     }
 
     /**
@@ -108,5 +120,57 @@ class RestaurantController extends Controller
         $this->addFlash('success', 'restaurant.delete.success');
 
         return $this->redirectToRoute('restaurant_list');
+    }
+
+    /**
+     * @Route("/budget/{id}", name="restaurant_budget")
+     */
+    public function budgetAction($id, Security $securityService)
+    {
+        $checkerResult = $this->checkUserAccess($id, $securityService);
+        if ($checkerResult instanceof RedirectResponse)
+            return $checkerResult;
+
+        return new Response('ok');
+    }
+
+    /**
+     * @Route("/sales/{id}", name="restaurant_daily_sales")
+     */
+    public function dailySalesAction($id, Security $securityService)
+    {
+        $checkerResult = $this->checkUserAccess($id, $securityService);
+        if ($checkerResult instanceof RedirectResponse)
+            return $checkerResult;
+
+        return new Response('ok');
+    }
+
+    /**
+     * @Route("/track/{id}", name="restaurant_track_sales")
+     */
+    public function trackAction($id, Security $securityService)
+    {
+        $checkerResult = $this->checkUserAccess($id, $securityService);
+        if ($checkerResult instanceof RedirectResponse)
+            return $checkerResult;
+
+        return new Response('ok');
+    }
+
+
+
+
+
+
+    private function checkUserAccess($restaurantId, Security $securityService)
+    {
+        try{
+            $securityService->checkUserAccessToRestaurant($restaurantId);
+        } catch(AccessDeniedException $e) {
+            $this->addFlash('error', $e->getMessage());
+            return $this->redirectToRoute('homepage');
+        }
+        return true;
     }
 }
