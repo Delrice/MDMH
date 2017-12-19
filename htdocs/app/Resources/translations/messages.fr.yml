@@ -87,6 +87,12 @@ restaurant.edit.create_button: Enregistrer
 restaurant.edit.page_title: 'Modifier un restaurant'
 restaurant.edit.users: 'Directeur(s) rattaché(s) :'
 exception.access.restaurant: 'Vous n''êtes pas autorisé à accéder à cette resource'
+restaurant.budget.page_title: 'Budget'
+header.restaurant.budget.optional: 'Gestion et suivi du budget'
+restaurant.daily_sales.page_title: 'Gestion des ventes'
+header.restaurant.daily_sales.optional: 'Gestion des ventes journalières'
+restaurant.track.page_title: 'Suivi des ventes'
+header.restaurant.track.optional: 'Suivi des ventes'
 
 
 

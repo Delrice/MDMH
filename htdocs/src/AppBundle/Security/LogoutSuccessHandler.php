@@ -16,6 +16,10 @@ use Symfony\Component\Security\Http\Logout\LogoutSuccessHandlerInterface;
 
 class LogoutSuccessHandler implements LogoutSuccessHandlerInterface
 {
+    /**
+     * @param Request $request
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function onLogoutSuccess(Request $request)
     {
         $request->getSession()->getFlashBag()->add('info', 'user.logout.success');

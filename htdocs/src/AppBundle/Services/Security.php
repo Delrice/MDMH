@@ -15,7 +15,7 @@ class Security
      */
     private $dm;
     /**
-     * @var AuthorizationChecker
+     * @var AuthorizationCheckerInterface
      */
     private $checker;
     /**
@@ -23,6 +23,12 @@ class Security
      */
     private $tokenStorage;
 
+    /**
+     * Security constructor.
+     * @param DocumentManager $dm
+     * @param AuthorizationCheckerInterface $checker
+     * @param TokenStorageInterface $tokenStorage
+     */
     public function __construct(DocumentManager $dm, AuthorizationCheckerInterface $checker, TokenStorageInterface $tokenStorage)
     {
         $this->dm = $dm;
@@ -30,6 +36,9 @@ class Security
         $this->tokenStorage = $tokenStorage;
     }
 
+    /**
+     * @return \AppBundle\Document\Restaurant[]|array
+     */
     public function getUserRestaurants()
     {
         // Get if possible, restaurants that the current user belong to
@@ -50,6 +59,10 @@ class Security
         return $restaurants;
     }
 
+    /**
+     * @param $restaurantId
+     * @return bool|AccessDeniedException
+     */
     public function checkUserAccessToRestaurant($restaurantId)
     {
         $userRestaurants = $this->getUserRestaurants();
@@ -60,15 +73,18 @@ class Security
         throw new AccessDeniedException('exception.access.restaurant');
     }
 
+    /**
+     * @return User|null
+     */
     private function getUser()
     {
         if (null === $token = $this->tokenStorage->getToken()) {
-            return;
+            return null;
         }
 
         if (!is_object($user = $token->getUser())) {
             // e.g. anonymous authentication
-            return;
+            return null;
         }
 
         return $user;

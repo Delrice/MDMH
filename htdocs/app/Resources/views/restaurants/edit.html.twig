@@ -9,7 +9,18 @@
             {{ 'header.restaurants'|trans }}
             <small>{{ 'header.restaurants.optional'|trans }}</small>
         </h1>
-        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.restaurants'|trans}) }}
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {
+                    'title': 'menu.restaurants'|trans,
+                    'href': path('restaurant_list')
+                },
+                {
+                    'title': 'restaurant.edit.page_title'|trans
+                }
+            ]
+            })
+        }}
     </section>
 {% endblock %}
 

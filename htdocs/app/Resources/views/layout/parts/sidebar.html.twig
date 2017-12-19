@@ -49,7 +49,7 @@
             <ul class="sidebar-menu" data-widget="tree">
                 <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
                 {% for restaurant in restaurants %}
-                    <li class="treeview">
+                    <li class="treeview{% if 'menu.restaurant.' ~ restaurant.id in currentMenuActive|default([]) %} menu-open{% endif %}">
                         <a href="{{ path('restaurant_view', {'id': restaurant.id}) }}" title="{{ 'menu.restaurants'|trans }}" id="restaurant-view-{{ restaurant.identifier }}">
                             <i class="fa fa-folder"></i> <span>{{ restaurant.name }}</span>
                             <span class="pull-right-container">
@@ -57,18 +57,18 @@
                             </span>
                         </a>
 
-                        <ul class="treeview-menu">
-                            <li>
+                        <ul class="treeview-menu"{% if 'menu.restaurant.' ~ restaurant.id in currentMenuActive|default([]) %} style="display: block"{% endif %}>
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.budget' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_budget', {'id': restaurant.id}) }}" id="restaurant-budget-{{ restaurant.identifier }}">
                                     <i class="fa fa-balance-scale"></i> <span>{{ 'menu.restaurant.budget'|trans }}</span>
                                 </a>
                             </li>
-                            <li>
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.daily_sales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_daily_sales', {'id': restaurant.id}) }}" id="restaurant-sales-{{ restaurant.identifier }}">
                                     <i class="fa fa-calculator"></i> <span>{{ 'menu.restaurant.daily_sales'|trans }}</span>
                                 </a>
                             </li>
-                            <li>
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_sales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_track_sales', {'id': restaurant.id}) }}" id="restaurant-track-{{ restaurant.identifier }}">
                                     <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_sales'|trans }}</span>
                                 </a>

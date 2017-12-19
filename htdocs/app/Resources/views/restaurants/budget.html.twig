@@ -1,0 +1,29 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurant.budget.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ restaurant.name|upper }}
+            <small>{{ 'header.restaurant.budget.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {
+                    'title': restaurant.name,
+                    'href': path('restaurant_view', {'id': restaurant.id})
+                },
+                {
+                    'title': 'restaurant.budget.page_title'|trans
+                }
+            ]
+            })
+        }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    {{ dump() }}
+{% endblock %}

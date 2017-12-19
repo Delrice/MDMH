@@ -22,11 +22,20 @@ class LoginFailureHandler implements AuthenticationFailureHandlerInterface
      */
     private $router;
 
+    /**
+     * LoginFailureHandler constructor.
+     * @param RouterInterface $router
+     */
     public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
 
+    /**
+     * @param Request $request
+     * @param AuthenticationException $exception
+     * @return RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
     public function onAuthenticationFailure(Request $request, AuthenticationException $exception)
     {
         $request->getSession()->getFlashBag()->add('danger', 'user.login.failure');

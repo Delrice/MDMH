@@ -9,7 +9,12 @@
             {{ 'header.users'|trans }}
             <small>{{ 'header.users.optional'|trans }}</small>
         </h1>
-        {{ include('layout/parts/breadcrumb.html.twig', {'page': 'menu.users'|trans}) }}
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {'title': 'menu.users'|trans}
+            ]
+            })
+        }}
     </section>
 {% endblock %}
 

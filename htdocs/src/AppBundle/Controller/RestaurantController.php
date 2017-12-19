@@ -40,7 +40,7 @@ class RestaurantController extends Controller
      */
     public function viewAction($id)
     {
-        return new Response('ok');
+        return $this->render('restaurants/view.html.twig');
     }
 
     /**
@@ -131,7 +131,16 @@ class RestaurantController extends Controller
         if ($checkerResult instanceof RedirectResponse)
             return $checkerResult;
 
-        return new Response('ok');
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+
+        return $this->render('restaurants/budget.html.twig', [
+            'currentMenuActive' => [
+                'menu.restaurant.'.$id,
+                'menu.restaurant.'.$id.'.budget'
+            ],
+            'restaurant' => $restaurant
+        ]);
     }
 
     /**
@@ -143,7 +152,16 @@ class RestaurantController extends Controller
         if ($checkerResult instanceof RedirectResponse)
             return $checkerResult;
 
-        return new Response('ok');
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+
+        return $this->render('restaurants/daily_sales.html.twig', [
+            'currentMenuActive' => [
+                'menu.restaurant.'.$id,
+                'menu.restaurant.'.$id.'.daily_sales'
+            ],
+            'restaurant' => $restaurant
+        ]);
     }
 
     /**
@@ -155,7 +173,16 @@ class RestaurantController extends Controller
         if ($checkerResult instanceof RedirectResponse)
             return $checkerResult;
 
-        return new Response('ok');
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+
+        return $this->render('restaurants/track.html.twig', [
+            'currentMenuActive' => [
+                'menu.restaurant.'.$id,
+                'menu.restaurant.'.$id.'.track_sales'
+            ],
+            'restaurant' => $restaurant
+        ]);
     }
 
 

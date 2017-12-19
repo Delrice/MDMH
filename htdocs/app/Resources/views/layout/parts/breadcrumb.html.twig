@@ -4,7 +4,15 @@
             <i class="fa fa-dashboard"></i> {{ 'menu.homepage'|trans }}
         </a>
     </li>
-    {% if page %}
-    <li class="active">{{ page }}</li>
+    {% if pages %}
+        {% for page in pages %}
+            <li {% if loop.last %}class="active"{% endif %}>
+                {% if not loop.last and page.href|default(false) %}
+                    <a href="{{ page.href }}">{{ page.title }}</a>
+                {% else %}
+                    {{ page.title }}
+                {% endif %}
+            </li>
+        {% endfor %}
     {% endif %}
 </ol>

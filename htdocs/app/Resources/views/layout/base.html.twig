@@ -6,7 +6,7 @@
 {% block body %}
     {% if app.user %}
         {{ include('layout/parts/header.html.twig') }}
-        {{ render(controller('AppBundle:Layout:sidebarMenu', {'template': 'layout/parts/sidebar.html.twig'})) }}
+        {{ render(controller('AppBundle:Layout:sidebarMenu', {'template': 'layout/parts/sidebar.html.twig', 'parameters': {'currentMenuActive': currentMenuActive|default([])}})) }}
     {% endif %}
 
     <!-- Content Wrapper. Contains page content -->
