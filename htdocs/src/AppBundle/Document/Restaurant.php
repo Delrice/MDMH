@@ -39,6 +39,12 @@ class Restaurant
      */
     private $users;
 
+    /**
+     * @var \AppBundle\Document\Budget[]
+     * @ODM\ReferenceMany(targetDocument="Budget", mappedBy="restaurant", sort={"year"="ASC"})
+     */
+    private $budgets;
+
     public function __construct()
     {
         $this->users = new ArrayCollection();
@@ -85,14 +91,20 @@ class Restaurant
     }
 
     /**
-     * @return User
+     * @return User[]
      */
     public function getUsers()
     {
         return $this->users;
     }
 
-
+    /**
+     * @return Budget[]
+     */
+    public function getBudgets()
+    {
+        return $this->budgets;
+    }
 
     public function __toString()
     {

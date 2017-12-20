@@ -3,6 +3,8 @@
 namespace AppBundle\Services;
 
 use AppBundle\Document\User;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
@@ -37,24 +39,28 @@ class Security
     }
 
     /**
-     * @return \AppBundle\Document\Restaurant[]|array
+     * @return ArrayCollection
      */
     public function getUserRestaurants()
     {
         // Get if possible, restaurants that the current user belong to
         $user = $this->getUser();
         if (empty($user))
-            return [];
+            return new ArrayCollection();
 
         if ($this->checker->isGranted('ROLE_SUPERVISOR') || !$user instanceof User) {
-            $restaurants = $this->dm->getRepository('AppBundle:Restaurant')
-                ->findBy(
-                    [],
-                    ['name' => 'ASC']
-                );
+            $collection = new ArrayCollection($this->dm->getRepository('AppBundle:Restaurant')->findAll());
         } else {
-            $restaurants = $user->getRestaurants();
+            $collection = new ArrayCollection($user->getRestaurants()->toArray());
         }
+        /**
+         * Sort all returned Restaurant[] in an ArrayCollection by "name"
+         */
+        $sort = Criteria::create();
+        $sort->orderBy([
+            'name' => Criteria::ASC
+        ]);
+        $restaurants = $collection->matching($sort);
 
         return $restaurants;
     }

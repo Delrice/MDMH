@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Document\Restaurant;
 use AppBundle\Form\RestaurantCreationForm;
 use AppBundle\Form\RestaurantEditionForm;
+use AppBundle\Manager\RestaurantManager;
 use AppBundle\Services\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -38,9 +39,19 @@ class RestaurantController extends Controller
     /**
      * @Route("/view/{id}", name="restaurant_view")
      */
-    public function viewAction($id)
+    public function viewAction($id, RestaurantManager $restaurantManager)
     {
-        return $this->render('restaurants/view.html.twig');
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+
+        $restaurantManager->setRestaurant($restaurant);
+        $annualBudgets = $restaurantManager->getAllPlannedBudgets();
+
+        return $this->render('restaurants/view.html.twig', [
+            'restaurant' => $restaurant,
+            'currentMenuActive' => ['menu.restaurant.'.$id],
+            'annualBudgets' => $annualBudgets
+        ]);
     }
 
     /**

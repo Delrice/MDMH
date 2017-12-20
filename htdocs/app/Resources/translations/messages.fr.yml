@@ -17,6 +17,20 @@ menu.restaurants: Restaurants
 menu.restaurant.budget: 'Budget'
 menu.restaurant.daily_sales: 'Ventes journalières'
 menu.restaurant.track_sales: 'Suivi des ventes'
+### COMMON
+month-jan: 'Janvier'
+month-feb: 'Février'
+month-mar: 'Mars'
+month-apr: 'Avril'
+month-may: 'Mai'
+month-jun: 'Juin'
+month-jul: 'Juillet'
+month-aug: 'Août'
+month-sep: 'Septembre'
+month-oct: 'Octobre'
+month-nov: 'Novembre'
+month-dec: 'Décembre'
+
 
 
 ### FLASH
@@ -93,7 +107,16 @@ restaurant.daily_sales.page_title: 'Gestion des ventes'
 header.restaurant.daily_sales.optional: 'Gestion des ventes journalières'
 restaurant.track.page_title: 'Suivi des ventes'
 header.restaurant.track.optional: 'Suivi des ventes'
+restaurant.view.infos: 'Infos'
+restaurant.view.page_title: 'Détails restaurant'
+header.restaurant.view.optional: ''
+restaurant.view.budget: 'Budgets annuels'
 
+restaurant.budget.month: 'Mois'
+restaurant.budget.budget: 'Prévu'
+restaurant.budget.progress: 'Progression'
+restaurant.budget.percent: 'Réalisé'
+restaurant.budget.realized: 'CA réalisé'
 
 
 

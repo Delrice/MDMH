@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Services\Security;
 

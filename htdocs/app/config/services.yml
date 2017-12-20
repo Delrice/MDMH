@@ -36,6 +36,10 @@ services:
         arguments:
             $dm: '@doctrine_mongodb.odm.document_manager'
 
+    AppBundle\Manager\SalesManager:
+        arguments:
+            $dm: '@doctrine_mongodb.odm.document_manager'
+
     # add more services, or override services that need manual wiring
     # AppBundle\Service\ExampleService:
     #     arguments:
