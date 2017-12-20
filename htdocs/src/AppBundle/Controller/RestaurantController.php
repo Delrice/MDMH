@@ -136,7 +136,7 @@ class RestaurantController extends Controller
     /**
      * @Route("/budget/{id}", name="restaurant_budget")
      */
-    public function budgetAction($id, Security $securityService)
+    public function budgetAction($id, Security $securityService, RestaurantManager $restaurantManager)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -145,12 +145,16 @@ class RestaurantController extends Controller
         $dm = $this->get('doctrine_mongodb')->getManager();
         $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
 
+        $restaurantManager->setRestaurant($restaurant);
+        $annualBudgets = $restaurantManager->getAllPlannedBudgets();
+
         return $this->render('restaurants/budget.html.twig', [
             'currentMenuActive' => [
                 'menu.restaurant.'.$id,
                 'menu.restaurant.'.$id.'.budget'
             ],
-            'restaurant' => $restaurant
+            'restaurant' => $restaurant,
+            'annualBudgets' => $annualBudgets
         ]);
     }
 

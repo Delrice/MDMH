@@ -1,0 +1,65 @@
+<div class="col-md-{{ colWidth|default(10) }}">
+    <div class="box box-primary">
+        <div class="box-header">
+            <h3>{{ 'restaurant.view.budget'|trans }}</h3>
+        </div>
+        <div class="box-body with-border">
+            {% if annualBudgets|default([]) %}
+                {% set currentYear = 'now'|date('Y') %}
+                <div class="nav-tabs-custom">
+                    <ul class="nav nav-tabs">
+                        {% for year, budget in annualBudgets %}
+                            <li{% if year == currentYear or (year < currentYear and loop.last) %} class="active"{% endif %}>
+                                <a href="#{{ year }}" data-toggle="tab" aria-expanded="true">{{ year }}</a>
+                            </li>
+                        {% endfor %}
+                    </ul>
+
+                    <div class="tab-content">
+                        {% for year, budget in annualBudgets%}
+                            <div class="tab-pane{% if year == currentYear or (year < currentYear and loop.last) %} active{% endif %}" id="{{ year }}">
+                                <table class="table table-bordered text-center" style="width: 100%">
+                                    <tbody>
+                                        <tr>
+                                            <th style="width: 40px">#</th>
+                                            <th style="width: 20%">{{ 'restaurant.budget.month'|trans }}</th>
+                                            <th style="width: 20%">{{ 'restaurant.budget.budget'|trans }}</th>
+                                            <th style="width: 20%">{{ 'restaurant.budget.realized'|trans }}</th>
+                                            <th>{{ 'restaurant.budget.progress'|trans }}</th>
+                                            <th style="width: 70px">{{ 'restaurant.budget.percent'|trans }}</th>
+                                        </tr>
+                                        {% for month, datas in budget.months %}
+                                            <tr>
+                                                <td>{{ loop.index }}</td>
+                                                <td>{{ ('month-' ~ month)|trans }}</td>
+                                                <td>{{ datas.budget|number_format(0, ' ', ' ') }} &euro;</td>
+                                                <td>{{ datas.realized|number_format(0, ' ', ' ') }} &euro;</td>
+                                                <td>
+                                                    <div class="progress progress-xs">
+                                                        <div class="progress-bar progress-bar-{{ datas.progress }}" style="width: {{ datas.percent }}%"></div>
+                                                    </div>
+                                                </td>
+                                                <td class="text-right">
+                                                    <span class="badge bg-{{ datas.percent_color }}">{{ datas.percent }}%</span>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                    {% if year > currentYear and showEdit|default(false) %}
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="6">
+                                                <a href="{{ path('restaurant_budget_edit', {'id': budget.id}) }}" class="btn btn-success pull-right">Modifier</a>
+                                            </td>
+                                        </tr>
+                                    </tfoot>
+                                    {% endif %}
+                                </table>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>

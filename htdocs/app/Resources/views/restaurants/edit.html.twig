@@ -27,7 +27,7 @@
 {% block content %}
     <section class="content">
         <div class="row">
-            <div class="col-lg-8 col-md-10 col-sm-12">
+            <div class="col-md-12">
                 {{ include('restaurants/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'restaurant.edit.create_button'}}) }}
 
                 {% if restaurant.users|default() %}

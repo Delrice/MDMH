@@ -10,13 +10,11 @@ namespace AppBundle\Document;
 
 use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class Budget
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\BudgetRepository")
- * @UniqueEntity(fields={"restaurant.$id", "year"})
  */
 class Budget
 {

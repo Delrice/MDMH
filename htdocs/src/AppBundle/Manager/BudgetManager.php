@@ -43,11 +43,11 @@ class BudgetManager
     {
         $exportedBudgets = [];
         foreach ($budgetsCollection as $budgetDocument) {
-            $exportedBudgets[$budgetDocument->getYear()] = $budgetDocument->toArray();
+            $exportedBudgets[$budgetDocument->getYear()] = ['id' => $budgetDocument->getId(), 'months' => $budgetDocument->toArray()];
             unset(
-                $exportedBudgets[$budgetDocument->getYear()]['id'],
-                $exportedBudgets[$budgetDocument->getYear()]['restaurant'],
-                $exportedBudgets[$budgetDocument->getYear()]['year']
+                $exportedBudgets[$budgetDocument->getYear()]['months']['id'],
+                $exportedBudgets[$budgetDocument->getYear()]['months']['restaurant'],
+                $exportedBudgets[$budgetDocument->getYear()]['months']['year']
             );
         }
         return $exportedBudgets;
@@ -64,13 +64,13 @@ class BudgetManager
          * 76 - 90 => primary, blue
          * 91 - 100 => success, green
          */
-        foreach ($monthlyBudget as $month=>$budget) {
+        foreach ($monthlyBudget['months'] as $month=>$budget) {
             $realizedSales = $monthlySales[$month];
 
             /*
              * Calcul
              */
-            $progressPercent = round(($realizedSales / $budget) * 100, 0) ;
+            $progressPercent = round(($realizedSales / $budget) * 100, 1, PHP_ROUND_HALF_DOWN) ;
 
             if ($progressPercent <= 50) {
                 $progressColor = 'danger';
@@ -78,7 +78,7 @@ class BudgetManager
             } elseif ($progressPercent <= 75) {
                 $progressColor = 'yellow';
                 $progressPercentColor = 'yellow';
-            } elseif ($progressPercent <= 90) {
+            } elseif ($progressPercent <= 99.99) {
                 $progressColor = 'primary';
                 $progressPercentColor = 'blue';
             } else {
@@ -86,7 +86,8 @@ class BudgetManager
                 $progressPercentColor = 'green';
             }
 
-            $monthlyBudgetComparison[$month] = [
+            $monthlyBudgetComparison['id'] = $monthlyBudget['id'];
+            $monthlyBudgetComparison['months'][$month] = [
                 'budget' => $budget,
                 'realized' => $realizedSales,
                 'progress' => $progressColor,
