@@ -9,16 +9,18 @@
 namespace AppBundle\Document;
 
 use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
-use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * Class User
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\DailySaleRepository")
- * @UniqueEntity(fields={"restaurant.$id", "year", "month", "day"})
+ * @ODM\HasLifecycleCallbacks()
  */
 class DailySale
 {
+    use ExtendedProperties\CreatedAtTrait;
+    use ExtendedProperties\UpdatedAtTrait;
+
     /**
      * @ODM\Id
      */
@@ -30,17 +32,17 @@ class DailySale
     private $restaurant;
 
     /**
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="integer")
      */
     private $year;
 
     /**
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="integer")
      */
     private $month;
 
     /**
-     * @ODM\Field(type="string")
+     * @ODM\Field(type="integer")
      */
     private $day;
 
@@ -94,7 +96,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getYear()
     {
@@ -102,7 +104,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $year
+     * @param integer $year
      */
     public function setYear($year)
     {
@@ -110,7 +112,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getMonth()
     {
@@ -118,7 +120,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $month
+     * @param integer $month
      */
     public function setMonth($month)
     {
@@ -126,7 +128,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getDay()
     {
@@ -134,7 +136,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $day
+     * @param integer $day
      */
     public function setDay($day)
     {
@@ -142,7 +144,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getBudgetAmount()
     {
@@ -150,7 +152,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $budgetAmount
+     * @param integer $budgetAmount
      */
     public function setBudgetAmount($budgetAmount)
     {
@@ -158,7 +160,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getTotalSaleAmount()
     {
@@ -166,7 +168,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $totalSaleAmount
+     * @param integer $totalSaleAmount
      */
     public function setTotalSaleAmount($totalSaleAmount)
     {
@@ -174,7 +176,7 @@ class DailySale
     }
 
     /**
-     * @return mixed
+     * @return integer
      */
     public function getFoodSaleAmount()
     {
@@ -182,7 +184,7 @@ class DailySale
     }
 
     /**
-     * @param mixed $foodSaleAmount
+     * @param integer $foodSaleAmount
      */
     public function setFoodSaleAmount($foodSaleAmount)
     {

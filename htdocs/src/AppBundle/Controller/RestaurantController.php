@@ -2,10 +2,13 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Document\DailySale;
 use AppBundle\Document\Restaurant;
-use AppBundle\Form\RestaurantCreationForm;
-use AppBundle\Form\RestaurantEditionForm;
+use AppBundle\Form\MonthlySalesType;
+use AppBundle\Form\RestaurantType;
 use AppBundle\Manager\RestaurantManager;
+use AppBundle\Manager\SalesManager;
+use AppBundle\Model\MonthlySales;
 use AppBundle\Services\Security;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -27,7 +30,7 @@ class RestaurantController extends Controller
     public function listAction()
     {
         $restaurantList = $this->get('doctrine_mongodb')
-            ->getRepository('AppBundle:Restaurant')
+            ->getRepository(Restaurant::class)
             ->findAll();
 
         return $this->render('restaurants/list.html.twig', [
@@ -42,7 +45,7 @@ class RestaurantController extends Controller
     public function viewAction($id, RestaurantManager $restaurantManager)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
 
         $restaurantManager->setRestaurant($restaurant);
         $annualBudgets = $restaurantManager->getAllPlannedBudgets();
@@ -61,9 +64,9 @@ class RestaurantController extends Controller
     public function editAction(Request $request, $id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
 
-        $form = $this->createForm(RestaurantEditionForm::class, $restaurant);
+        $form = $this->createForm(RestaurantType::class, $restaurant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -94,7 +97,7 @@ class RestaurantController extends Controller
     {
         $restaurant = new Restaurant();
 
-        $form = $this->createForm(RestaurantCreationForm::class, $restaurant);
+        $form = $this->createForm(RestaurantType::class, $restaurant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -124,7 +127,7 @@ class RestaurantController extends Controller
     public function deleteAction($id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
         $dm->remove($restaurant);
         $dm->flush();
 
@@ -134,7 +137,7 @@ class RestaurantController extends Controller
     }
 
     /**
-     * @Route("/budget/{id}", name="restaurant_budget")
+     * @Route("/budgets/{id}", name="restaurant_budgets")
      */
     public function budgetAction($id, Security $securityService, RestaurantManager $restaurantManager)
     {
@@ -143,7 +146,7 @@ class RestaurantController extends Controller
             return $checkerResult;
 
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
 
         $restaurantManager->setRestaurant($restaurant);
         $annualBudgets = $restaurantManager->getAllPlannedBudgets();
@@ -159,23 +162,48 @@ class RestaurantController extends Controller
     }
 
     /**
-     * @Route("/sales/{id}", name="restaurant_daily_sales")
+     * @Route("/sales/{id}/{year}/{month}", name="restaurant_daily_sales", defaults={"year"=null, "month"=null})
      */
-    public function dailySalesAction($id, Security $securityService)
+    public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
             return $checkerResult;
 
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        /**
+         * @var Restaurant $restaurant
+         */
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
+
+        $monthlySales = $salesManager->prepareMonth($restaurant, $year, $month);
+        $form = $this->createForm(MonthlySalesType::class, $monthlySales);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            /**
+             * @var MonthlySales $monthlySales
+             */
+            $monthlySales = $form->getData();
+            foreach ($monthlySales->getDailySales() as $dailySale) {
+                $dm->persist($dailySale);
+            }
+            $dm->flush();
+
+            $this->addFlash('success', 'restaurant.daily_sales.update.success');
+
+            return $this->redirectToRoute('restaurant_daily_sales', ['id' => $id, 'year' => $year, 'month' => $month]);
+        }
 
         return $this->render('restaurants/daily_sales.html.twig', [
             'currentMenuActive' => [
                 'menu.restaurant.'.$id,
                 'menu.restaurant.'.$id.'.daily_sales'
             ],
-            'restaurant' => $restaurant
+            'restaurant' => $restaurant,
+            'year' => $year,
+            'month' => $month,
+            'form' => $form->createView()
         ]);
     }
 
@@ -189,7 +217,7 @@ class RestaurantController extends Controller
             return $checkerResult;
 
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $restaurant = $dm->getRepository('AppBundle:Restaurant')->find($id);
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
 
         return $this->render('restaurants/track.html.twig', [
             'currentMenuActive' => [

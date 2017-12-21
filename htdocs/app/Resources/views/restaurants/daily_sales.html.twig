@@ -25,5 +25,12 @@
 {% endblock %}
 
 {% block content %}
-    {{ dump() }}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                {{ include('dailysales/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'restaurant.daily_sales.edit.create_button'}}) }}
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
 {% endblock %}

@@ -15,9 +15,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * Class Restaurant
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\RestaurantRepository")
+ * @ODM\HasLifecycleCallbacks()
  */
 class Restaurant
 {
+    use ExtendedProperties\CreatedAtTrait;
+    use ExtendedProperties\UpdatedAtTrait;
+
     /**
      * @ODM\Id
      */

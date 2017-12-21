@@ -12,9 +12,20 @@ use AppBundle\Document\Budget;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
 use Doctrine\ODM\MongoDB\PersistentCollection;
+use AppBundle\Services\Utils;
 
 class BudgetManager
 {
+    /**
+     * @var Utils
+     */
+    private $utils;
+
+    public function __construct(Utils $utils)
+    {
+        $this->utils = $utils;
+    }
+
     /**
      * @param PersistentCollection $budgetsCollection[]
      * @return ArrayCollection
@@ -47,7 +58,9 @@ class BudgetManager
             unset(
                 $exportedBudgets[$budgetDocument->getYear()]['months']['id'],
                 $exportedBudgets[$budgetDocument->getYear()]['months']['restaurant'],
-                $exportedBudgets[$budgetDocument->getYear()]['months']['year']
+                $exportedBudgets[$budgetDocument->getYear()]['months']['year'],
+                $exportedBudgets[$budgetDocument->getYear()]['months']['createdAt'],
+                $exportedBudgets[$budgetDocument->getYear()]['months']['updatedAt']
             );
         }
         return $exportedBudgets;
@@ -65,32 +78,33 @@ class BudgetManager
          * 91 - 100 => success, green
          */
         foreach ($monthlyBudget['months'] as $month=>$budget) {
-            $realizedSales = $monthlySales[$month];
+            $monthNumber = $this->utils->getMonthNumber($month);
+            $realizedSales = $monthlySales[$monthNumber];
 
             /*
              * Calcul
              */
             $progressPercent = round(($realizedSales / $budget) * 100, 1, PHP_ROUND_HALF_DOWN) ;
 
-            if ($progressPercent <= 50) {
+            if ($progressPercent <= 75) {
                 $progressColor = 'danger';
                 $progressPercentColor = 'red';
-            } elseif ($progressPercent <= 75) {
+            } elseif ($progressPercent <= 95) {
                 $progressColor = 'yellow';
                 $progressPercentColor = 'yellow';
-            } elseif ($progressPercent <= 99.99) {
-                $progressColor = 'primary';
-                $progressPercentColor = 'blue';
-            } else {
+            } elseif ($progressPercent <= 100) {
                 $progressColor = 'success';
                 $progressPercentColor = 'green';
+            } else {
+                $progressColor = 'primary';
+                $progressPercentColor = 'blue';
             }
 
             $monthlyBudgetComparison['id'] = $monthlyBudget['id'];
             $monthlyBudgetComparison['months'][$month] = [
-                'budget' => $budget,
+                'budgeted' => $budget,
                 'realized' => $realizedSales,
-                'progress' => $progressColor,
+                'progress_color' => $progressColor,
                 'percent' => $progressPercent,
                 'percent_color' => $progressPercentColor
             ];

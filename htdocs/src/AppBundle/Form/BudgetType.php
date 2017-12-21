@@ -8,15 +8,17 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class BudgetEditionForm extends AbstractType
+class BudgetType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
             ->add('restaurant', null, [
+                'label' => 'budget.restaurant',
                 'disabled' => true
             ])
             ->add('year', null, [
+                'label' => 'budget.year',
                 'disabled' => true
             ])
             ->add('jan', IntegerType::class, [

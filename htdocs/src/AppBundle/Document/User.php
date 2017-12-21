@@ -18,11 +18,15 @@ use Doctrine\Bundle\MongoDBBundle\Validator\Constraints\Unique;
  * Class User
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\UserRepository")
+ * @ODM\HasLifecycleCallbacks()
  * @Unique("username")
  * @Unique("email")
  */
 class User implements UserInterface
 {
+    use ExtendedProperties\CreatedAtTrait;
+    use ExtendedProperties\UpdatedAtTrait;
+
     public static $ROLES = [
         'ROLE_USERS-text' => 'ROLE_USERS',
         'ROLE_SUPERVISOR-text' => 'ROLE_SUPERVISOR',

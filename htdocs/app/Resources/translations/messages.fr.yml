@@ -14,6 +14,7 @@ menu.administrator: Administration
 menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
 menu.restaurants: Restaurants
+menu.restaurant.view: 'Aperçu'
 menu.restaurant.budget: 'Budgets'
 menu.restaurant.daily_sales: 'Ventes journalières'
 menu.restaurant.track_sales: 'Suivi des ventes'
@@ -125,6 +126,24 @@ restaurant.budget.new.page_title: 'Nouveau'
 restaurant.budget.new.success: 'Votre nouveau budget a été créé avec succès'
 restaurant.budget.edit.create_button: 'Modifier le budget'
 restaurant.budget.edit.page_title: 'Modifier'
+budget.restaurant: 'Restaurant'
+budget.year: 'Année'
+restaurant.budget.update.success: 'Votre budget a été modifié avec succès'
+
+
+### DAILY SALE
+dailysale.restaurant: 'Restaurant'
+dailysale.year: 'Année'
+dailysale.month: 'Mois'
+dailysale.day: 'Jour'
+dailysale.budgetAmount: 'Budget prévu'
+dailysale.totalSaleAmount: 'Ventes totales réalisées'
+dailysale.foodSaleAmount: 'Ventes alimentaires réalisées'
+restaurant.daily_sales.update.success: 'Ventes journalières modifiées avec succès'
+restaurant.daily_sales.edit.create_button: 'Enregistrer mes ventes journalières'
+
+### MONTHLY SALES
+monthlySales.dailySales: 'Mes ventes du mois'
 
 
 

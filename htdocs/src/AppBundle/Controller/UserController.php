@@ -3,8 +3,8 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Document\User;
-use AppBundle\Form\UserCreationForm;
-use AppBundle\Form\UserEditionForm;
+use AppBundle\Form\UserCreationType;
+use AppBundle\Form\UserEditionType;
 use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -27,10 +27,10 @@ class UserController extends Controller
         if (null === $id) {
             $user = $this->getUser();
         } else {
-            $user = $this->get('doctrine_mongodb')->getManager()->getRepository('AppBundle:User')->find($id);
+            $user = $this->get('doctrine_mongodb')->getManager()->getRepository(User::class)->find($id);
         }
 
-        $form = $this->createForm(UserEditionForm::class, $user);
+        $form = $this->createForm(UserEditionType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -63,7 +63,7 @@ class UserController extends Controller
     public function listAction(Request $request)
     {
         $userList = $this->get('doctrine_mongodb')
-            ->getRepository('AppBundle:User')
+            ->getRepository(User::class)
             ->findAll();
 
         return $this->render('users/list.html.twig', [
@@ -79,7 +79,7 @@ class UserController extends Controller
     {
         $user = new User();
 
-        $form = $this->createForm(UserCreationForm::class, $user);
+        $form = $this->createForm(UserCreationType::class, $user);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -111,7 +111,7 @@ class UserController extends Controller
     public function deleteAction($id)
     {
         $dm = $this->get('doctrine_mongodb')->getManager();
-        $user = $dm->getRepository('AppBundle:User')->find($id);
+        $user = $dm->getRepository(User::class)->find($id);
         $dm->remove($user);
         $dm->flush();
 

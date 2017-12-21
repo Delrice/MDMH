@@ -33,4 +33,15 @@ class Utils
     {
         return $this->months;
     }
+
+    /**
+     * @param $monthShortName
+     * @return array|bool
+     */
+    public function getMonthNumber($monthShortName)
+    {
+        if (in_array($monthShortName, $this->months))
+            return array_search($monthShortName, $this->months);
+        return false;
+    }
 }

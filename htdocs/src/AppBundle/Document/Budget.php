@@ -15,9 +15,13 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * Class Budget
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\BudgetRepository")
+ * @ODM\HasLifecycleCallbacks()
  */
 class Budget
 {
+    use ExtendedProperties\CreatedAtTrait;
+    use ExtendedProperties\UpdatedAtTrait;
+
     /**
      * @ODM\Id
      */

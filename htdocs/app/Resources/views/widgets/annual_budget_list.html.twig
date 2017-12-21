@@ -32,11 +32,11 @@
                                             <tr>
                                                 <td>{{ loop.index }}</td>
                                                 <td>{{ ('month-' ~ month)|trans }}</td>
-                                                <td>{{ datas.budget|number_format(0, ' ', ' ') }} &euro;</td>
-                                                <td>{{ datas.realized|number_format(0, ' ', ' ') }} &euro;</td>
+                                                <td>{{ datas.budgeted|number_format(0, ' ', ' ') }} &euro;</td>
+                                                <td class="{{ 'text-' ~ datas.percent_color }}"><b>{{ datas.realized|number_format(0, ' ', ' ') }} &euro;</b></td>
                                                 <td>
                                                     <div class="progress progress-xs">
-                                                        <div class="progress-bar progress-bar-{{ datas.progress }}" style="width: {{ datas.percent }}%"></div>
+                                                        <div class="progress-bar progress-bar-{{ datas.progress_color }}" style="width: {{ datas.percent }}%"></div>
                                                     </div>
                                                 </td>
                                                 <td class="text-right">

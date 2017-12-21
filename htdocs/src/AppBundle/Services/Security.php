@@ -2,6 +2,7 @@
 
 namespace AppBundle\Services;
 
+use AppBundle\Document\Restaurant;
 use AppBundle\Document\User;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Criteria;
@@ -49,7 +50,7 @@ class Security
             return new ArrayCollection();
 
         if ($this->checker->isGranted('ROLE_SUPERVISOR') || !$user instanceof User) {
-            $collection = new ArrayCollection($this->dm->getRepository('AppBundle:Restaurant')->findAll());
+            $collection = new ArrayCollection($this->dm->getRepository(Restaurant::class)->findAll());
         } else {
             $collection = new ArrayCollection($user->getRestaurants()->toArray());
         }

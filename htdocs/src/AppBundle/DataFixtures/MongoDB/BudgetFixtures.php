@@ -37,6 +37,20 @@ class BudgetFixtures extends Fixture implements FixtureInterface, ContainerAware
                     'oct' => 204850,
                     'nov' => 200000,
                     'dec' => 209000
+                ],
+                '2018' =>[
+                    'jan' => 200860,
+                    'feb' => 193540,
+                    'mar' => 205200,
+                    'apr' => 203850,
+                    'may' => 210800,
+                    'jun' => 197800,
+                    'jul' => 226000,
+                    'aug' => 246050,
+                    'sep' => 220800,
+                    'oct' => 226500,
+                    'nov' => 209100,
+                    'dec' => 209500
                 ]
             ],
             'MH' => [
@@ -53,22 +67,36 @@ class BudgetFixtures extends Fixture implements FixtureInterface, ContainerAware
                     'oct' => 450000,
                     'nov' => 420000,
                     'dec' => 440000
+                ],
+                '2018' =>[
+                    'jan' => 425000,
+                    'feb' => 395000,
+                    'mar' => 437000,
+                    'apr' => 455000,
+                    'may' => 450000,
+                    'jun' => 420000,
+                    'jul' => 505000,
+                    'aug' => 575000,
+                    'sep' => 445000,
+                    'oct' => 485000,
+                    'nov' => 438000,
+                    'dec' => 450000
                 ]
             ],
             'DR' => [
                 '2016' =>[
-                    'jan' => 330100,
-                    'feb' => 316300,
-                    'mar' => 339400,
-                    'apr' => 347700,
-                    'may' => 360700,
-                    'jun' => 332600,
-                    'jul' => 383100,
-                    'aug' => 413600,
-                    'sep' => 341300,
-                    'oct' => 367900,
-                    'nov' => 334800,
-                    'dec' => 355700
+                    'jan' => 334000,
+                    'feb' => 315950,
+                    'mar' => 344150,
+                    'apr' => 351850,
+                    'may' => 351550,
+                    'jun' => 334050,
+                    'jul' => 396750,
+                    'aug' => 422450,
+                    'sep' => 342450,
+                    'oct' => 389450,
+                    'nov' => 345550,
+                    'dec' => 351800
                 ],
                 '2017' =>[
                     'jan' => 332100,
@@ -83,6 +111,20 @@ class BudgetFixtures extends Fixture implements FixtureInterface, ContainerAware
                     'oct' => 369900,
                     'nov' => 336800,
                     'dec' => 357700
+                ],
+                '2018' =>[
+                    'jan' => 346100,
+                    'feb' => 321600,
+                    'mar' => 358500,
+                    'apr' => 376800,
+                    'may' => 372600,
+                    'jun' => 364700,
+                    'jul' => 406100,
+                    'aug' => 449500,
+                    'sep' => 366200,
+                    'oct' => 392100,
+                    'nov' => 342600,
+                    'dec' => 374800
                 ]
             ]
         ];
