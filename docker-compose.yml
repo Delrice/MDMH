@@ -3,7 +3,7 @@
 version: '2'
 
 volumes:
-    mdmh-code-native-osx-sync:
+    hmd-code-native-osx-sync:
         external: true
 
 services:
@@ -20,7 +20,6 @@ services:
         volumes:
             - ./docker/apache/httpd.conf:/usr/local/apache2/conf/httpd.conf
             - ./docker/apache/vhosts/:/usr/local/apache2/conf/vhosts
-            #- ./docker/logs/httpd:/usr/local/apache2/logs
         volumes_from:
             - php
         working_dir: /usr/local/apache2/htdocs
@@ -35,8 +34,7 @@ services:
         expose:
             - 9000
         volumes:
-            - mdmh-code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
-            #- ./docker/logs/symfony:/usr/local/apache2/htdocs/var/logs
+            - hmd-code-native-osx-sync:/usr/local/apache2/htdocs:nocopy
         working_dir: /usr/local/apache2/htdocs
         links:
             - mongo:mongo

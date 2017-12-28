@@ -16,7 +16,7 @@ class MonthlySalesType extends AbstractType
             ->add('dailySales', CollectionType::class, [
                 'entry_type' => DailySaleType::class,
                 'entry_options' => ['label' => false],
-                'label' => 'monthlySales.dailySales'
+                'label' => false
             ])
         ;
     }

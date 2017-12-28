@@ -84,20 +84,6 @@ class BudgetFixtures extends Fixture implements FixtureInterface, ContainerAware
                 ]
             ],
             'DR' => [
-                '2016' =>[
-                    'jan' => 334000,
-                    'feb' => 315950,
-                    'mar' => 344150,
-                    'apr' => 351850,
-                    'may' => 351550,
-                    'jun' => 334050,
-                    'jul' => 396750,
-                    'aug' => 422450,
-                    'sep' => 342450,
-                    'oct' => 389450,
-                    'nov' => 345550,
-                    'dec' => 351800
-                ],
                 '2017' =>[
                     'jan' => 332100,
                     'feb' => 318300,

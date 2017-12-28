@@ -1,6 +1,26 @@
 <div class="box box-info box-body">
     {{ form_start(form, {'attr': {'class': 'form-horizontall'}}) }}
-        {{ form_widget(form, {'attr': {'class': 'blox-body'}}) }}
+        <table class="table">
+            <tr>
+                <th class="align-center" style="width: 100px">{{ 'dailysale.dayname'|trans }}</th>
+                <th style="width: 100px">{{ 'dailysale.date'|trans }}</th>
+                <th style="width: 100px">{{ 'dailysale.ca'|trans }}</th>
+                <th>{{ 'dailysale.budgetAmount'|trans }}</th>
+                <th>{{ 'dailysale.foodSaleAmount'|trans }}</th>
+                <th>{{ 'dailysale.totalSaleAmount'|trans }}</th>
+            </tr>
+
+            {% for dailySale in form.dailySales %}
+                <tr>
+                    <td>{{ ('dayname-' ~ dailySale.dayname.vars.value|lower)|trans }}</td>
+                    <td>{{ dailySale.date.vars.value }}</td>
+                    <td class="align-center">{{ dailySale.precedentCA.vars.value|raw }}</td>
+                    <td>{{ form_widget(dailySale.budgetAmount) }}</td>
+                    <td>{{ form_widget(dailySale.foodSaleAmount) }}</td>
+                    <td>{{ form_widget(dailySale.totalSaleAmount) }}</td>
+                </tr>
+            {% endfor %}
+        </table>
 
         <div class="box-footer">
             <a href="{{ path('restaurant_daily_sales', {'id': restaurant.id}) }}" class="btn btn-default">{{ 'form.cancel'|trans }}</a>

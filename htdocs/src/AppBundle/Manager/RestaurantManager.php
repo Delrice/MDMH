@@ -35,7 +35,6 @@ class RestaurantManager
     public function __construct(BudgetManager $budgetManager, SalesManager $salesManager)
     {
         $this->budgetManager = $budgetManager;
-
         $this->salesManager = $salesManager;
     }
 
@@ -47,7 +46,9 @@ class RestaurantManager
         $this->restaurant = $restaurant;
     }
 
-
+    /**
+     * @return array
+     */
     public function getAllPlannedBudgets()
     {
         if (!empty($this->restaurant->getBudgets())) {

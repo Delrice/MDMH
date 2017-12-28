@@ -66,6 +66,12 @@ class DailySale
      */
     private $timeDivision;
 
+    private $dayname;
+
+    private $date;
+
+    private $precedentCA;
+
     public function __construct(Restaurant $restaurant=null)
     {
         $this->restaurant = $restaurant;
@@ -207,4 +213,51 @@ class DailySale
         $this->timeDivision = $timeDivision;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getDayname()
+    {
+        return $this->dayname;
+    }
+
+    /**
+     * @param mixed $dayname
+     */
+    public function setDayname($dayname)
+    {
+        $this->dayname = $dayname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @param mixed $date
+     */
+    public function setDate($date)
+    {
+        $this->date = $date;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPrecedentCA()
+    {
+        return $this->precedentCA;
+    }
+
+    /**
+     * @param mixed $precedentCA
+     */
+    public function setPrecedentCA($precedentCA)
+    {
+        $this->precedentCA = $precedentCA;
+    }
 }

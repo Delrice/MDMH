@@ -66,6 +66,11 @@ class BudgetManager
         return $exportedBudgets;
     }
 
+    /**
+     * @param $monthlyBudget
+     * @param $monthlySales
+     * @return array
+     */
     public function mergeBudgetAndTotalSales($monthlyBudget, $monthlySales)
     {
         $monthlyBudgetComparison = [];
@@ -81,10 +86,11 @@ class BudgetManager
             $monthNumber = $this->utils->getMonthNumber($month);
             $realizedSales = $monthlySales[$monthNumber];
 
-            /*
-             * Calcul
-             */
-            $progressPercent = round(($realizedSales / $budget) * 100, 1, PHP_ROUND_HALF_DOWN) ;
+            if ($budget) {
+                $progressPercent = round(($realizedSales / $budget) * 100, 1, PHP_ROUND_HALF_DOWN) ;
+            } else {
+                $progressPercent = 0;
+            }
 
             if ($progressPercent <= 75) {
                 $progressColor = 'danger';

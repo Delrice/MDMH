@@ -67,14 +67,7 @@ class UserFixtures extends Fixture implements FixtureInterface, ContainerAwareIn
                 'email' => 'sebastien@hmd.fr',
                 'role' => 'ROLE_USERS',
                 'restaurants' => ['MH']
-            ],[
-                'username' => 'multirestaus',
-                'password' => 'multirestaus',
-                'email' => 'multirestaus@hmd.fr',
-                'role' => 'ROLE_USERS',
-                'restaurants' => ['CV', 'MH', 'DR']
-            ],
-
+            ]
         ];
 
         foreach($userListToCreate as $userDatas) {

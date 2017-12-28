@@ -3,7 +3,7 @@ version: "2"
 options:
   verbose: false
 syncs:
-  mdmh-code-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
+  hmd-code-native-osx-sync: # tip: add -sync and you keep consistent names as a convention
     src: './htdocs'
     sync_excludes: ['./var/', './htdocs/var/', 'var/', 'htdocs/var/']
 

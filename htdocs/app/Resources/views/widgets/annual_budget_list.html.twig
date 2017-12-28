@@ -9,7 +9,7 @@
                 <div class="nav-tabs-custom">
                     <ul class="nav nav-tabs">
                         {% for year, budget in annualBudgets %}
-                            <li{% if year == currentYear or (year < currentYear and loop.last) %} class="active"{% endif %}>
+                            <li{% if loop.last %} class="active"{% endif %}>
                                 <a href="#{{ year }}" data-toggle="tab" aria-expanded="true">{{ year }}</a>
                             </li>
                         {% endfor %}
@@ -17,7 +17,7 @@
 
                     <div class="tab-content">
                         {% for year, budget in annualBudgets%}
-                            <div class="tab-pane{% if year == currentYear or (year < currentYear and loop.last) %} active{% endif %}" id="{{ year }}">
+                            <div class="tab-pane{% if loop.last %} active{% endif %}" id="{{ year }}">
                                 <table class="table table-bordered text-center" style="width: 100%">
                                     <tbody>
                                         <tr>
@@ -45,7 +45,7 @@
                                             </tr>
                                         {% endfor %}
                                     </tbody>
-                                    {% if year > currentYear and showEdit|default(false) %}
+                                    {#{% if year > currentYear and showEdit|default(false) %}#}
                                     <tfoot>
                                         <tr>
                                             <td colspan="6">
@@ -53,7 +53,7 @@
                                             </td>
                                         </tr>
                                     </tfoot>
-                                    {% endif %}
+                                    {#{% endif %}#}
                                 </table>
                             </div>
                         {% endfor %}
