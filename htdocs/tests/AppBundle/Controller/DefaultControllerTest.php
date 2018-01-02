@@ -41,9 +41,9 @@ class DefaultControllerTest extends WebTestCase
         $this->client->followRedirects(true);
 
         $crawler = $this->client->request('GET', '/');
-        $this->assertContains('user.login.title', $crawler->filter('body form h2')->text());
-        $this->assertContains('user.login.username', $crawler->filter('body form label[for="login"]')->text());
-        $this->assertContains('user.login.password', $crawler->filter('body form label[for="password"]')->text());
+        $this->assertContains('user.login.title', $crawler->filter('body p')->text());
+        $this->assertContains('user.login.username', $crawler->filter('body form input[name="login"]')->attr('placeholder'));
+        $this->assertContains('user.login.password', $crawler->filter('body form input[name="password"]')->attr('placeholder'));
     }
 
 }

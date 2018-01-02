@@ -43,7 +43,7 @@ before_script:
 
 script:
     - vendor/bin/behat --no-snippets --verbose
-#    - bin/phpunit.phar
+    - bin/phpunit.phar
 #    - vendor/bin/phpspec run -fpretty
 
 after_failure:
