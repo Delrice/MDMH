@@ -1,27 +1,22 @@
 <?php
 
+use AppBundle\Document\Budget;
+use AppBundle\Document\DailySale;
 use AppBundle\Document\Restaurant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\FixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class RestaurantFixtures extends Fixture implements FixtureInterface
+class DailySalesFixtures extends Fixture implements FixtureInterface
 {
     public function load(ObjectManager $manager)
     {
         $restaurantListToCreate = [
             [
-                'name' => 'Centre ville',
-                'identifier' => 'CV'
-            ],[
-                'name' => 'Mas d\'Hours',
-                'identifier' => 'MH'
-            ],[
-                'name' => 'Alès Nord',
-                'identifier' => 'DR'
-            ],
-
+                'name' => 'Daily Sales Restaurant',
+                'identifier' => 'DSR'
+            ]
         ];
 
         foreach($restaurantListToCreate as $restaurantDatas) {
@@ -34,5 +29,7 @@ class RestaurantFixtures extends Fixture implements FixtureInterface
             $this->setReference($restaurantDatas['identifier'], $restaurant);
         }
         $manager->flush();
+
+
     }
 }

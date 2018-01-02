@@ -31,9 +31,25 @@ class FeatureContext extends RawMinkContext implements Context
     /**
      * @BeforeScenario @fixtures-users
      */
-    public function loadFixtures()
+    public function usersFixtures()
     {
         $this->loadFixture('UserFixtures');
+    }
+
+    /**
+     * @BeforeScenario @fixtures-restaurants
+     */
+    public function restaurantsFixtures()
+    {
+        $this->loadFixture('RestaurantFixtures');
+    }
+
+    /**
+     * @BeforeScenario @fixtures-dailysales
+     */
+    public function dailySalesFixtures()
+    {
+        $this->loadFixture('DailySalesFixtures');
     }
 
     /**************************************************/
@@ -156,10 +172,13 @@ class FeatureContext extends RawMinkContext implements Context
         return $this->getContainer()->get('doctrine.odm.mongodb.document_manager');
     }
 
-    public function loadFixture($filename)
+    public function loadFixture($filename=null)
     {
         $loader = new ContainerAwareLoader($this->getContainer());
-        $loader->loadFromDirectory(__DIR__."/../DataFixtures/MongoDB");
+        if (null == $filename)
+            $loader->loadFromDirectory(__DIR__."/../DataFixtures/MongoDB");
+        else
+            $loader->loadFromFile(__DIR__."/../DataFixtures/MongoDB/$filename.php");
         $executor = new MongoDBExecutor($this->getDocumentManager());
         $executor->execute($loader->getFixtures(), true);
     }
