@@ -9,6 +9,8 @@
 namespace AppBundle\Services;
 
 
+use Symfony\Component\PropertyAccess\Exception\RuntimeException;
+
 class Utils
 {
     private $months = [
@@ -43,5 +45,46 @@ class Utils
         if (in_array($monthShortName, $this->months))
             return array_search($monthShortName, $this->months);
         return false;
+    }
+
+    public function getMonthShortName($monthNumber)
+    {
+        if (empty($this->months[(int)$monthNumber]))
+            throw new RuntimeException('No month available at position '.$monthNumber);
+        return $this->months[(int)$monthNumber];
+    }
+
+    /**
+     * @param integer $prevision
+     * @param integer $realized
+     * @return array
+     */
+    public function calculateAndColorizePercentProgression($prevision, $realized)
+    {
+        if ($prevision) {
+            $progressPercent = round(($realized / $prevision) * 100, 1, PHP_ROUND_HALF_DOWN);
+        } else {
+            $progressPercent = 0;
+        }
+
+        if ($progressPercent <= 75) {
+            $progressColor = 'danger';
+            $progressPercentColor = 'red';
+        } elseif ($progressPercent <= 95) {
+            $progressColor = 'yellow';
+            $progressPercentColor = 'yellow';
+        } elseif ($progressPercent <= 100) {
+            $progressColor = 'success';
+            $progressPercentColor = 'green';
+        } else {
+            $progressColor = 'primary';
+            $progressPercentColor = 'blue';
+        }
+
+        return [
+            $progressPercent,
+            $progressColor,
+            $progressPercentColor
+        ];
     }
 }

@@ -16,8 +16,8 @@ Feature: Restaurant administration
   Scenario: Create new restaurant
     When I follow "menu.administrator.restaurants"
     And I follow "restaurants.create_new"
-    And I fill in "restaurant_creation_form[name]" with "addnewrestaurant"
-    And I fill in "restaurant_creation_form[identifier]" with "FAKEIDENTIFIER"
+    And I fill in "restaurant[name]" with "addnewrestaurant"
+    And I fill in "restaurant[identifier]" with "FAKEIDENTIFIER"
     And I press "restaurant.new.create_button"
     Then I should see "restaurant.new.success"
     And I should see "addnewrestaurant"
@@ -27,7 +27,7 @@ Feature: Restaurant administration
     Given There is 1 restaurant in database
     When I follow "menu.administrator.restaurants"
     And I follow "edit-restaurant-FAKEIDENTIFIER"
-    And I fill in "restaurant_edition_form[name]" with "iamupdated"
+    And I fill in "restaurant[name]" with "iamupdated"
     And I press "restaurant.edit.create_button"
     Then I should see "restaurant.update.success"
     And I should see "iamupdated"

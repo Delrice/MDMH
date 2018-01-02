@@ -1,0 +1,15 @@
+{% if navigation %}
+    <div>
+        <ul class="pagination">
+            <li>
+                <a href="{{ navigation.prev.href }}">&laquo;&nbsp;{{ navigation.prev.title }}</a>
+            </li>
+            <li class="active">
+                <a href="{{ navigation.current.href }}">{{ navigation.current.title }}</a>
+            </li>
+            <li>
+                <a href="{{ navigation.next.href }}">{{ navigation.next.title }}&nbsp;&raquo;</a>
+            </li>
+        </ul>
+    </div>
+{% endif %}

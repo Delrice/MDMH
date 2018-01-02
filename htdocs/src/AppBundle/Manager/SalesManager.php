@@ -62,12 +62,6 @@ class SalesManager
      */
     public function prepareMonth(Restaurant $restaurant, $year=null, $month=null)
     {
-        if (null === $year)
-            $year = strftime('%Y', time());
-
-        if (null === $month)
-            $month = strftime('%m', time());
-
         $monthlySales = new MonthlySales($restaurant, $year, $month);
 
         $searchOptions = [

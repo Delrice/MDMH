@@ -74,6 +74,7 @@ class BudgetManager
     public function mergeBudgetAndTotalSales($monthlyBudget, $monthlySales)
     {
         $monthlyBudgetComparison = [];
+        $monthlyBudgetComparison['id'] = $monthlyBudget['id'];
 
         /*
          * Examples
@@ -82,31 +83,15 @@ class BudgetManager
          * 76 - 90 => primary, blue
          * 91 - 100 => success, green
          */
+        $totalBudget = $totalRealized = 0;
         foreach ($monthlyBudget['months'] as $month=>$budget) {
             $monthNumber = $this->utils->getMonthNumber($month);
             $realizedSales = $monthlySales[$monthNumber];
 
-            if ($budget) {
-                $progressPercent = round(($realizedSales / $budget) * 100, 1, PHP_ROUND_HALF_DOWN) ;
-            } else {
-                $progressPercent = 0;
-            }
+            $totalBudget += $budget;
+            $totalRealized += $realizedSales;
 
-            if ($progressPercent <= 75) {
-                $progressColor = 'danger';
-                $progressPercentColor = 'red';
-            } elseif ($progressPercent <= 95) {
-                $progressColor = 'yellow';
-                $progressPercentColor = 'yellow';
-            } elseif ($progressPercent <= 100) {
-                $progressColor = 'success';
-                $progressPercentColor = 'green';
-            } else {
-                $progressColor = 'primary';
-                $progressPercentColor = 'blue';
-            }
-
-            $monthlyBudgetComparison['id'] = $monthlyBudget['id'];
+            list($progressPercent, $progressColor, $progressPercentColor) = $this->utils->calculateAndColorizePercentProgression($budget, $realizedSales);
             $monthlyBudgetComparison['months'][$month] = [
                 'budgeted' => $budget,
                 'realized' => $realizedSales,
@@ -115,6 +100,13 @@ class BudgetManager
                 'percent_color' => $progressPercentColor
             ];
         }
+        $monthlyBudgetComparison['total_budget'] = $totalBudget;
+        $monthlyBudgetComparison['total_realized'] = $totalRealized;
+
+        list($progressPercent, $progressColor, $progressPercentColor) = $this->utils->calculateAndColorizePercentProgression($totalBudget, $totalRealized);
+        $monthlyBudgetComparison['total_progress'] = $progressPercent;
+        $monthlyBudgetComparison['total_percent_color'] = $progressPercentColor;
+        $monthlyBudgetComparison['total_progress_color'] = $progressColor;
 
         return $monthlyBudgetComparison;
     }

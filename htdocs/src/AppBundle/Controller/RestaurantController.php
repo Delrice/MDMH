@@ -10,12 +10,16 @@ use AppBundle\Manager\RestaurantManager;
 use AppBundle\Manager\SalesManager;
 use AppBundle\Model\MonthlySales;
 use AppBundle\Services\Security;
+use AppBundle\Services\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\TranslatorInterface;
 
 /**
  * Class RestaurantController
@@ -164,7 +168,7 @@ class RestaurantController extends Controller
     /**
      * @Route("/sales/{id}/{year}/{month}", name="restaurant_daily_sales", defaults={"year"=null, "month"=null})
      */
-    public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager)
+    public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, TranslatorInterface $translator, Utils $utils)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -175,6 +179,12 @@ class RestaurantController extends Controller
          * @var Restaurant $restaurant
          */
         $restaurant = $dm->getRepository(Restaurant::class)->find($id);
+
+        if (null === $year)
+            $year = strftime('%Y', time());
+
+        if (null === $month)
+            $month = strftime('%m', time());
 
         $monthlySales = $salesManager->prepareMonth($restaurant, $year, $month);
         $form = $this->createForm(MonthlySalesType::class, $monthlySales);
@@ -195,6 +205,34 @@ class RestaurantController extends Controller
             return $this->redirectToRoute('restaurant_daily_sales', ['id' => $id, 'year' => $year, 'month' => $month]);
         }
 
+        $actualDateTime = \DateTime::createFromFormat('d/m/Y', '1/'.$month.'/'.$year);
+        $actualDateTime->sub(new \DateInterval('P1M'));
+        $prevMonth = $actualDateTime->format('m');
+        $prevYear = $actualDateTime->format('Y');
+        $navigationItemPrev = [
+            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $prevYear, 'month' => $prevMonth]),
+            'title' => $translator->trans('month-'.$utils->getMonthShortName($prevMonth)).' '.$prevYear
+        ];
+
+        $navigationItemCurrent = [
+            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $year, 'month' => $month]),
+            'title' => $translator->trans('month-'.$utils->getMonthShortName($month)).' '.$year
+        ];
+
+        $actualDateTime->add(new \DateInterval('P2M'));
+        $nextMonth = $actualDateTime->format('m');
+        $nextYear = $actualDateTime->format('Y');
+        $navigationItemNext = [
+            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $nextYear, 'month' => $nextMonth]),
+            'title' => $translator->trans('month-'.$utils->getMonthShortName($nextMonth)).' '.$nextYear
+        ];
+
+        $navigation = [
+            'prev' => $navigationItemPrev,
+            'current' => $navigationItemCurrent,
+            'next' => $navigationItemNext
+        ];
+
         return $this->render('restaurants/daily_sales.html.twig', [
             'currentMenuActive' => [
                 'menu.restaurant.'.$id,
@@ -203,6 +241,7 @@ class RestaurantController extends Controller
             'restaurant' => $restaurant,
             'year' => $year,
             'month' => $month,
+            'navigation' => $navigation,
             'form' => $form->createView()
         ]);
     }
@@ -229,10 +268,11 @@ class RestaurantController extends Controller
     }
 
 
-
-
-
-
+    /**
+     * @param $restaurantId
+     * @param Security $securityService
+     * @return bool|RedirectResponse
+     */
     private function checkUserAccess($restaurantId, Security $securityService)
     {
         try{

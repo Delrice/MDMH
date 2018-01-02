@@ -786,6 +786,25 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 15159, 'budget' => 13800],
                         ['sale' => 8592, 'budget' => 7600],
                         ['sale' => 9689, 'budget' => 9000],
+                        ['sale' => 12647, 'budget' => 11600],
+                        ['sale' => 10098, 'budget' => 10000],
+                        ['sale' => 15050, 'budget' => 14700],
+                        ['sale' => 15180, 'budget' => 15000],
+                        ['sale' => 14786, 'budget' => 13500],
+                        ['sale' => 8986, 'budget' => 7600],
+                        ['sale' => 10116, 'budget' => 8900],
+                        ['sale' => 12310, 'budget' => 12000],
+                        ['sale' => 11919, 'budget' => 10700],
+                        ['sale' => 16308, 'budget' => 14800],
+                        ['sale' => 16898, 'budget' => 15400],
+                        ['sale' => 4928, 'budget' => 5600],
+                        ['sale' => 0, 'budget' => 0],
+                        ['sale' => 12859, 'budget' => 12600],
+                        ['sale' => 13332, 'budget' => 12300],
+                        ['sale' => 13735, 'budget' => 12000],
+                        ['sale' => 15441, 'budget' => 14700],
+                        ['sale' => 14380, 'budget' => 15500],
+                        ['sale' => 5757, 'budget' => 5400],
                     ]
                 ]
             ]
@@ -823,5 +842,3 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
 
 
 }
-
-

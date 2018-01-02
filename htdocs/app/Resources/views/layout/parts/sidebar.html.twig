@@ -44,10 +44,10 @@
             <!-- /.sidebar-menu -->
         {% endif %}
 
-        {% if restaurants|default([]) %}
-            <!-- Sidebar Menu -->
-            <ul class="sidebar-menu" data-widget="tree">
-                <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
+        <!-- Sidebar Menu -->
+        <ul class="sidebar-menu" data-widget="tree">
+            <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
+            {% if restaurants|default([]) %}
                 {% for restaurant in restaurants %}
                     <li class="treeview{% if 'menu.restaurant.' ~ restaurant.id in currentMenuActive|default([]) %} menu-open{% endif %}">
                         <a href="{{ path('restaurant_view', {'id': restaurant.id}) }}" title="{{ 'menu.restaurants'|trans }}" id="restaurant-menu-{{ restaurant.identifier }}">
@@ -84,9 +84,9 @@
 
                     </li>
                 {% endfor %}
-            </ul>
-            <!-- /.sidebar-menu -->
-        {% endif %}
+            {% endif %}
+        </ul>
+        <!-- /.sidebar-menu -->
     </section>
     <!-- /.sidebar -->
 </aside>

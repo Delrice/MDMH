@@ -45,15 +45,36 @@
                                             </tr>
                                         {% endfor %}
                                     </tbody>
-                                    {#{% if year > currentYear and showEdit|default(false) %}#}
+
                                     <tfoot>
                                         <tr>
-                                            <td colspan="6">
-                                                <a href="{{ path('restaurant_budget_edit', {'id': budget.id}) }}" class="btn btn-success pull-right">Modifier</a>
+                                            <td colspan="2">
+                                                <b>{{ 'restaurant.budget.total'|trans }}</b>
+                                            </td>
+                                            <td>
+                                                <b>{{ budget.total_budget|number_format(0, ' ', ' ') }} &euro;</b>
+                                            </td>
+                                            <td>
+                                                <b>{{ budget.total_realized|number_format(0, ' ', ' ') }} &euro;</b><br>
+                                                <span class="badge bg-{{ budget.total_progress_color }}">{{ budget.total_progress }}%</span>
+                                            </td>
+                                            <td>
+                                                <div class="progress progress-xs">
+                                                    <div class="progress-bar progress-bar-{{ budget.total_progress_color }}" style="width: {{ budget.total_progress }}%"></div>
+                                                </div>
+                                            </td>
+                                            <td class="text-right">
+                                                <span class="badge bg-{{ budget.total_percent_color }}">{{ budget.total_progress }}%</span>
                                             </td>
                                         </tr>
+                                        {% if showEdit|default(false) %}
+                                            <tr>
+                                                <td colspan="6">
+                                                    <a href="{{ path('restaurant_budget_edit', {'id': budget.id}) }}" class="btn btn-success pull-right">Modifier</a>
+                                                </td>
+                                            </tr>
+                                        {% endif %}
                                     </tfoot>
-                                    {#{% endif %}#}
                                 </table>
                             </div>
                         {% endfor %}

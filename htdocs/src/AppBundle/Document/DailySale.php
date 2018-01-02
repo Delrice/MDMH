@@ -75,6 +75,9 @@ class DailySale
     public function __construct(Restaurant $restaurant=null)
     {
         $this->restaurant = $restaurant;
+        $this->budgetAmount = 0;
+        $this->totalSaleAmount = 0;
+        $this->foodSaleAmount = 0;
     }
 
     /**

@@ -37,5 +37,5 @@
         </div>
     </div>#}
 
-    {{ include('widgets/annual_budget_list.html.twig', {'annualBudgets': annualBudgets|default([]), 'colWidth': 12}) }}
+    {{ include('widgets/annual_budget_list.html.twig', {'annualBudgets': annualBudgets|default([]), 'colWidth': 12, 'showEdit': false}) }}
 {% endblock %}

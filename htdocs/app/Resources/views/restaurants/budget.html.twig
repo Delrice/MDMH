@@ -30,7 +30,7 @@
 
     {% if nextYear not in annualBudgets|keys %}
         {% set budgetListColWidth = 10 %}
-        <div class="col-md-2">
+        <div class="col-md-2 pull-right">
             <div class="box box-primary">
                 <div class="box-footer with-border text-center">
                     <a href="{{ path('restaurant_budget_new', {'id': restaurant.id, 'year': nextYear}) }}" class="btn btn-success">{{ 'restaurant.create.budget.year'|trans({'%year%': nextYear}) }}</a>
@@ -40,4 +40,6 @@
     {% endif %}
 
     {{ include('widgets/annual_budget_list.html.twig', {'annualBudgets': annualBudgets|default([]), 'colWidth': budgetListColWidth, 'showEdit': true}) }}
+
+
 {% endblock %}
