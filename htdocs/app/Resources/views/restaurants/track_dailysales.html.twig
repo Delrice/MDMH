@@ -1,13 +1,13 @@
 {% extends 'layout/base.html.twig' %}
 
-{% block title %}{{ 'restaurant.daily_sales.page_title'|trans }}{% endblock %}
+{% block title %}{{ 'restaurant.track_dailysales.page_title'|trans }}{% endblock %}
 
 {% block page_header %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
             {{ restaurant.name|upper }}
-            <small>{{ 'header.restaurant.daily_sales.optional'|trans }}</small>
+            <small>{{ 'header.restaurant.track_dailysales.optional'|trans }}</small>
         </h1>
         {{ include('layout/parts/breadcrumb.html.twig',
             {'pages': [
@@ -16,7 +16,7 @@
                     'href': path('restaurant_view', {'id': restaurant.id})
                 },
                 {
-                    'title': 'restaurant.daily_sales.page_title'|trans
+                    'title': 'restaurant.track_dailysales.page_title'|trans
                 }
             ]
             })
@@ -29,7 +29,11 @@
         <div class="row">
             <div class="col-md-12">
                 {{ include('parts/navigator.html.twig', {'navigation': navigation|default([])}) }}
-                {{ include('dailysales/_form.html.twig', {'btn': {'class': 'btn-success', 'name': 'restaurant.daily_sales.edit.create_button'}}) }}
+                {{ include('widgets/track_dailysales.html.twig', {
+                    'elements': elements|default([]),
+                    'cYear': cYear|default('now'|date('Y')),
+                    'pYear' : pYear|default('now'|date('Y') - 1)
+                }) }}
             </div>
         </div>
     </section>

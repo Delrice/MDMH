@@ -17,7 +17,9 @@ class UtilsTest extends TestCase
 
     protected function setUp()
     {
-        $this->utilsService = new Utils();
+        $mockedTranslator = $this->createMock('Symfony\Component\Translation\TranslatorInterface');
+        $mockedUrlGenerator = $this->createMock('Symfony\Component\Routing\Generator\UrlGeneratorInterface');
+        $this->utilsService = new Utils($mockedTranslator, $mockedUrlGenerator);
     }
 
     public function testIfAllTwelveMonthsAreAvailable()
@@ -47,9 +49,9 @@ class UtilsTest extends TestCase
 
     public function percentAndColors()
     {
-        yield [100, 50, [50.0, 'danger', 'red']];
-        yield [100, 80, [80.0, 'yellow', 'yellow']];
-        yield [100, 100, [100.0, 'success', 'green']];
-        yield [100, 110, [110.0, 'primary', 'blue']];
+        yield [100, 50, [50.0, 'danger',  -50.0, 'red']];
+        yield [100, 80, [80.0, 'danger', -20.0, 'red']];
+        yield [100, 100, [100.0, 'success', 0.0, 'green']];
+        yield [100, 110, [110.0, 'success', 10.0, 'green']];
     }
 }

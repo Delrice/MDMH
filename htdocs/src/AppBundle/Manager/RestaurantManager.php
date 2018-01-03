@@ -44,6 +44,7 @@ class RestaurantManager
     public function setRestaurant(Restaurant $restaurant)
     {
         $this->restaurant = $restaurant;
+        $this->salesManager->setRestaurant($restaurant);
     }
 
     /**
@@ -60,7 +61,7 @@ class RestaurantManager
             $requestedYears = array_keys($budgetListArrayed);
             $totalSales = [];
             foreach ($requestedYears as $year) {
-                $totalSales[$year] = $this->salesManager->computeMonthlySalesForYear($year, $this->restaurant);
+                $totalSales[$year] = $this->salesManager->computeMonthlySalesForYear($year);
             }
             // Finally, to be able to create tables and/or a charts for comparing budget planned and realized sales
             // Merge them both

@@ -168,7 +168,7 @@ class RestaurantController extends Controller
     /**
      * @Route("/sales/{id}/{year}/{month}", name="restaurant_daily_sales", defaults={"year"=null, "month"=null})
      */
-    public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, TranslatorInterface $translator, Utils $utils)
+    public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -179,6 +179,7 @@ class RestaurantController extends Controller
          * @var Restaurant $restaurant
          */
         $restaurant = $dm->getRepository(Restaurant::class)->find($id);
+        $salesManager->setRestaurant($restaurant);
 
         if (null === $year)
             $year = strftime('%Y', time());
@@ -186,7 +187,7 @@ class RestaurantController extends Controller
         if (null === $month)
             $month = strftime('%m', time());
 
-        $monthlySales = $salesManager->prepareMonth($restaurant, $year, $month);
+        $monthlySales = $salesManager->prepareMonth($year, $month);
         $form = $this->createForm(MonthlySalesType::class, $monthlySales);
         $form->handleRequest($request);
 
@@ -205,33 +206,7 @@ class RestaurantController extends Controller
             return $this->redirectToRoute('restaurant_daily_sales', ['id' => $id, 'year' => $year, 'month' => $month]);
         }
 
-        $actualDateTime = \DateTime::createFromFormat('d/m/Y', '1/'.$month.'/'.$year);
-        $actualDateTime->sub(new \DateInterval('P1M'));
-        $prevMonth = $actualDateTime->format('m');
-        $prevYear = $actualDateTime->format('Y');
-        $navigationItemPrev = [
-            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $prevYear, 'month' => $prevMonth]),
-            'title' => $translator->trans('month-'.$utils->getMonthShortName($prevMonth)).' '.$prevYear
-        ];
-
-        $navigationItemCurrent = [
-            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $year, 'month' => $month]),
-            'title' => $translator->trans('month-'.$utils->getMonthShortName($month)).' '.$year
-        ];
-
-        $actualDateTime->add(new \DateInterval('P2M'));
-        $nextMonth = $actualDateTime->format('m');
-        $nextYear = $actualDateTime->format('Y');
-        $navigationItemNext = [
-            'href' => $this->generateUrl('restaurant_daily_sales', ['id' => $id, 'year' => $nextYear, 'month' => $nextMonth]),
-            'title' => $translator->trans('month-'.$utils->getMonthShortName($nextMonth)).' '.$nextYear
-        ];
-
-        $navigation = [
-            'prev' => $navigationItemPrev,
-            'current' => $navigationItemCurrent,
-            'next' => $navigationItemNext
-        ];
+        $navigation = $utils->generateMonthNavigation('restaurant_daily_sales', $id, $year, $month);
 
         return $this->render('restaurants/daily_sales.html.twig', [
             'currentMenuActive' => [
@@ -247,23 +222,42 @@ class RestaurantController extends Controller
     }
 
     /**
-     * @Route("/track/{id}", name="restaurant_track_sales")
+     * @Route("/track/{id}", name="restaurant_track")
+     * @Route("/track/daily/{id}/{year}/{month}", name="restaurant_track_dailysales", defaults={"year"=null, "month"=null})
      */
-    public function trackAction($id, Security $securityService)
+    public function trackDailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
             return $checkerResult;
 
         $dm = $this->get('doctrine_mongodb')->getManager();
+        /**
+         * @var Restaurant $restaurant
+         */
         $restaurant = $dm->getRepository(Restaurant::class)->find($id);
+        $salesManager->setRestaurant($restaurant);
 
-        return $this->render('restaurants/track.html.twig', [
+        if (null === $year)
+            $year = strftime('%Y', time());
+
+        if (null === $month)
+            $month = strftime('%m', time());
+
+        $trackingDailySales = $salesManager->trackDailySales($year, $month);
+
+        $navigation = $utils->generateMonthNavigation('restaurant_track_dailysales', $id, $year, $month);
+
+        return $this->render('restaurants/track_dailysales.html.twig', [
             'currentMenuActive' => [
                 'menu.restaurant.'.$id,
-                'menu.restaurant.'.$id.'.track_sales'
+                'menu.restaurant.'.$id.'.track_dailysales'
             ],
-            'restaurant' => $restaurant
+            'restaurant' => $restaurant,
+            'navigation' => $navigation,
+            'elements' => $trackingDailySales,
+            'cYear' => $year,
+            'pYear' => $year - 1
         ]);
     }
 

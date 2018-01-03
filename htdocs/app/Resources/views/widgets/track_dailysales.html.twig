@@ -1,0 +1,46 @@
+<div class="box box-info box-body">
+    <table class="table table-bordered text-center">
+        <tr>
+            <th>{{ 'track.dailysales.dayname'|trans }}</th>
+            <th>{{ 'track.dailysales.date'|trans }}</th>
+            <th>{{ 'track.dailysales.precedent_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th>{{ 'track.dailysales.current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th>{{ 'track.dailysales.ratio_cbudget_psales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th>{{ 'track.dailysales.current_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th>{{ 'track.dailysales.ratio_csales_cbudget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th>{{ 'track.dailysales.ratio_csales_psales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+        </tr>
+
+        {% for element in elements.items %}
+            <tr>
+                <td>{{ element.dayname|trans }}</td>
+                <td>{{ element.date }}</td>
+                <td>{{ element.precedent_sales|raw }}</td>
+                <td>{{ element.current_budget|number_format(0, '.', ' ') }} &euro;</td>
+                <td{# class="text-{{ element.ratio_cbudget_psales > 0 ? 'green': 'red' }}"#}>{{ element.ratio_cbudget_psales }}%</td>
+                <td{{ element.current_sales > element.current_budget ? ' class="bg-success"' }}>{{ element.current_sales|number_format(0, '.', ' ') }} &euro;</td>
+                <td{# class="text-{{ element.ratio_csales_cbudget > 0 ? 'green': 'red' }}"#}>{{ element.ratio_csales_cbudget }}%</td>
+                <td{# class="text-{{ element.ratio_csales_psales > 0 ? 'green': 'red' }}"#}>{{ element.ratio_csales_psales }}%</td>
+            </tr>
+        {% endfor %}
+    </table>
+
+    <div class="box-footer">
+        <table class="table table-bordered">
+            <tr>
+                <th>{{ 'track.dailysales.total_precedent_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+                <th>{{ 'track.dailysales.total_current_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+                <th>{{ 'track.dailysales.total_daily_current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+                <th>{{ 'track.dailysales.total_current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+                <th>{{ 'track.dailysales.total_year_to_date'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            </tr>
+            <tr>
+                <td>{{ elements.total.precedentCA|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ elements.total.currentCA|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ elements.total.cumul_daily_budget|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ elements.total.budget|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ elements.total.futureCA|number_format(0, '.', ' ') }} &euro;</td>
+            </tr>
+        </table>
+    </div>
+</div>

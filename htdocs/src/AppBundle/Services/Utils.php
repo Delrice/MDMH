@@ -10,9 +10,15 @@ namespace AppBundle\Services;
 
 
 use Symfony\Component\PropertyAccess\Exception\RuntimeException;
+use Symfony\Component\Routing\Generator\UrlGenerator;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
+use Symfony\Component\Translation\TranslatorInterface;
 
 class Utils
 {
+    private $translator;
+    private $urlGenerator;
+
     private $months = [
         1 => 'jan',
         2 => 'feb',
@@ -27,6 +33,12 @@ class Utils
         11 => 'nov',
         12 => 'dec',
     ];
+
+    public function __construct(TranslatorInterface $translator, UrlGeneratorInterface $urlGenerator)
+    {
+        $this->translator = $translator;
+        $this->urlGenerator = $urlGenerator;
+    }
 
     /**
      * @return array
@@ -61,30 +73,60 @@ class Utils
      */
     public function calculateAndColorizePercentProgression($prevision, $realized)
     {
+        $progressBarPercentage = 0; // progress bar
+        $progressBarColor = 'danger'; // progress bar
+
+        $realizedPercentage = 0;
+        $realizedColor = 'red';
+
         if ($prevision) {
-            $progressPercent = round(($realized / $prevision) * 100, 1, PHP_ROUND_HALF_DOWN);
-        } else {
-            $progressPercent = 0;
+            $progressBarPercentage = round(($realized / $prevision) * 100, 1, PHP_ROUND_HALF_DOWN);
         }
 
-        if ($progressPercent <= 75) {
-            $progressColor = 'danger';
-            $progressPercentColor = 'red';
-        } elseif ($progressPercent <= 95) {
-            $progressColor = 'yellow';
-            $progressPercentColor = 'yellow';
-        } elseif ($progressPercent <= 100) {
-            $progressColor = 'success';
-            $progressPercentColor = 'green';
-        } else {
-            $progressColor = 'primary';
-            $progressPercentColor = 'blue';
+        if ($progressBarPercentage >= 100) {
+            $progressBarColor = 'success';
+            $realizedColor = 'green';
         }
+
+        $realizedPercentage = round($progressBarPercentage - 100, 1);
 
         return [
-            $progressPercent,
-            $progressColor,
-            $progressPercentColor
+            $progressBarPercentage,
+            $progressBarColor,
+            $realizedPercentage,
+            $realizedColor
         ];
+    }
+
+    public function generateMonthNavigation($routeName, $restaurantId, $year, $month)
+    {
+        $actualDateTime = \DateTime::createFromFormat('d/m/Y', '1/'.$month.'/'.$year);
+        $actualDateTime->sub(new \DateInterval('P1M'));
+        $prevMonth = $actualDateTime->format('m');
+        $prevYear = $actualDateTime->format('Y');
+        $navigationItemPrev = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $prevYear, 'month' => $prevMonth]),
+            'title' => $this->translator->trans('month-'.$this->getMonthShortName($prevMonth)).' '.$prevYear
+        ];
+
+        $navigationItemCurrent = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $year, 'month' => $month]),
+            'title' => $this->translator->trans('month-'.$this->getMonthShortName($month)).' '.$year
+        ];
+
+        $actualDateTime->add(new \DateInterval('P2M'));
+        $nextMonth = $actualDateTime->format('m');
+        $nextYear = $actualDateTime->format('Y');
+        $navigationItemNext = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $nextYear, 'month' => $nextMonth]),
+            'title' => $this->translator->trans('month-'.$this->getMonthShortName($nextMonth)).' '.$nextYear
+        ];
+
+        $navigation = [
+            'prev' => $navigationItemPrev,
+            'current' => $navigationItemCurrent,
+            'next' => $navigationItemNext
+        ];
+        return $navigation;
     }
 }

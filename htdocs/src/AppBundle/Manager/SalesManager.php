@@ -8,9 +8,11 @@
 
 namespace AppBundle\Manager;
 
+use AppBundle\Document\Budget;
 use AppBundle\Document\DailySale;
 use AppBundle\Document\Restaurant;
 use AppBundle\Model\MonthlySales;
+use AppBundle\Model\TrackDailySales;
 use AppBundle\Services\Utils;
 use Doctrine\ODM\MongoDB\DocumentManager;
 use \DateTime;
@@ -25,6 +27,10 @@ class SalesManager
      * @var Utils
      */
     private $utils;
+    /**
+     * @var Restaurant
+     */
+    private $restaurant;
 
     /**
      * SalesManager constructor.
@@ -38,14 +44,21 @@ class SalesManager
     }
 
     /**
-     * @param $year
      * @param Restaurant $restaurant
+     */
+    public function setRestaurant(Restaurant $restaurant)
+    {
+        $this->restaurant = $restaurant;
+    }
+
+    /**
+     * @param $year
      * @return array
      */
-    public function computeMonthlySalesForYear($year, Restaurant $restaurant)
+    public function computeMonthlySalesForYear($year)
     {
         $computedMonthlySales = array_combine(array_keys($this->utils->getMonths()), [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]);
-        $monthlySales = $this->dm->getRepository(DailySale::class)->computeMonthlySalesForYear($year, $restaurant);
+        $monthlySales = $this->dm->getRepository(DailySale::class)->computeMonthlySalesForYear($year, $this->restaurant);
         if ($monthlySales->count()) {
             foreach ($monthlySales as $monthlyResult) {
                 $computedMonthlySales[$monthlyResult['_id']['month']] = $monthlyResult['foodSaleTotal'];
@@ -55,17 +68,16 @@ class SalesManager
     }
 
     /**
-     * @param Restaurant $restaurant
-     * @param null $year
-     * @param null $month
+     * @param integer $year
+     * @param integer $month
      * @return MonthlySales
      */
-    public function prepareMonth(Restaurant $restaurant, $year=null, $month=null)
+    public function prepareMonth($year, $month)
     {
-        $monthlySales = new MonthlySales($restaurant, $year, $month);
+        $monthlySales = new MonthlySales($this->restaurant, $year, $month);
 
         $searchOptions = [
-            'restaurant' => $restaurant,
+            'restaurant' => $this->restaurant,
             'year' => $year,
             'month' => $month
         ];
@@ -74,6 +86,7 @@ class SalesManager
 
         /**
          * @var DailySale[] $dailySales
+         * @var DailySale[] $monthlySalesEntries
          */
         $dailySales = $this->dm->getRepository(DailySale::class)->getDailySalesOrderedByDay($searchOptions);
         $monthlySalesEntries = [];
@@ -84,7 +97,7 @@ class SalesManager
         // If needed, add missing DailySale
         for ($i = 1; $i <= $maxDayInMonth; $i++) {
             if (empty($monthlySalesEntries[$i])) {
-                $emptyDailySale = new DailySale($restaurant);
+                $emptyDailySale = new DailySale($this->restaurant);
                 $emptyDailySale->setYear($year);
                 $emptyDailySale->setMonth($month);
                 $emptyDailySale->setDay($i);
@@ -98,7 +111,8 @@ class SalesManager
             $date = $dateTime->format('d/m/Y');
             $monthlySalesEntries[$i]->setDate($date);
             $monthlySalesEntries[$i]->setDayname($dayname);
-            $monthlySalesEntries[$i]->setPrecedentCA($this->getPrecedentCA($year, $month, $i, $restaurant));
+            $lastYearDailySale = $this->getPrecedentCA($year, $month, $i);
+            $monthlySalesEntries[$i]->setPrecedentCA($lastYearDailySale['computed']);
         }
         $monthlySales->setDailySales($monthlySalesEntries);
 
@@ -109,10 +123,9 @@ class SalesManager
      * @param $year
      * @param $month
      * @param $day
-     * @param Restaurant $restaurant
-     * @return int
+     * @return []
      */
-    public function getPrecedentCA($currentYear, $currentMonth, $currentDay, Restaurant $restaurant)
+    public function getPrecedentCA($currentYear, $currentMonth, $currentDay)
     {
         // Here, get the precedent CA for the same day 1 year ago
         $dateTime = DateTime::createFromFormat('Ymd', $currentYear.$currentMonth.$currentDay);
@@ -132,7 +145,7 @@ class SalesManager
                 'year' => (int)$lastYear,
                 'month' => (int)$lastMonth,
                 'day' => (int)$lastDay,
-                'restaurant' => $restaurant
+                'restaurant' => $this->restaurant
             ]);
 
         $precedentCA = 0;
@@ -142,6 +155,83 @@ class SalesManager
         $formatedPrecedentCA = [];
         $formatedPrecedentCA[] = number_format($precedentCA, 0, '.', ' ').' &euro;';
         $formatedPrecedentCA[] = '<i class="small text-danger">'.$lastYearDateTime->format('d/m/Y').'</i>';
-        return implode('<br />', $formatedPrecedentCA);
+        return ['document' => $lastYearDailySale, 'computed' => implode('<br />', $formatedPrecedentCA), 'amount' => $precedentCA];
+    }
+
+    /**
+     * @param $year
+     * @param $month
+     * @return array
+     */
+    public function trackDailySales($year, $month)
+    {
+        $trackingDailySales = [
+            'items' => [],
+            'total' => [
+                'precedentCA' => 0,
+                'currentCA' => 0,
+                'cumul_daily_budget' => 0,
+                'budget' => 0,
+                'futureCA' => 0
+            ]
+        ];
+
+        $searchOptions = [
+            'restaurant' => $this->restaurant,
+            'year' => $year,
+            'month' => $month
+        ];
+        /**
+         * @var DailySale[] $dailySales
+         * @var DailySale[] $monthlySalesEntries
+         */
+        $dailySales = $this->dm->getRepository(DailySale::class)->getDailySalesOrderedByDay($searchOptions);
+        $monthlySalesEntries = [];
+        foreach ($dailySales as $dailySale) {
+            $monthlySalesEntries[$dailySale->getDay()] = $dailySale;
+        }
+
+        $maxDayInMonth = strftime('%d', mktime(0, 0, 0, $month + 1, 0, $year));
+        for ($i = 1; $i <= $maxDayInMonth; $i++) {
+            $trackDailySales = new TrackDailySales($year, $month, $i);
+            $lastYearDailySale = $this->getPrecedentCA($year, $month, $i);
+            $trackDailySales->setPrecedentCA($lastYearDailySale);
+
+            if (!empty($monthlySalesEntries[$i])) {
+                $trackDailySales->setCurrentBudget($monthlySalesEntries[$i]->getBudgetAmount());
+                $trackDailySales->setCurrentSales($monthlySalesEntries[$i]->getFoodSaleAmount());
+
+                $trackingDailySales['total']['cumul_daily_budget'] += $monthlySalesEntries[$i]->getBudgetAmount();
+            }
+
+            $trackingDailySales['items'][] = $trackDailySales->compute();
+
+            if (empty($trackDailySales->getCurrentSales())) {
+                $trackingDailySales['total']['futureCA'] += $trackDailySales->getCurrentBudget();
+            } else {
+                $trackingDailySales['total']['futureCA'] += $trackDailySales->getCurrentSales();
+                $trackingDailySales['total']['currentCA'] += $trackDailySales->getCurrentSales();
+            }
+        }
+
+        $precedentDailySales = $this->dm->getRepository(DailySale::class)->computeMonthlySalesForYear($year - 1, $this->restaurant);
+        if ($precedentDailySales->count()) {
+            foreach ($precedentDailySales as $monthlyResult) {
+                if ($monthlyResult['_id']['month'] == $month)
+                    $trackingDailySales['total']['precedentCA'] = $monthlyResult['foodSaleTotal'];
+            }
+        }
+
+        $restaurantBudget = $this->dm->getRepository(Budget::class)->findOneBy([
+            'restaurant' => $this->restaurant,
+            'year' => $year
+        ]);
+        if ($restaurantBudget) {
+            $annualBudget = $restaurantBudget->toArray();
+            $monthName = strtolower(strftime('%b', mktime(0, 0, 0, $month, 1, $year)));
+            $trackingDailySales['total']['budget'] = $annualBudget[$monthName];
+        }
+
+        return $trackingDailySales;
     }
 }

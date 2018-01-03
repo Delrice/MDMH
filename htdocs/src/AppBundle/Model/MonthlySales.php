@@ -82,7 +82,7 @@ class MonthlySales
     }
 
     /**
-     * @return string
+     * @return string@
      */
     public function getMonth()
     {

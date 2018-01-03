@@ -75,9 +75,9 @@
                                 </a>
                             </li>
 
-                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_sales' in currentMenuActive|default([]) %} class="active"{% endif %}>
-                                <a href="{{ path('restaurant_track_sales', {'id': restaurant.id}) }}" id="restaurant-track-{{ restaurant.identifier }}">
-                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_sales'|trans }}</span>
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_dailysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                                <a href="{{ path('restaurant_track_dailysales', {'id': restaurant.id}) }}" id="restaurant-track-dailysales-{{ restaurant.identifier }}">
+                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_dailysales'|trans }}</span>
                                 </a>
                             </li>
                         </ul>

@@ -91,22 +91,24 @@ class BudgetManager
             $totalBudget += $budget;
             $totalRealized += $realizedSales;
 
-            list($progressPercent, $progressColor, $progressPercentColor) = $this->utils->calculateAndColorizePercentProgression($budget, $realizedSales);
+            list($progressBarPercentage, $progressBarColor, $realizedPercentage, $realizedColor) = $this->utils->calculateAndColorizePercentProgression($budget, $realizedSales);
             $monthlyBudgetComparison['months'][$month] = [
                 'budgeted' => $budget,
                 'realized' => $realizedSales,
-                'progress_color' => $progressColor,
-                'percent' => $progressPercent,
-                'percent_color' => $progressPercentColor
+                'progressbar_percentage' => $progressBarPercentage,
+                'progressbar_color' => $progressBarColor,
+                'realized_percentage' => $realizedPercentage,
+                'realized_color' => $realizedColor
             ];
         }
         $monthlyBudgetComparison['total_budget'] = $totalBudget;
         $monthlyBudgetComparison['total_realized'] = $totalRealized;
 
-        list($progressPercent, $progressColor, $progressPercentColor) = $this->utils->calculateAndColorizePercentProgression($totalBudget, $totalRealized);
-        $monthlyBudgetComparison['total_progress'] = $progressPercent;
-        $monthlyBudgetComparison['total_percent_color'] = $progressPercentColor;
-        $monthlyBudgetComparison['total_progress_color'] = $progressColor;
+        list($progressBarPercentage, $progressBarColor, $realizedPercentage, $realizedColor) = $this->utils->calculateAndColorizePercentProgression($totalBudget, $totalRealized);
+        $monthlyBudgetComparison['total_progressbar_percentage'] = $progressBarPercentage;
+        $monthlyBudgetComparison['total_progressbar_color'] = $progressBarColor;
+        $monthlyBudgetComparison['total_realized_percentage'] = $realizedPercentage;
+        $monthlyBudgetComparison['total_realized_color'] = $realizedColor;
 
         return $monthlyBudgetComparison;
     }

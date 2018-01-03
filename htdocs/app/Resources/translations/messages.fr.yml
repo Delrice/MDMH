@@ -18,6 +18,7 @@ menu.restaurant.view: 'Aperçu'
 menu.restaurant.budget: 'Budgets'
 menu.restaurant.daily_sales: 'Ventes journalières'
 menu.restaurant.track_sales: 'Suivi des ventes'
+menu.restaurant.track_dailysales: 'Suivi des ventes journalières'
 ### COMMON
 month-jan: 'Janvier'
 month-feb: 'Février'
@@ -104,8 +105,8 @@ restaurant.edit.users: 'Directeur(s) rattaché(s) :'
 exception.access.restaurant: 'Vous n''êtes pas autorisé à accéder à cette resource'
 restaurant.daily_sales.page_title: 'Gestion des ventes'
 header.restaurant.daily_sales.optional: 'Gestion des ventes journalières'
-restaurant.track.page_title: 'Suivi des ventes'
-header.restaurant.track.optional: 'Suivi des ventes'
+restaurant.track_dailysales.page_title: 'Ventes journalières'
+header.restaurant.track_dailysales.optional: 'Suivi des ventes journalières'
 restaurant.view.infos: 'Infos'
 restaurant.view.page_title: 'Détails restaurant'
 header.restaurant.view.optional: ''
@@ -156,8 +157,19 @@ dayname-sun: 'dimanche'
 ### MONTHLY SALES
 monthlySales.dailySales: 'Mes ventes du mois'
 
+### TRACK DAILYSALES
+track.dailysales.dayname: 'Jour'
+track.dailysales.date: 'Date'
+track.dailysales.precedent_sales: 'Ventes pYear'
+track.dailysales.current_budget: 'Prev cYear'
+track.dailysales.ratio_cbudget_psales: 'Vs n-1'
+track.dailysales.current_sales: 'Réel cYear'
+track.dailysales.ratio_csales_cbudget: 'Vs Prev'
+track.dailysales.ratio_csales_psales: 'Vs n-1'
 
-
-
-
+track.dailysales.total_precedent_sales: 'Total ventes pYear'
+track.dailysales.total_current_sales: 'Total ventes cYear'
+track.dailysales.total_daily_current_budget: 'Total prévisions journalières'
+track.dailysales.total_current_budget: 'Budget prévu'
+track.dailysales.total_year_to_date: 'Year to date'
 

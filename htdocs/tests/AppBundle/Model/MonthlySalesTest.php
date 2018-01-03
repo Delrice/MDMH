@@ -25,7 +25,7 @@ class MonthlySalesTest extends TestCase
     public function setUp()
     {
         $mockedRestaurant = $this->createMock('AppBundle\Document\Restaurant');
-        $this->monthlySales = new MonthlySales($mockedRestaurant, 2018, 1);
+        $this->monthlySales = new MonthlySales($mockedRestaurant, '2018', '01');
     }
 
     public function testMonthlySalesContruct()
