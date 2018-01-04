@@ -414,6 +414,41 @@ class DailySaleMHFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 19950, 'budget' => 17500],
                         ['sale' => 6200, 'budget' => 7600],
                     ]
+                ],
+                '2018' =>[
+                    '01' => [
+                        ['sale' => 22150, 'budget' => 19000],
+                        ['sale' => 16084, 'budget' => 14500],
+                        ['sale' => 17106, 'budget' => 15000],
+                        ['sale' => 0, 'budget' => 14000],
+                        ['sale' => 0, 'budget' => 18000],
+                        ['sale' => 0, 'budget' => 19000],
+                        ['sale' => 0, 'budget' => 16000],
+                        ['sale' => 0, 'budget' => 9200],
+                        ['sale' => 0, 'budget' => 10200],
+                        ['sale' => 0, 'budget' => 13500],
+                        ['sale' => 0, 'budget' => 10500],
+                        ['sale' => 0, 'budget' => 15500],
+                        ['sale' => 0, 'budget' => 19500],
+                        ['sale' => 0, 'budget' => 15400],
+                        ['sale' => 0, 'budget' => 8600],
+                        ['sale' => 0, 'budget' => 9200],
+                        ['sale' => 0, 'budget' => 12500],
+                        ['sale' => 0, 'budget' => 10800],
+                        ['sale' => 0, 'budget' => 16800],
+                        ['sale' => 0, 'budget' => 20100],
+                        ['sale' => 0, 'budget' => 16000],
+                        ['sale' => 0, 'budget' => 8900],
+                        ['sale' => 0, 'budget' => 9500],
+                        ['sale' => 0, 'budget' => 12400],
+                        ['sale' => 0, 'budget' => 9400],
+                        ['sale' => 0, 'budget' => 15800],
+                        ['sale' => 0, 'budget' => 18500],
+                        ['sale' => 0, 'budget' => 16200],
+                        ['sale' => 0, 'budget' => 8400],
+                        ['sale' => 0, 'budget' => 10100],
+                        ['sale' => 0, 'budget' => 12500],
+                    ]
                 ]
             ]
         ];

@@ -154,7 +154,7 @@ class SalesManager
 
         $formatedPrecedentCA = [];
         $formatedPrecedentCA[] = number_format($precedentCA, 0, '.', ' ').' &euro;';
-        $formatedPrecedentCA[] = '<i class="small text-danger">'.$lastYearDateTime->format('d/m/Y').'</i>';
+        $formatedPrecedentCA[] = '<i class="small text-aqua">'.$lastYearDateTime->format('d/m/Y').'</i>';
         return ['document' => $lastYearDailySale, 'computed' => implode('<br />', $formatedPrecedentCA), 'amount' => $precedentCA];
     }
 
@@ -168,11 +168,12 @@ class SalesManager
         $trackingDailySales = [
             'items' => [],
             'total' => [
-                'precedentCA' => 0,
-                'currentCA' => 0,
-                'cumul_daily_budget' => 0,
-                'budget' => 0,
-                'futureCA' => 0
+                'precedentCA' => ['value' => 0, 'progression' => 0],
+                'precedent2YearsCA' => ['value' => 0, 'progression' => 0],
+                'currentCA' => ['value' => 0, 'progression' => 0],
+                'cumul_daily_budget' => ['value' => 0, 'progression' => 0],
+                'budget' => ['value' => 0, 'progression' => 0],
+                'futureCA' => ['value' => 0, 'progression' => 0]
             ]
         ];
 
@@ -201,25 +202,56 @@ class SalesManager
                 $trackDailySales->setCurrentBudget($monthlySalesEntries[$i]->getBudgetAmount());
                 $trackDailySales->setCurrentSales($monthlySalesEntries[$i]->getFoodSaleAmount());
 
-                $trackingDailySales['total']['cumul_daily_budget'] += $monthlySalesEntries[$i]->getBudgetAmount();
+                $trackingDailySales['total']['cumul_daily_budget']['value'] += $monthlySalesEntries[$i]->getBudgetAmount();
             }
 
             $trackingDailySales['items'][] = $trackDailySales->compute();
 
             if (empty($trackDailySales->getCurrentSales())) {
-                $trackingDailySales['total']['futureCA'] += $trackDailySales->getCurrentBudget();
+                $trackingDailySales['total']['futureCA']['value'] += $trackDailySales->getCurrentBudget();
             } else {
-                $trackingDailySales['total']['futureCA'] += $trackDailySales->getCurrentSales();
-                $trackingDailySales['total']['currentCA'] += $trackDailySales->getCurrentSales();
+                $trackingDailySales['total']['futureCA']['value'] += $trackDailySales->getCurrentSales();
+                $trackingDailySales['total']['currentCA']['value'] += $trackDailySales->getCurrentSales();
             }
         }
 
         $precedentDailySales = $this->dm->getRepository(DailySale::class)->computeMonthlySalesForYear($year - 1, $this->restaurant);
         if ($precedentDailySales->count()) {
             foreach ($precedentDailySales as $monthlyResult) {
-                if ($monthlyResult['_id']['month'] == $month)
-                    $trackingDailySales['total']['precedentCA'] = $monthlyResult['foodSaleTotal'];
+                if ($monthlyResult['_id']['month'] == $month) {
+                    $trackingDailySales['total']['precedentCA']['value'] = $monthlyResult['foodSaleTotal'];
+                    break;
+                }
             }
+        }
+
+        // last 2 years precedent sales
+        $precedentDailySales = $this->dm->getRepository(DailySale::class)->computeMonthlySalesForYear($year - 2, $this->restaurant);
+        if ($precedentDailySales->count()) {
+            foreach ($precedentDailySales as $monthlyResult) {
+                if ($monthlyResult['_id']['month'] == $month) {
+                    $trackingDailySales['total']['precedent2YearsCA']['value'] = $monthlyResult['foodSaleTotal'];
+                    break;
+                }
+            }
+        }
+
+        if ($trackingDailySales['total']['precedentCA']['value']) {
+            $n1 = $trackingDailySales['total']['precedentCA']['value'];
+
+            if ($trackingDailySales['total']['precedent2YearsCA']['value']) {
+                $n2 = $trackingDailySales['total']['precedent2YearsCA']['value'];
+                $trackingDailySales['total']['precedentCA']['progression'] = round((($n1 - $n2) / $n2) * 100, 2);
+            }
+
+            $prevJ = $trackingDailySales['total']['cumul_daily_budget']['value'];
+            $trackingDailySales['total']['cumul_daily_budget']['progression'] = round((($prevJ - $n1) / $n1) * 100, 2);
+
+            $n = $trackingDailySales['total']['currentCA']['value'];
+            $trackingDailySales['total']['currentCA']['progression'] = round((($n - $n1) / $n1) * 100, 2);
+
+            $f = $trackingDailySales['total']['futureCA']['value'];
+            $trackingDailySales['total']['futureCA']['progression'] = round((($f - $n1) / $n1) * 100, 2);
         }
 
         $restaurantBudget = $this->dm->getRepository(Budget::class)->findOneBy([
@@ -229,7 +261,7 @@ class SalesManager
         if ($restaurantBudget) {
             $annualBudget = $restaurantBudget->toArray();
             $monthName = strtolower(strftime('%b', mktime(0, 0, 0, $month, 1, $year)));
-            $trackingDailySales['total']['budget'] = $annualBudget[$monthName];
+            $trackingDailySales['total']['budget']['value'] = $annualBudget[$monthName];
         }
 
         return $trackingDailySales;

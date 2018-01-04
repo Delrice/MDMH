@@ -141,9 +141,9 @@ class RestaurantController extends Controller
     }
 
     /**
-     * @Route("/budgets/{id}", name="restaurant_budgets")
+     * @Route("/budgets/{id}/{year}", name="restaurant_budgets", defaults={"year"=null})
      */
-    public function budgetAction($id, Security $securityService, RestaurantManager $restaurantManager)
+    public function budgetAction($id, $year, Security $securityService, RestaurantManager $restaurantManager)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -155,13 +155,17 @@ class RestaurantController extends Controller
         $restaurantManager->setRestaurant($restaurant);
         $annualBudgets = $restaurantManager->getAllPlannedBudgets();
 
+        if (null === $year)
+            $year = strftime('%Y', time());
+
         return $this->render('restaurants/budget.html.twig', [
             'currentMenuActive' => [
                 'menu.restaurant.'.$id,
                 'menu.restaurant.'.$id.'.budget'
             ],
             'restaurant' => $restaurant,
-            'annualBudgets' => $annualBudgets
+            'annualBudgets' => $annualBudgets,
+            'year' => $year
         ]);
     }
 

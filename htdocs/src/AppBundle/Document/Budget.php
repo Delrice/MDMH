@@ -16,6 +16,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\BudgetRepository")
  * @ODM\HasLifecycleCallbacks()
+ * @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc"})
  */
 class Budget
 {

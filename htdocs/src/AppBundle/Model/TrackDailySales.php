@@ -13,33 +13,9 @@ use \DateTime;
 class TrackDailySales
 {
     /**
-     * @var string
-     */
-    private $year;
-
-    /**
-     * @var string
-     */
-    private $month;
-
-    /**
-     * @var string
-     */
-    private $day;
-
-    /**
-     * @var string
-     */
-    private $dayname;
-
-    /**
      * @var \DateTime
      */
     private $datetime;
-    /**
-     * @var string
-     */
-    private $date;
 
     /**
      * @var float
@@ -83,9 +59,6 @@ class TrackDailySales
      */
     public function __construct($year, $month, $day)
     {
-        $this->year = $year;
-        $this->month = $month;
-        $this->day = $day;
         $this->datetime = DateTime::createFromFormat('Ymd', $year.$month.$day);
 
         $this->ratio_cbudget_psales = 0.00;

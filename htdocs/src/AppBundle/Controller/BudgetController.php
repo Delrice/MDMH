@@ -41,7 +41,7 @@ class BudgetController extends Controller
 
             $this->addFlash('success', 'restaurant.budget.new.success');
 
-            return $this->redirectToRoute('restaurant_budgets', ['id' => $id]);
+            return $this->redirectToRoute('restaurant_budgets', ['id' => $id, 'year' => $year]);
         }
 
         return $this->render('budgets/create.html.twig', [
@@ -78,7 +78,7 @@ class BudgetController extends Controller
 
             $this->addFlash('success', 'restaurant.budget.update.success');
 
-            return $this->redirectToRoute('restaurant_budgets', ['id' => $budget->getRestaurant()->getid()]);
+            return $this->redirectToRoute('restaurant_budgets', ['id' => $budget->getRestaurant()->getid(), 'year' => $budget->getYear()]);
         }
 
         return $this->render('budgets/edit.html.twig', [

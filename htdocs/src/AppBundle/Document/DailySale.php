@@ -15,6 +15,11 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @package AppBundle\Document
  * @ODM\Document(repositoryClass="AppBundle\Document\Repositories\DailySaleRepository")
  * @ODM\HasLifecycleCallbacks()
+ * @ODM\Indexes({
+ *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc"}),
+ *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc"}),
+ *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc", "day"="asc"}),
+ * })
  */
 class DailySale
 {
