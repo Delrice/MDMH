@@ -28,13 +28,17 @@ class DailySaleRepository extends DocumentRepository
                 ->field('year')->equals((int)$year)
             ->group()
                 ->field('id')->expression(['month' => '$month'])
-                ->field('count')->sum(1)
                 ->field('foodSaleTotal')->sum('$foodSaleAmount')
         ;
 
         return $builder->execute();
     }
 
+    /**
+     * @param $searchOptions
+     * @return mixed
+     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     */
     public function getDailySalesOrderedByDay($searchOptions)
     {
         $qb = $this->createQueryBuilder();
@@ -55,5 +59,36 @@ class DailySaleRepository extends DocumentRepository
         ]);
 
         return $qb->getQuery()->execute()->toArray();
+    }
+
+    /**
+     * @param $currentYear
+     * @param $currentMonth
+     * @param $currentDay
+     * @param Restaurant $restaurant
+     * @return object
+     */
+    public function findLastYearEntryForSameDayName($currentYear, $currentMonth, $currentDay, Restaurant $restaurant)
+    {
+        // Here, get the precedent CA for the same day 1 year ago
+        $dateTime = \DateTime::createFromFormat('d/m/Y', $currentDay.'/'.$currentMonth.'/'.$currentYear);
+        $dayname = $dateTime->format('D');
+
+        $lastYearDateTime = clone $dateTime;
+        $lastYearDateTime->sub(date_interval_create_from_date_string('1 year'));
+        $lastYearDateTime->modify('next '.$dayname);
+        $lastYearDayname = $lastYearDateTime->format('D');
+
+        $lastYear = $lastYearDateTime->format('Y');
+        $lastMonth = $lastYearDateTime->format('m');
+        $lastDay = $lastYearDateTime->format('d');
+
+        $lastYearDailySale = $this->findOneBy([
+                'year' => (int)$lastYear,
+                'month' => (int)$lastMonth,
+                'day' => (int)$lastDay,
+                'restaurant' => $restaurant
+            ]);
+        return $lastYearDailySale;
     }
 }

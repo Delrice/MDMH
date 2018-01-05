@@ -14,7 +14,7 @@ class DailySaleType extends AbstractType
     {
         $builder
             ->add('dayname', HiddenType::class)
-            ->add('date', HiddenType::class)
+            ->add('dateFormatted', HiddenType::class)
             ->add('precedentCA', HiddenType::class)
             ->add('budgetAmount', null, [
                 'label' => 'dailysale.budgetAmount',

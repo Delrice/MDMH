@@ -101,16 +101,11 @@ class SalesManager
                 $emptyDailySale->setYear($year);
                 $emptyDailySale->setMonth($month);
                 $emptyDailySale->setDay($i);
+                $this->dm->persist($emptyDailySale);
+                $this->dm->flush($emptyDailySale);
                 $monthlySalesEntries[$i] = $emptyDailySale;
                 $emptyDailySale = null;
             }
-
-            // Generate Date and all available datas for the form
-            $dateTime = DateTime::createFromFormat('Ymd', $year.$month.$i);
-            $dayname = $dateTime->format('D');
-            $date = $dateTime->format('d/m/Y');
-            $monthlySalesEntries[$i]->setDate($date);
-            $monthlySalesEntries[$i]->setDayname($dayname);
             $lastYearDailySale = $this->getPrecedentCA($year, $month, $i);
             $monthlySalesEntries[$i]->setPrecedentCA($lastYearDailySale['computed']);
         }
@@ -127,34 +122,16 @@ class SalesManager
      */
     public function getPrecedentCA($currentYear, $currentMonth, $currentDay)
     {
-        // Here, get the precedent CA for the same day 1 year ago
-        $dateTime = DateTime::createFromFormat('Ymd', $currentYear.$currentMonth.$currentDay);
-        $dayname = $dateTime->format('D');
-
-        $lastYearDateTime = clone $dateTime;
-        $lastYearDateTime->sub(date_interval_create_from_date_string('1 year'));
-        $lastYearDateTime->modify('next '.$dayname);
-        $lastYearDayname = $lastYearDateTime->format('D');
-
-        $lastYear = $lastYearDateTime->format('Y');
-        $lastMonth = $lastYearDateTime->format('m');
-        $lastDay = $lastYearDateTime->format('d');
-
         $lastYearDailySale = $this->dm->getRepository(DailySale::class)
-            ->findOneBy([
-                'year' => (int)$lastYear,
-                'month' => (int)$lastMonth,
-                'day' => (int)$lastDay,
-                'restaurant' => $this->restaurant
-            ]);
-
-        $precedentCA = 0;
-        if ($lastYearDailySale)
-            $precedentCA = $lastYearDailySale->getFoodSaleAmount();
+            ->findLastYearEntryForSameDayName((int)$currentYear, (int)$currentMonth, (int)$currentDay, $this->restaurant);
 
         $formatedPrecedentCA = [];
-        $formatedPrecedentCA[] = number_format($precedentCA, 0, '.', ' ').' &euro;';
-        $formatedPrecedentCA[] = '<i class="small text-aqua">'.$lastYearDateTime->format('d/m/Y').'</i>';
+        $precedentCA = 0;
+        if ($lastYearDailySale) {
+            $precedentCA = $lastYearDailySale->getFoodSaleAmount();
+            $formatedPrecedentCA[] = number_format($precedentCA, 0, '.', ' ').' &euro;';
+            $formatedPrecedentCA[] = '<i class="small text-aqua">'.$lastYearDailySale->getDate()->format('d/m/Y').'</i>';
+        }
         return ['document' => $lastYearDailySale, 'computed' => implode('<br />', $formatedPrecedentCA), 'amount' => $precedentCA];
     }
 

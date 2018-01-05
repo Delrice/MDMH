@@ -13,7 +13,7 @@
             {% for dailySale in form.dailySales %}
                 <tr>
                     <td>{{ ('dayname-' ~ dailySale.dayname.vars.value|lower)|trans }}</td>
-                    <td>{{ dailySale.date.vars.value }}</td>
+                    <td>{{ dailySale.dateFormatted.vars.value }}</td>
                     <td class="align-center">{{ dailySale.precedentCA.vars.value|raw }}</td>
                     <td>{{ form_widget(dailySale.budgetAmount) }}</td>
                     <td>{{ form_widget(dailySale.foodSaleAmount) }}</td>

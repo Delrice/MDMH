@@ -17,6 +17,7 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  * @ODM\HasLifecycleCallbacks()
  * @ODM\Indexes({
  *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc"}),
+ *  @ODM\Index(keys={"restaurant.$id"="asc", "week"="asc"}),
  *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc"}),
  *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc", "day"="asc"}),
  * })
@@ -52,6 +53,16 @@ class DailySale
     private $day;
 
     /**
+     * @ODM\Field(type="date")
+     */
+    private $date;
+
+    /**
+     * @ODM\Field(type="integer")
+     */
+    private $week;
+
+    /**
      * @ODM\Field(type="integer")
      */
     private $budgetAmount;
@@ -71,10 +82,9 @@ class DailySale
      */
     private $timeDivision;
 
+    // Only for display
     private $dayname;
-
-    private $date;
-
+    private $dateFormatted;
     private $precedentCA;
 
     public function __construct(Restaurant $restaurant=null)
@@ -226,31 +236,7 @@ class DailySale
      */
     public function getDayname()
     {
-        return $this->dayname;
-    }
-
-    /**
-     * @param mixed $dayname
-     */
-    public function setDayname($dayname)
-    {
-        $this->dayname = $dayname;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getDate()
-    {
-        return $this->date;
-    }
-
-    /**
-     * @param mixed $date
-     */
-    public function setDate($date)
-    {
-        $this->date = $date;
+        return $this->date->format('D');
     }
 
     /**
@@ -268,4 +254,40 @@ class DailySale
     {
         $this->precedentCA = $precedentCA;
     }
+
+    /**
+     * @return string
+     */
+    public function getDateFormatted()
+    {
+        return $this->date->format('d/m/Y');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDate()
+    {
+        return $this->date;
+    }
+
+    /**
+     * @ODM\PrePersist()
+     * @ODM\PreUpdate()
+     */
+    public function setDate()
+    {
+        $this->date = \DateTime::createFromFormat('d/m/Y his', $this->day.'/'.$this->month.'/'.$this->year.' 000000');
+    }
+
+    /**
+     * @ODM\PrePersist()
+     * @ODM\PreUpdate()
+     */
+    public function setWeek()
+    {
+        $this->week = $this->date->format('W');
+    }
+
+
 }

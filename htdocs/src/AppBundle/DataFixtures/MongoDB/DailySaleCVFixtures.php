@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\MongoDB;
 
 use AppBundle\Document\DailySale;
+use AppBundle\Document\Restaurant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -420,7 +421,7 @@ class DailySaleCVFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 9395, 'budget' => 7700],
                         ['sale' => 7409, 'budget' => 5650],
                         ['sale' => 7372, 'budget' => 6250],
-                        ['sale' => 0, 'budget' => 6500],
+                        ['sale' => 7651, 'budget' => 6500],
                         ['sale' => 0, 'budget' => 9400],
                         ['sale' => 0, 'budget' => 8600],
                         ['sale' => 0, 'budget' => 7750],
@@ -460,20 +461,26 @@ class DailySaleCVFixtures extends Fixture implements FixtureInterface, Container
                 foreach($yearsDatas as $year=>$monthsDatas) {
                     foreach($monthsDatas as $month=>$daysDatas) {
                         foreach($daysDatas as $index=>$values) {
-                            $dailySale = new DailySale($restaurant);
-                            $dailySale->setYear($year);
-                            $dailySale->setMonth($month);
-                            $dailySale->setDay($index + 1);
+                            $datas = [
+                                'year' => $year,
+                                'month' => $month,
+                                'day' => $index + 1,
+                                'budget' => 0,
+                                'sale' => $values['sale']
+                            ];
                             if (!empty($values['budget']))
-                                $dailySale->setBudgetAmount($values['budget']);
-                            $dailySale->setFoodSaleAmount($values['sale']);
-                            $manager->persist($dailySale);
+                                $datas['budget'] = $values['budget'];
+                            $this->createDailySaleEntry($restaurant, $datas, $manager);
                         }
                     }
                 }
             }
         }
-        $manager->flush();
+        $manager->clear();
+        gc_collect_cycles();
+        $this->importFromFile('CV', $manager);
+        $manager->clear();
+        gc_collect_cycles();
     }
 
     function getDependencies()
@@ -483,5 +490,42 @@ class DailySaleCVFixtures extends Fixture implements FixtureInterface, Container
         ];
     }
 
+    public function importFromFile($restaurantIdentifier, ObjectManager $manager)
+    {
+        $filePath = __DIR__.'/csv/'.$restaurantIdentifier.'.csv';
+        if (file_exists($filePath)) {
+            $restaurant = $this->getReference($restaurantIdentifier);
 
+            ini_set('auto_detect_line_endings',true);
+            if (($handle = fopen($filePath, "r")) !== false) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== false) {
+                    $entryDate = \DateTime::createFromFormat('d/m/y', $data[0]);
+                    if ($entryDate) {
+                        $datas = [
+                            'year' => $entryDate->format('Y'),
+                            'month' => $entryDate->format('m'),
+                            'day' => $entryDate->format('d'),
+                            'budget' => 0,
+                            'sale' => (int)$data[1]
+                        ];
+                        $this->createDailySaleEntry($restaurant, $datas, $manager);
+                    }
+                }
+                fclose($handle);
+            }
+            ini_set('auto_detect_line_endings',false);
+        }
+    }
+
+    private function createDailySaleEntry(Restaurant $restaurant, $datas, ObjectManager $manager)
+    {
+        $dailySale = new DailySale($restaurant);
+        $dailySale->setYear($datas['year']);
+        $dailySale->setMonth($datas['month']);
+        $dailySale->setDay($datas['day']);
+        $dailySale->setBudgetAmount($datas['budget']);
+        $dailySale->setFoodSaleAmount($datas['sale']);
+        $manager->persist($dailySale);
+        $manager->flush($dailySale);
+    }
 }

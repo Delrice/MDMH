@@ -3,6 +3,7 @@
 namespace AppBundle\DataFixtures\MongoDB;
 
 use AppBundle\Document\DailySale;
+use AppBundle\Document\Restaurant;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\DataFixtures\FixtureInterface;
@@ -24,398 +25,6 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
     {
         $dailySaleListToCreate = [
             'DR' => [
-                '2016' =>[
-                    '01' => [
-                        ['sale' => 15728],
-                        ['sale' => 13367],
-                        ['sale' => 14728],
-                        ['sale' => 7185],
-                        ['sale' => 9155],
-                        ['sale' => 10808],
-                        ['sale' => 9012],
-                        ['sale' => 12373],
-                        ['sale' => 13512],
-                        ['sale' => 13291],
-                        ['sale' => 7239],
-                        ['sale' => 8298],
-                        ['sale' => 10349],
-                        ['sale' => 7391],
-                        ['sale' => 12047],
-                        ['sale' => 13260],
-                        ['sale' => 13450],
-                        ['sale' => 5091],
-                        ['sale' => 6771],
-                        ['sale' => 8700],
-                        ['sale' => 7522],
-                        ['sale' => 11765],
-                        ['sale' => 12736],
-                        ['sale' => 14179],
-                        ['sale' => 5203],
-                        ['sale' => 7812],
-                        ['sale' => 9795],
-                        ['sale' => 8442],
-                        ['sale' => 13406],
-                        ['sale' => 13893],
-                        ['sale' => 13441],
-                    ],
-                    '02' => [
-                        ['sale' => 6811],
-                        ['sale' => 7987],
-                        ['sale' => 10875],
-                        ['sale' => 8313],
-                        ['sale' => 14368],
-                        ['sale' => 13983],
-                        ['sale' => 14311],
-                        ['sale' => 7395],
-                        ['sale' => 8966],
-                        ['sale' => 11189],
-                        ['sale' => 8597],
-                        ['sale' => 13325],
-                        ['sale' => 13107],
-                        ['sale' => 13940],
-                        ['sale' => 7207],
-                        ['sale' => 7414],
-                        ['sale' => 9550],
-                        ['sale' => 8794],
-                        ['sale' => 12479],
-                        ['sale' => 12153],
-                        ['sale' => 14381],
-                        ['sale' => 8331],
-                        ['sale' => 8695],
-                        ['sale' => 11146],
-                        ['sale' => 11181],
-                        ['sale' => 13847],
-                        ['sale' => 11873],
-                        ['sale' => 13315],
-                        ['sale' => 8572],
-                    ],
-                    '03' => [
-                        ['sale' => 9917],
-                        ['sale' => 11392],
-                        ['sale' => 10369],
-                        ['sale' => 14900],
-                        ['sale' => 14348],
-                        ['sale' => 15429],
-                        ['sale' => 7184],
-                        ['sale' => 8357],
-                        ['sale' => 10014],
-                        ['sale' => 9050],
-                        ['sale' => 13524],
-                        ['sale' => 12974],
-                        ['sale' => 14681],
-                        ['sale' => 8228],
-                        ['sale' => 7848],
-                        ['sale' => 9740],
-                        ['sale' => 8595],
-                        ['sale' => 13249],
-                        ['sale' => 13257],
-                        ['sale' => 13772],
-                        ['sale' => 6646],
-                        ['sale' => 6960],
-                        ['sale' => 8980],
-                        ['sale' => 7657],
-                        ['sale' => 12987],
-                        ['sale' => 11638],
-                        ['sale' => 11251],
-                        ['sale' => 12369],
-                        ['sale' => 7581],
-                        ['sale' => 10503],
-                        ['sale' => 9530],
-                    ],
-                    '04' => [
-                        ['sale' => 12038],
-                        ['sale' => 13166],
-                        ['sale' => 13572],
-                        ['sale' => 6954],
-                        ['sale' => 8477],
-                        ['sale' => 12589],
-                        ['sale' => 9790],
-                        ['sale' => 14254],
-                        ['sale' => 14758],
-                        ['sale' => 14808],
-                        ['sale' => 8971],
-                        ['sale' => 9052],
-                        ['sale' => 11197],
-                        ['sale' => 9252],
-                        ['sale' => 14178],
-                        ['sale' => 12719],
-                        ['sale' => 14800],
-                        ['sale' => 9374],
-                        ['sale' => 9269],
-                        ['sale' => 10837],
-                        ['sale' => 10073],
-                        ['sale' => 13218],
-                        ['sale' => 12332],
-                        ['sale' => 14496],
-                        ['sale' => 9014],
-                        ['sale' => 8866],
-                        ['sale' => 11256],
-                        ['sale' => 10092],
-                        ['sale' => 13846],
-                        ['sale' => 12844],
-                    ],
-                    '05' => [
-                        ['sale' => 14937],
-                        ['sale' => 7941],
-                        ['sale' => 9528],
-                        ['sale' => 13973],
-                        ['sale' => 13694],
-                        ['sale' => 13050],
-                        ['sale' => 13307],
-                        ['sale' => 17300],
-                        ['sale' => 8013],
-                        ['sale' => 9183],
-                        ['sale' => 10085],
-                        ['sale' => 9496],
-                        ['sale' => 13600],
-                        ['sale' => 12515],
-                        ['sale' => 13777],
-                        ['sale' => 15050],
-                        ['sale' => 9042],
-                        ['sale' => 10295],
-                        ['sale' => 8956],
-                        ['sale' => 12415],
-                        ['sale' => 11946],
-                        ['sale' => 13377],
-                        ['sale' => 7893],
-                        ['sale' => 7571],
-                        ['sale' => 9980],
-                        ['sale' => 8692],
-                        ['sale' => 13010],
-                        ['sale' => 12057],
-                        ['sale' => 13905],
-                        ['sale' => 8289],
-                        ['sale' => 9195],
-                    ],
-                    '06' => [
-                        ['sale' => 10625],
-                        ['sale' => 8746],
-                        ['sale' => 12788],
-                        ['sale' => 11720],
-                        ['sale' => 14556],
-                        ['sale' => 7346],
-                        ['sale' => 9533],
-                        ['sale' => 10680],
-                        ['sale' => 10779],
-                        ['sale' => 12651],
-                        ['sale' => 12329],
-                        ['sale' => 15639],
-                        ['sale' => 7641],
-                        ['sale' => 8026],
-                        ['sale' => 10553],
-                        ['sale' => 9497],
-                        ['sale' => 12575],
-                        ['sale' => 12208],
-                        ['sale' => 13377],
-                        ['sale' => 8086],
-                        ['sale' => 8690],
-                        ['sale' => 9538],
-                        ['sale' => 9755],
-                        ['sale' => 13241],
-                        ['sale' => 10773],
-                        ['sale' => 13579],
-                        ['sale' => 8463],
-                        ['sale' => 9477],
-                        ['sale' => 10458],
-                        ['sale' => 10826],
-                    ],
-                    '07' => [
-                        ['sale' => 12446],
-                        ['sale' => 10903],
-                        ['sale' => 13217],
-                        ['sale' => 9815],
-                        ['sale' => 11583],
-                        ['sale' => 12564],
-                        ['sale' => 11111],
-                        ['sale' => 13131],
-                        ['sale' => 11299],
-                        ['sale' => 13835],
-                        ['sale' => 11927],
-                        ['sale' => 11657],
-                        ['sale' => 12575],
-                        ['sale' => 12174],
-                        ['sale' => 12583],
-                        ['sale' => 11687],
-                        ['sale' => 14498],
-                        ['sale' => 10611],
-                        ['sale' => 10288],
-                        ['sale' => 10923],
-                        ['sale' => 10762],
-                        ['sale' => 14252],
-                        ['sale' => 12756],
-                        ['sale' => 13641],
-                        ['sale' => 9743],
-                        ['sale' => 9665],
-                        ['sale' => 11063],
-                        ['sale' => 11382],
-                        ['sale' => 12232],
-                        ['sale' => 13186],
-                        ['sale' => 15441],
-                    ],
-                    '08' => [
-                        ['sale' => 12268],
-                        ['sale' => 10580],
-                        ['sale' => 10904],
-                        ['sale' => 11885],
-                        ['sale' => 15116],
-                        ['sale' => 15494],
-                        ['sale' => 16500],
-                        ['sale' => 13125],
-                        ['sale' => 12778],
-                        ['sale' => 11941],
-                        ['sale' => 12284],
-                        ['sale' => 14902],
-                        ['sale' => 13777],
-                        ['sale' => 14827],
-                        ['sale' => 14379],
-                        ['sale' => 11659],
-                        ['sale' => 12607],
-                        ['sale' => 12216],
-                        ['sale' => 13611],
-                        ['sale' => 15653],
-                        ['sale' => 15660],
-                        ['sale' => 11029],
-                        ['sale' => 11066],
-                        ['sale' => 11151],
-                        ['sale' => 11011],
-                        ['sale' => 12773],
-                        ['sale' => 12796],
-                        ['sale' => 16408],
-                        ['sale' => 11698],
-                        ['sale' => 11762],
-                        ['sale' => 13015],
-                    ],
-                    '09' => [
-                        ['sale' => 8850],
-                        ['sale' => 13648],
-                        ['sale' => 11845],
-                        ['sale' => 15124],
-                        ['sale' => 8675],
-                        ['sale' => 9222],
-                        ['sale' => 11339],
-                        ['sale' => 9195],
-                        ['sale' => 13655],
-                        ['sale' => 12304],
-                        ['sale' => 15324],
-                        ['sale' => 8634],
-                        ['sale' => 8723],
-                        ['sale' => 9730],
-                        ['sale' => 9233],
-                        ['sale' => 13459],
-                        ['sale' => 12824],
-                        ['sale' => 14176],
-                        ['sale' => 6902],
-                        ['sale' => 7035],
-                        ['sale' => 10397],
-                        ['sale' => 8460],
-                        ['sale' => 12608],
-                        ['sale' => 12594],
-                        ['sale' => 14773],
-                        ['sale' => 6728],
-                        ['sale' => 7804],
-                        ['sale' => 10117],
-                        ['sale' => 8545],
-                        ['sale' => 14843],
-                    ],
-                    '10' => [
-                        ['sale' => 12981],
-                        ['sale' => 13585],
-                        ['sale' => 7558],
-                        ['sale' => 9249],
-                        ['sale' => 12454],
-                        ['sale' => 10184],
-                        ['sale' => 14233],
-                        ['sale' => 14385],
-                        ['sale' => 15015],
-                        ['sale' => 7034],
-                        ['sale' => 8488],
-                        ['sale' => 9867],
-                        ['sale' => 7565],
-                        ['sale' => 13753],
-                        ['sale' => 13297],
-                        ['sale' => 14217],
-                        ['sale' => 7466],
-                        ['sale' => 7471],
-                        ['sale' => 11554],
-                        ['sale' => 10519],
-                        ['sale' => 12914],
-                        ['sale' => 12042],
-                        ['sale' => 13149],
-                        ['sale' => 10153],
-                        ['sale' => 10941],
-                        ['sale' => 11740],
-                        ['sale' => 12137],
-                        ['sale' => 15155],
-                        ['sale' => 14120],
-                        ['sale' => 15351],
-                        ['sale' => 12157],
-                    ],
-                    '11' => [
-                        ['sale' => 14022],
-                        ['sale' => 11110],
-                        ['sale' => 8382],
-                        ['sale' => 12632],
-                        ['sale' => 15133],
-                        ['sale' => 14248],
-                        ['sale' => 7610],
-                        ['sale' => 8023],
-                        ['sale' => 10212],
-                        ['sale' => 12527],
-                        ['sale' => 13722],
-                        ['sale' => 11939],
-                        ['sale' => 13289],
-                        ['sale' => 7434],
-                        ['sale' => 7547],
-                        ['sale' => 10109],
-                        ['sale' => 8517],
-                        ['sale' => 12564],
-                        ['sale' => 12815],
-                        ['sale' => 13400],
-                        ['sale' => 7023],
-                        ['sale' => 8407],
-                        ['sale' => 11756],
-                        ['sale' => 9396],
-                        ['sale' => 12736],
-                        ['sale' => 13221],
-                        ['sale' => 13481],
-                        ['sale' => 7321],
-                        ['sale' => 8647],
-                        ['sale' => 10552],
-                    ],
-                    '12' => [
-                        ['sale' => 9314],
-                        ['sale' => 13955],
-                        ['sale' => 16338],
-                        ['sale' => 16379],
-                        ['sale' => 8310],
-                        ['sale' => 9782],
-                        ['sale' => 12233],
-                        ['sale' => 9767],
-                        ['sale' => 15266],
-                        ['sale' => 14775],
-                        ['sale' => 13932],
-                        ['sale' => 8022],
-                        ['sale' => 9194],
-                        ['sale' => 11854],
-                        ['sale' => 10051],
-                        ['sale' => 15186],
-                        ['sale' => 14691],
-                        ['sale' => 14115],
-                        ['sale' => 9852],
-                        ['sale' => 10142],
-                        ['sale' => 11404],
-                        ['sale' => 12606],
-                        ['sale' => 14198],
-                        ['sale' => 6062],
-                        ['sale' => 0],
-                        ['sale' => 12904],
-                        ['sale' => 12186],
-                        ['sale' => 12093],
-                        ['sale' => 13200],
-                        ['sale' => 13359],
-                        ['sale' => 5934],
-                    ]
-                ],
                 '2017' =>[
                     '01' => [
                         ['sale' => 18385, 'budget' => 16200],
@@ -812,7 +421,7 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 18456, 'budget' => 16121],
                         ['sale' => 12813, 'budget' => 8121],
                         ['sale' => 13503, 'budget' => 11621],
-                        ['sale' => 0, 'budget' => 10121],
+                        ['sale' => 12789, 'budget' => 10121],
                         ['sale' => 0, 'budget' => 14621],
                         ['sale' => 0, 'budget' => 14121],
                         ['sale' => 0, 'budget' => 14121],
@@ -852,20 +461,26 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
                 foreach($yearsDatas as $year=>$monthsDatas) {
                     foreach($monthsDatas as $month=>$daysDatas) {
                         foreach($daysDatas as $index=>$values) {
-                            $dailySale = new DailySale($restaurant);
-                            $dailySale->setYear($year);
-                            $dailySale->setMonth($month);
-                            $dailySale->setDay($index + 1);
+                            $datas = [
+                                'year' => $year,
+                                'month' => $month,
+                                'day' => $index + 1,
+                                'budget' => 0,
+                                'sale' => $values['sale']
+                            ];
                             if (!empty($values['budget']))
-                                $dailySale->setBudgetAmount($values['budget']);
-                            $dailySale->setFoodSaleAmount($values['sale']);
-                            $manager->persist($dailySale);
+                                $datas['budget'] = $values['budget'];
+                            $this->createDailySaleEntry($restaurant, $datas, $manager);
                         }
                     }
                 }
             }
         }
-        $manager->flush();
+        $manager->clear();
+        gc_collect_cycles();
+        $this->importFromFile('DR', $manager);
+        $manager->clear();
+        gc_collect_cycles();
     }
 
     function getDependencies()
@@ -875,5 +490,42 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
         ];
     }
 
+    public function importFromFile($restaurantIdentifier, ObjectManager $manager)
+    {
+        $filePath = __DIR__.'/csv/'.$restaurantIdentifier.'.csv';
+        if (file_exists($filePath)) {
+            $restaurant = $this->getReference($restaurantIdentifier);
 
+            ini_set('auto_detect_line_endings',true);
+            if (($handle = fopen($filePath, "r")) !== false) {
+                while (($data = fgetcsv($handle, 1000, ";")) !== false) {
+                    $entryDate = \DateTime::createFromFormat('d/m/y', $data[0]);
+                    if ($entryDate) {
+                        $datas = [
+                            'year' => $entryDate->format('Y'),
+                            'month' => $entryDate->format('m'),
+                            'day' => $entryDate->format('d'),
+                            'budget' => 0,
+                            'sale' => (int)$data[1]
+                        ];
+                        $this->createDailySaleEntry($restaurant, $datas, $manager);
+                    }
+                }
+                fclose($handle);
+            }
+            ini_set('auto_detect_line_endings',false);
+        }
+    }
+
+    private function createDailySaleEntry(Restaurant $restaurant, $datas, ObjectManager $manager)
+    {
+        $dailySale = new DailySale($restaurant);
+        $dailySale->setYear($datas['year']);
+        $dailySale->setMonth($datas['month']);
+        $dailySale->setDay($datas['day']);
+        $dailySale->setBudgetAmount($datas['budget']);
+        $dailySale->setFoodSaleAmount($datas['sale']);
+        $manager->persist($dailySale);
+        $manager->flush($dailySale);
+    }
 }

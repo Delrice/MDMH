@@ -81,14 +81,13 @@ class Utils
 
         if ($prevision) {
             $progressBarPercentage = round(($realized / $prevision) * 100, 1, PHP_ROUND_HALF_DOWN);
+            $realizedPercentage = round($progressBarPercentage - 100, 1);
         }
 
         if ($progressBarPercentage >= 100) {
             $progressBarColor = 'success';
             $realizedColor = 'green';
         }
-
-        $realizedPercentage = round($progressBarPercentage - 100, 1);
 
         return [
             $progressBarPercentage,

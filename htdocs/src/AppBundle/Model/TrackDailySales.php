@@ -59,7 +59,7 @@ class TrackDailySales
      */
     public function __construct($year, $month, $day)
     {
-        $this->datetime = DateTime::createFromFormat('Ymd', $year.$month.$day);
+        $this->datetime = DateTime::createFromFormat('d/m/Y', "$day/$month/$year");
 
         $this->ratio_cbudget_psales = 0.00;
         $this->ratio_csales_cbudget = 0.00;
@@ -163,7 +163,7 @@ class TrackDailySales
         if (!empty($this->precedentCA['document']))
             $previousSales = $this->precedentCA['document']->getFoodSaleAmount();
         $currentBudget = $this->current_budget;
-        if ($previousSales && $currentBudget)
+        if ($previousSales/* && $currentBudget*/)
             return round((($currentBudget - $previousSales) / $previousSales) * 100, 2);
         else
             return 0;
@@ -192,7 +192,7 @@ class TrackDailySales
     {
         $currentBudget = $this->current_budget;
         $currentSales = $this->current_sales;
-        if ($currentBudget && $currentSales)
+        if ($currentBudget/* && $currentSales*/)
             return round((($currentSales - $currentBudget) / $currentBudget) * 100, 2);
         else
             return 0;
@@ -207,7 +207,7 @@ class TrackDailySales
         if (!empty($this->precedentCA['document']))
             $previousSales = $this->precedentCA['document']->getFoodSaleAmount();
         $currentSales = $this->current_sales;
-        if ($previousSales && $currentSales)
+        if ($previousSales/* && $currentSales*/)
             return round((($currentSales - $previousSales) / $previousSales) * 100, 2);
         else
             return 0;
