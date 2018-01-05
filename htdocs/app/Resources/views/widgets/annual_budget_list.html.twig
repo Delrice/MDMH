@@ -69,7 +69,7 @@
                                         {% if showEdit|default(false) %}
                                             <tr>
                                                 <td colspan="6">
-                                                    <a href="{{ path('restaurant_budget_edit', {'id': budget.id}) }}" class="btn btn-success pull-right">Modifier</a>
+                                                    <a href="{{ path('restaurant_budget_edit', {'id': budget.id}) }}" class="btn btn-success pull-right">{{ 'restaurant.update.budget.year'|trans }}</a>
                                                 </td>
                                             </tr>
                                         {% endif %}

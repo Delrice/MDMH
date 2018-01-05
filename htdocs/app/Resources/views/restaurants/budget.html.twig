@@ -33,7 +33,7 @@
         <div class="col-md-2 pull-right">
             <div class="box box-primary">
                 <div class="box-footer with-border text-center">
-                    <a href="{{ path('restaurant_budget_new', {'id': restaurant.id, 'year': nextYear}) }}" class="btn btn-success">{{ 'restaurant.create.budget.year'|trans({'%year%': nextYear}) }}</a>
+                    <a href="{{ path('restaurant_budget_new', {'id': restaurant.id, 'year': nextYear}) }}" class="btn btn-success">{{ 'restaurant.create.budget.year'|trans({'%year%': nextYear})|raw }}</a>
                 </div>
             </div>
         </div>

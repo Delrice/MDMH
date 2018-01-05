@@ -122,7 +122,7 @@ restaurant.budget.progress: 'Progression'
 restaurant.budget.percent: 'Réalisé'
 restaurant.budget.realized: 'CA réalisé'
 restaurant.budget.new.create_button: 'Créer le budget'
-restaurant.create.budget.year: 'Créer mon budget pour %year%'
+restaurant.create.budget.year: 'Créer mon budget<br> pour %year%'
 restaurant.budget.new.page_title: 'Nouveau'
 restaurant.budget.new.success: 'Votre nouveau budget a été créé avec succès'
 restaurant.budget.edit.create_button: 'Modifier le budget'
@@ -131,6 +131,7 @@ budget.restaurant: 'Restaurant'
 budget.year: 'Année'
 restaurant.budget.update.success: 'Votre budget a été modifié avec succès'
 restaurant.budget.total: 'Total'
+restaurant.update.budget.year: 'Modifier'
 
 
 ### DAILY SALE
