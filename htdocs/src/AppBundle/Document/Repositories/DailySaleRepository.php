@@ -29,6 +29,9 @@ class DailySaleRepository extends DocumentRepository
             ->group()
                 ->field('id')->expression(['month' => '$month'])
                 ->field('foodSaleTotal')->sum('$foodSaleAmount')
+            ->sort([
+                '_id' => 'ASC'
+            ])
         ;
 
         return $builder->execute();
@@ -59,6 +62,36 @@ class DailySaleRepository extends DocumentRepository
         ]);
 
         return $qb->getQuery()->execute()->toArray();
+    }
+
+    /**
+     * @param $searchOptions
+     * @return mixed
+     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     */
+    public function getDailySalesGroupedByWeek($year, Restaurant $restaurant=null)
+    {
+        $builder = $this->createAggregationBuilder(DailySale::class);
+
+        if ($restaurant) {
+            $builder
+                ->match()
+                ->field('restaurant')->references($restaurant)
+                ->field('year')->equals((int)$year);
+        } else {
+            $builder
+                ->match()
+                ->field('year')->equals((int)$year);
+        }
+        $builder->group()
+                ->field('id')->expression(['week' => '$week'])
+                ->field('foodSaleTotal')->sum('$foodSaleAmount')
+            ->sort([
+                '_id' => 'ASC'
+            ])
+        ;
+
+        return $builder->execute();
     }
 
     /**

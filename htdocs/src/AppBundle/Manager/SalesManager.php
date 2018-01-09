@@ -130,7 +130,7 @@ class SalesManager
         if ($lastYearDailySale) {
             $precedentCA = $lastYearDailySale->getFoodSaleAmount();
             $formatedPrecedentCA[] = number_format($precedentCA, 0, '.', ' ').' &euro;';
-            $formatedPrecedentCA[] = '<i class="small text-aqua">'.$lastYearDailySale->getDate()->format('d/m/Y').'</i>';
+            $formatedPrecedentCA[] = '<i class="small text-aqua">'.$lastYearDailySale->getDateFormatted().'</i>';
         }
         return ['document' => $lastYearDailySale, 'computed' => implode('<br />', $formatedPrecedentCA), 'amount' => $precedentCA];
     }
@@ -229,6 +229,7 @@ class SalesManager
 
             $f = $trackingDailySales['total']['futureCA']['value'];
             $trackingDailySales['total']['futureCA']['progression'] = round((($f - $n1) / $n1) * 100, 2);
+            $trackingDailySales['total']['futureCA']['progression_supp'] = $f - $prevJ;
         }
 
         $restaurantBudget = $this->dm->getRepository(Budget::class)->findOneBy([
@@ -243,4 +244,101 @@ class SalesManager
 
         return $trackingDailySales;
     }
+
+    /**
+     * @param $year
+     * @return array
+     */
+    public function trackWeeklySales($year)
+    {
+        $trackingWeeklySales = [
+            'items' => []
+        ];
+
+        $computedWeeklySales = [];
+        for ($i=1; $i<=55; $i++) {
+            $computedWeeklySales[$i] = [
+                'n-3' => 0,
+                'n-2' => 0,
+                'n-1' => 0,
+                'n' => 0,
+            ];
+        }
+
+        /**
+         * @var DailySale[] $dailySales
+         * @var DailySale[] $weeklySales
+         */
+        // current year
+        $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year, $this->restaurant);
+        if ($weeklySales->count()) {
+            foreach ($weeklySales as $weeklyResult) {
+                $computedWeeklySales[$weeklyResult['_id']['week']]['n'] = $weeklyResult['foodSaleTotal'];
+            }
+        }
+
+        // n-1
+        $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 1, $this->restaurant);
+        if ($weeklySales->count()) {
+            foreach ($weeklySales as $weeklyResult) {
+                $computedWeeklySales[$weeklyResult['_id']['week']]['n-1'] = $weeklyResult['foodSaleTotal'];
+            }
+        }
+
+        // n-2
+        $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 2, $this->restaurant);
+        if ($weeklySales->count()) {
+            foreach ($weeklySales as $weeklyResult) {
+                $computedWeeklySales[$weeklyResult['_id']['week']]['n-2'] = $weeklyResult['foodSaleTotal'];
+            }
+        }
+
+        // n-3
+        $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 3, $this->restaurant);
+        if ($weeklySales->count()) {
+            foreach ($weeklySales as $weeklyResult) {
+                $computedWeeklySales[$weeklyResult['_id']['week']]['n-3'] = $weeklyResult['foodSaleTotal'];
+            }
+        }
+
+        // now, calculate
+        foreach ($computedWeeklySales as $week=>$datas) {
+            if (!empty($datas['n']) || !empty($datas['n-1']) || !empty($datas['n-2']) || !empty($datas['n-3'])) {
+                $element = [
+                    'week' => $week,
+                    'year3' => $datas['n-3'],
+                    'year2' => $datas['n-2'],
+                    'ratio_year3_year2' => !empty($datas['n-3'])? round((($datas['n-2'] - $datas['n-3']) / $datas['n-3']) * 100, 2): -100,
+                    'year1' => $datas['n-1'],
+                    'ratio_year2_year1' => !empty($datas['n-2'])? round((($datas['n-1'] - $datas['n-2']) / $datas['n-2']) * 100, 2): -100,
+                    'year' => $datas['n'],
+                    'ratio_year1_year' => !empty($datas['n-1'])? round((($datas['n'] - $datas['n-1']) / $datas['n-1']) * 100, 2): -100,
+                    'SE' => 0,
+                    'ratio_year_SE' => 0,
+                    'ratio_year2_year' => !empty($datas['n-2'])? round((($datas['n'] - $datas['n-2']) / $datas['n-2']) * 100, 2): -100
+                ];
+                $element['ratio_year_SE'] = $element['ratio_year1_year'] - $element['SE'];
+                $trackingWeeklySales['items'][] = $element;
+            }
+        }
+
+        return $trackingWeeklySales;
+    }
+
+
+    /**
+     * <tr>
+    <td>{{ element.week|trans }}</td>
+    <td>{{ element.year3|number_format(0, '.', ' ') }} &euro;</td>
+    <td>{{ element.year2|number_format(0, '.', ' ') }} &euro;</td>
+    <td>{{ element.ratio_year3_year2|number_format(2, '.', ' ') }}%</td>
+    <td>{{ element.year1|number_format(0, '.', ' ') }} &euro;</td>
+    <td>{{ element.ratio_year2_year1|number_format(2, '.', ' ') }}%</td>
+    <td>{{ element.year|number_format(0, '.', ' ') }} &euro;</td>
+    <td>{{ element.ratio_year1_year|number_format(2, '.', ' ') }}%</td>
+    <td>{{ element.SE|number_format(0, '.', ' ') }} &euro;</td>
+    <td>{{ element.ratio_year_SE|number_format(2, '.', ' ') }}</td>
+    <td>{{ element.ratio_year2_year|number_format(2, '.', ' ') }}%</td>
+    </tr>
+     */
 }

@@ -128,4 +128,34 @@ class Utils
         ];
         return $navigation;
     }
+
+    public function generateYearNavigation($routeName, $restaurantId, $year)
+    {
+        $actualDateTime = \DateTime::createFromFormat('d/m/Y', '1/1/'.$year);
+        $actualDateTime->sub(new \DateInterval('P1Y'));
+        $prevYear = $actualDateTime->format('Y');
+        $navigationItemPrev = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $prevYear]),
+            'title' => $prevYear
+        ];
+
+        $navigationItemCurrent = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $year]),
+            'title' => $year
+        ];
+
+        $actualDateTime->add(new \DateInterval('P2Y'));
+        $nextYear = $actualDateTime->format('Y');
+        $navigationItemNext = [
+            'href' => $this->urlGenerator->generate($routeName, ['id' => $restaurantId, 'year' => $nextYear]),
+            'title' => $nextYear
+        ];
+
+        $navigation = [
+            'prev' => $navigationItemPrev,
+            'current' => $navigationItemCurrent,
+            'next' => $navigationItemNext
+        ];
+        return $navigation;
+    }
 }

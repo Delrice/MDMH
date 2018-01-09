@@ -1,0 +1,41 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurant.track_weeklysales.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ restaurant.name|upper }}
+            <small>{{ 'header.restaurant.track_weeklysales.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {
+                    'title': restaurant.name,
+                    'href': path('restaurant_view', {'id': restaurant.id})
+                },
+                {
+                    'title': 'restaurant.track_weeklysales.page_title'|trans
+                }
+            ]
+            })
+        }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                {{ include('parts/navigator.html.twig', {'navigation': navigation|default([])}) }}
+                {{ include('widgets/track_weeklysales.html.twig', {
+                    'elements': elements|default([]),
+                    'cYear': cYear|default('now'|date('Y')),
+                    'pYear' : pYear|default('now'|date('Y') - 1)
+                }) }}
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}

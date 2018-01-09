@@ -1,31 +1,37 @@
 <div class="box box-info box-body">
     <table class="table table-bordered text-center">
         <tr>
-            <th>{{ 'track.dailysales.dayname'|trans }}</th>
-            <th>{{ 'track.dailysales.date'|trans }}</th>
-            <th>{{ 'track.dailysales.precedent_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            <th>{{ 'track.dailysales.current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            <th>{{ 'track.dailysales.ratio_cbudget_psales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            <th>{{ 'track.dailysales.current_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            <th>{{ 'track.dailysales.ratio_csales_cbudget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            <th>{{ 'track.dailysales.ratio_csales_psales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
+            <th style="width: 90px">{{ 'track.weeklysales.week'|trans }}</th>
+            <th>{{ 'track.weeklysales.year'|trans({'year': pYear3}) }}</th>
+            <th>{{ 'track.weeklysales.year'|trans({'year': pYear2}) }}</th>
+            <th>{{ 'track.weeklysales.ratio'|trans }}</th>
+            <th>{{ 'track.weeklysales.year'|trans({'year': pYear1}) }}</th>
+            <th>{{ 'track.weeklysales.ratio'|trans }}</th>
+            <th>{{ 'track.weeklysales.year'|trans({'year': cYear}) }}</th>
+            <th>{{ 'track.weeklysales.ratio'|trans }}</th>
+            <th>{{ 'track.weeklysales.SE'|trans }}</th>
+            <th>{{ 'track.weeklysales.ratio_SE'|trans }}</th>
+            <th>{{ 'track.weeklysales.ratio2'|trans }}</th>
         </tr>
 
         {% for element in elements.items %}
             <tr>
-                <td>{{ element.dayname|trans }}</td>
-                <td>{{ element.date }}</td>
-                <td>{{ element.precedent_sales|raw }}</td>
-                <td>{{ element.current_budget|number_format(0, '.', ' ') }} &euro;</td>
-                <td{# class="text-{{ element.ratio_cbudget_psales > 0 ? 'green': 'red' }}"#}>{{ element.ratio_cbudget_psales|number_format(2, '.', ' ') }} %</td>
-                <td{{ element.current_sales > element.current_budget ? ' class="bg-success"' }}>{{ element.current_sales|number_format(0, '.', ' ') }} &euro;</td>
-                <td{# class="text-{{ element.ratio_csales_cbudget > 0 ? 'green': 'red' }}"#}>{{ element.ratio_csales_cbudget|number_format(2, '.', ' ') }} %</td>
-                <td{# class="text-{{ element.ratio_csales_psales > 0 ? 'green': 'red' }}"#}>{{ element.ratio_csales_psales|number_format(2, '.', ' ') }} %</td>
+                <td>{{ element.week }}</td>
+                <td>{{ element.year3|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ element.year2|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ element.ratio_year3_year2|number_format(2, '.', ' ') }} %</td>
+                <td>{{ element.year1|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ element.ratio_year2_year1|number_format(2, '.', ' ') }} %</td>
+                <td>{{ element.year|number_format(0, '.', ' ') }} &euro;</td>
+                <td>{{ element.ratio_year1_year|number_format(2, '.', ' ') }} %</td>
+                <td>{{ element.SE|number_format(2, '.', ' ') }} %</td>
+                <td>{{ element.ratio_year_SE|number_format(2, '.', ' ') }}</td>
+                <td>{{ element.ratio_year2_year|number_format(2, '.', ' ') }} %</td>
             </tr>
         {% endfor %}
     </table>
 
-    <div class="box-footer">
+    {#<div class="box-footer">
         <table class="table table-bordered text-center">
             <tr>
                 <th>{{ 'track.dailysales.total_precedent_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
@@ -37,22 +43,22 @@
             <tr>
                 <td{{ elements.total.precedentCA.progression < 0 ? ' class="text-red"' }}>
                     {{ elements.total.precedentCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.precedentCA.progression|number_format(2, '.', ' ') }} %</span>
+                    <span>{{ elements.total.precedentCA.progression|number_format(2, '.', ' ') }}%</span>
                 </td>
                 <td{{ elements.total.cumul_daily_budget.progression < 0 ? ' class="text-red"' }}>
                     {{ elements.total.cumul_daily_budget.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.cumul_daily_budget.progression|number_format(2, '.', ' ') }} %</span>
+                    <span>{{ elements.total.cumul_daily_budget.progression|number_format(2, '.', ' ') }}%</span>
                 </td>
                 <td{{ elements.total.currentCA.progression < 0 ? ' class="text-red"' }}>
                     {{ elements.total.currentCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.currentCA.progression|number_format(2, '.', ' ') }} %</span>
+                    <span>{{ elements.total.currentCA.progression|number_format(2, '.', ' ') }}%</span>
                 </td>
                 <td class="bg-yellow">
                     {{ elements.total.budget.value|number_format(0, '.', ' ') }} &euro;
                 </td>
                 <td{{ elements.total.futureCA.progression < 0 ? ' class="text-red"' }}>
                     {{ elements.total.futureCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.futureCA.progression|number_format(2, '.', ' ') }} %</span>
+                    <span>{{ elements.total.futureCA.progression|number_format(2, '.', ' ') }}%</span>
                     {% if elements.total.futureCA.progression_supp|default(false) %}
                         <br>
                         <i>({{ elements.total.futureCA.progression_supp|number_format(0, '.', ' ') }} &euro;)</i>
@@ -60,5 +66,5 @@
                 </td>
             </tr>
         </table>
-    </div>
+    </div>#}
 </div>

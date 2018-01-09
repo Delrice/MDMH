@@ -63,6 +63,11 @@ class DailySale
     private $week;
 
     /**
+     * @ODM\Field(type="string")
+     */
+    private $dayname;
+
+    /**
      * @ODM\Field(type="integer")
      */
     private $budgetAmount;
@@ -82,8 +87,6 @@ class DailySale
      */
     private $timeDivision;
 
-    // Only for display
-    private $dayname;
     private $dateFormatted;
     private $precedentCA;
 
@@ -236,7 +239,7 @@ class DailySale
      */
     public function getDayname()
     {
-        return $this->date->format('D');
+        return $this->dayname;
     }
 
     /**
@@ -287,6 +290,15 @@ class DailySale
     public function setWeek()
     {
         $this->week = $this->date->format('W');
+    }
+
+    /**
+     * @ODM\PrePersist()
+     * @ODM\PreUpdate()
+     */
+    public function setDayname()
+    {
+        $this->dayname = strtolower($this->date->format('D'));
     }
 
 

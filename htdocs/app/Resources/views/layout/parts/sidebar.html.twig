@@ -42,11 +42,26 @@
                 </li>
             </ul>
             <!-- /.sidebar-menu -->
+
+            <!-- Sidebar Menu -->
+            <ul class="sidebar-menu" data-widget="tree">
+                <li class="header text-uppercase">
+                    <span class="text-warning">{{ 'menu.supervisor'|trans }}</span>
+                </li>
+                <li{% if 'menu.supervisor.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                    <a href="{{ path('restaurant_track_global_weeklysales') }}" title="{{ 'menu.supervisor.track_weeklysales'|trans }}">
+                        <i class="fa fa-area-chart"></i> <span>{{ 'menu.supervisor.track_weeklysales'|trans }}</span>
+                    </a>
+                </li>
+            </ul>
+            <!-- /.sidebar-menu -->
         {% endif %}
 
         <!-- Sidebar Menu -->
         <ul class="sidebar-menu" data-widget="tree">
-            <li class="header text-uppercase ">{{ 'menu.restaurants'|trans }}</li>
+            <li class="header text-uppercase ">
+                <span class="text-blue">{{ 'menu.restaurants'|trans }}</span>
+            </li>
             {% if restaurants|default([]) %}
                 {% for restaurant in restaurants %}
                     <li class="treeview{% if 'menu.restaurant.' ~ restaurant.id in currentMenuActive|default([]) %} menu-open{% endif %}">
@@ -63,6 +78,7 @@
                                     <i class="fa fa-eye"></i> <span>{{ 'menu.restaurant.view'|trans }}</span>
                                 </a>
                             </li>
+
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.budget' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_budgets', {'id': restaurant.id}) }}" id="restaurant-budget-{{ restaurant.identifier }}">
                                     <i class="fa fa-balance-scale"></i> <span>{{ 'menu.restaurant.budget'|trans }}</span>
@@ -77,7 +93,13 @@
 
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_dailysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_track_dailysales', {'id': restaurant.id}) }}" id="restaurant-track-dailysales-{{ restaurant.identifier }}">
-                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_dailysales'|trans }}</span>
+                                    <i class="fa fa-bar-chart"></i> <span>{{ 'menu.restaurant.track_dailysales'|trans }}</span>
+                                </a>
+                            </li>
+
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                                <a href="{{ path('restaurant_track_weeklysales', {'id': restaurant.id}) }}" id="restaurant-track-weeklysales-{{ restaurant.identifier }}">
+                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_weeklysales'|trans }}</span>
                                 </a>
                             </li>
                         </ul>

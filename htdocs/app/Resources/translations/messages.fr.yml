@@ -13,12 +13,14 @@ menu.users: Utilisateurs
 menu.administrator: Administration
 menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
+menu.supervisor: Supervision
+menu.supervisor.track_weeklysales: 'Suivi ventes hebdomadaires'
 menu.restaurants: Restaurants
 menu.restaurant.view: 'Aperçu'
-menu.restaurant.budget: 'Budgets'
-menu.restaurant.daily_sales: 'Ventes journalières'
-menu.restaurant.track_sales: 'Suivi des ventes'
-menu.restaurant.track_dailysales: 'Suivi des ventes journalières'
+menu.restaurant.budget: 'Gestion des budgets'
+menu.restaurant.daily_sales: 'Saisie ventes journalières'
+menu.restaurant.track_dailysales: 'Suivi ventes journalières'
+menu.restaurant.track_weeklysales: 'Suivi ventes hebdomadaires'
 ### COMMON
 month-jan: 'Janvier'
 month-feb: 'Février'
@@ -173,4 +175,16 @@ track.dailysales.total_current_sales: 'Total ventes cYear'
 track.dailysales.total_daily_current_budget: 'Total prévisions journalières'
 track.dailysales.total_current_budget: 'Prévision mensuelle'
 track.dailysales.total_year_to_date: 'Year to date'
+
+### TRACK WEEKLYSALES
+restaurant.track_weeklysales.page_title: 'Ventes hebdomadaires'
+header.restaurant.track_weeklysales.optional: 'Suivi des ventes hebdomadaires'
+header.restaurant.track_weeklysales.title: 'Marché'
+track.weeklysales.week: 'N° semaine'
+track.weeklysales.year: 'year'
+track.weeklysales.ratio: 'évol'
+track.weeklysales.ratio2: 'évol 2'
+track.weeklysales.SE: 'SE'
+track.weeklysales.ratio_SE: 'écart'
+
 
