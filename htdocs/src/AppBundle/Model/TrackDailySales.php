@@ -61,6 +61,9 @@ class TrackDailySales
     {
         $this->datetime = DateTime::createFromFormat('d/m/Y', "$day/$month/$year");
 
+        $this->precedent_sales = 0.00;
+        $this->current_budget = 0.00;
+        $this->current_sales = 0.00;
         $this->ratio_cbudget_psales = 0.00;
         $this->ratio_csales_cbudget = 0.00;
         $this->ratio_csales_psales = 0.00;
@@ -135,7 +138,7 @@ class TrackDailySales
      */
     public function setPrecedentSales($precedent_sales)
     {
-        $this->precedent_sales = $precedent_sales;
+        $this->precedent_sales += $precedent_sales;
     }
 
     /**
@@ -151,7 +154,7 @@ class TrackDailySales
      */
     public function setCurrentBudget($current_budget)
     {
-        $this->current_budget = $current_budget;
+        $this->current_budget += $current_budget;
     }
 
     /**
@@ -182,7 +185,7 @@ class TrackDailySales
      */
     public function setCurrentSales($current_sales)
     {
-        $this->current_sales = $current_sales;
+        $this->current_sales += $current_sales;
     }
 
     /**

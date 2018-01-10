@@ -1,0 +1,80 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'supervisor.south_est.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.supervisor.south_est.title'|trans }}
+            <small>{{ 'header.supervisor.south_est.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {
+                    'title': 'supervisor.south_est.page_title'|trans
+                }
+            ]
+            })
+        }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                {{ include('parts/navigator.html.twig', {'navigation': navigation|default([])}) }}
+
+                <div class="box box-info">
+                    {{ form_start(form) }}
+                        <div class="box-header">
+                            <h3 class="box-title">{{ 'supervisor.south_est.table_header'|trans }}</h3>
+                        </div>
+                        <!-- /.box-header -->
+
+                        <div class="box-body">
+                            {{ form_label(form.annual) }}
+                            {{ form_widget(form.annual) }}
+
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-body">
+                            {{ form_label(form.monthly) }}
+                            <ul class="list-inline">
+                                {% for month in form.monthly %}
+                                    <li class="col-md-2">
+                                        {{ form_label(month) }}
+                                        {{ form_widget(month) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-body">
+                            {{ form_label(form.weekly) }}
+                            <ul class="list-inline">
+                                {% for number, week in form.weekly %}
+                                    <li class="col-md-1">
+                                        {{ form_label(week) }}&nbsp;{{ number }}
+                                        {{ form_widget(week) }}
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <!-- /.box-body -->
+
+                        <div class="box-footer">
+                            <button type="submit" class="btn btn-primary pull-right">{{ 'supervisor.south_est.edit.create_button'|trans }}</button>
+                        </div>
+                    {{ form_end(form) }}
+                </div>
+                <!-- /.box -->
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+
+{% endblock %}

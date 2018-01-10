@@ -426,7 +426,7 @@ class DailySaleMHFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 18597, 'budget' => 19000],
                         ['sale' => 17703, 'budget' => 16000],
                         ['sale' => 8349, 'budget' => 9200],
-                        ['sale' => 0, 'budget' => 10200],
+                        ['sale' => 11387, 'budget' => 10200],
                         ['sale' => 0, 'budget' => 13500],
                         ['sale' => 0, 'budget' => 10500],
                         ['sale' => 0, 'budget' => 15500],

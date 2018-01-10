@@ -28,7 +28,7 @@
                     </div>
                     <!-- /.box-header -->
                     <div class="box-body no-padding">
-                        {% if restaurant_list %}
+                        {% if restaurant_list|default([]) %}
                             <table class="table table-responsive table-hover">
                                 <tr>
                                     <th class="col-lg-2">{{ 'restaurants.list.table.id'|trans }}</th>

@@ -11,6 +11,7 @@ namespace AppBundle\Manager;
 use AppBundle\Document\Budget;
 use AppBundle\Document\DailySale;
 use AppBundle\Document\Restaurant;
+use AppBundle\Document\SouthEst;
 use AppBundle\Model\MonthlySales;
 use AppBundle\Model\TrackDailySales;
 use AppBundle\Services\Utils;
@@ -166,7 +167,7 @@ class SalesManager
         $dailySales = $this->dm->getRepository(DailySale::class)->getDailySalesOrderedByDay($searchOptions);
         $monthlySalesEntries = [];
         foreach ($dailySales as $dailySale) {
-            $monthlySalesEntries[$dailySale->getDay()] = $dailySale;
+            $monthlySalesEntries[$dailySale->getDay()][] = $dailySale;
         }
 
         $maxDayInMonth = strftime('%d', mktime(0, 0, 0, $month + 1, 0, $year));
@@ -176,10 +177,12 @@ class SalesManager
             $trackDailySales->setPrecedentCA($lastYearDailySale);
 
             if (!empty($monthlySalesEntries[$i])) {
-                $trackDailySales->setCurrentBudget($monthlySalesEntries[$i]->getBudgetAmount());
-                $trackDailySales->setCurrentSales($monthlySalesEntries[$i]->getFoodSaleAmount());
+                foreach ($monthlySalesEntries[$i] as $monthlySalesEntry) {
+                    $trackDailySales->setCurrentBudget($monthlySalesEntry->getBudgetAmount());
+                    $trackDailySales->setCurrentSales($monthlySalesEntry->getFoodSaleAmount());
 
-                $trackingDailySales['total']['cumul_daily_budget']['value'] += $monthlySalesEntries[$i]->getBudgetAmount();
+                    $trackingDailySales['total']['cumul_daily_budget']['value'] += $monthlySalesEntry->getBudgetAmount();
+                }
             }
 
             $trackingDailySales['items'][] = $trackDailySales->compute();
@@ -256,7 +259,7 @@ class SalesManager
         ];
 
         $computedWeeklySales = [];
-        for ($i=1; $i<=55; $i++) {
+        for ($i=0; $i<=53; $i++) {
             $computedWeeklySales[$i] = [
                 'n-3' => 0,
                 'n-2' => 0,
@@ -273,7 +276,7 @@ class SalesManager
         $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year, $this->restaurant);
         if ($weeklySales->count()) {
             foreach ($weeklySales as $weeklyResult) {
-                $computedWeeklySales[$weeklyResult['_id']['week']]['n'] = $weeklyResult['foodSaleTotal'];
+                $computedWeeklySales[$weeklyResult['_id']['weekNumber']]['n'] = $weeklyResult['foodSaleTotal'];
             }
         }
 
@@ -281,7 +284,7 @@ class SalesManager
         $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 1, $this->restaurant);
         if ($weeklySales->count()) {
             foreach ($weeklySales as $weeklyResult) {
-                $computedWeeklySales[$weeklyResult['_id']['week']]['n-1'] = $weeklyResult['foodSaleTotal'];
+                $computedWeeklySales[$weeklyResult['_id']['weekNumber']]['n-1'] = $weeklyResult['foodSaleTotal'];
             }
         }
 
@@ -289,7 +292,7 @@ class SalesManager
         $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 2, $this->restaurant);
         if ($weeklySales->count()) {
             foreach ($weeklySales as $weeklyResult) {
-                $computedWeeklySales[$weeklyResult['_id']['week']]['n-2'] = $weeklyResult['foodSaleTotal'];
+                $computedWeeklySales[$weeklyResult['_id']['weekNumber']]['n-2'] = $weeklyResult['foodSaleTotal'];
             }
         }
 
@@ -297,9 +300,14 @@ class SalesManager
         $weeklySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByWeek($year - 3, $this->restaurant);
         if ($weeklySales->count()) {
             foreach ($weeklySales as $weeklyResult) {
-                $computedWeeklySales[$weeklyResult['_id']['week']]['n-3'] = $weeklyResult['foodSaleTotal'];
+                $computedWeeklySales[$weeklyResult['_id']['weekNumber']]['n-3'] = $weeklyResult['foodSaleTotal'];
             }
         }
+
+        // SE
+        $SE = $this->dm->getRepository(SouthEst::class)->findOneBy(['year' => (int)$year]);
+        if (!$SE)
+            $SE = new SouthEst();
 
         // now, calculate
         foreach ($computedWeeklySales as $week=>$datas) {
@@ -313,7 +321,7 @@ class SalesManager
                     'ratio_year2_year1' => !empty($datas['n-2'])? round((($datas['n-1'] - $datas['n-2']) / $datas['n-2']) * 100, 2): -100,
                     'year' => $datas['n'],
                     'ratio_year1_year' => !empty($datas['n-1'])? round((($datas['n'] - $datas['n-1']) / $datas['n-1']) * 100, 2): -100,
-                    'SE' => 0,
+                    'SE' => $SE->getWeek($week),
                     'ratio_year_SE' => 0,
                     'ratio_year2_year' => !empty($datas['n-2'])? round((($datas['n'] - $datas['n-2']) / $datas['n-2']) * 100, 2): -100
                 ];
@@ -324,21 +332,4 @@ class SalesManager
 
         return $trackingWeeklySales;
     }
-
-
-    /**
-     * <tr>
-    <td>{{ element.week|trans }}</td>
-    <td>{{ element.year3|number_format(0, '.', ' ') }} &euro;</td>
-    <td>{{ element.year2|number_format(0, '.', ' ') }} &euro;</td>
-    <td>{{ element.ratio_year3_year2|number_format(2, '.', ' ') }}%</td>
-    <td>{{ element.year1|number_format(0, '.', ' ') }} &euro;</td>
-    <td>{{ element.ratio_year2_year1|number_format(2, '.', ' ') }}%</td>
-    <td>{{ element.year|number_format(0, '.', ' ') }} &euro;</td>
-    <td>{{ element.ratio_year1_year|number_format(2, '.', ' ') }}%</td>
-    <td>{{ element.SE|number_format(0, '.', ' ') }} &euro;</td>
-    <td>{{ element.ratio_year_SE|number_format(2, '.', ' ') }}</td>
-    <td>{{ element.ratio_year2_year|number_format(2, '.', ' ') }}%</td>
-    </tr>
-     */
 }

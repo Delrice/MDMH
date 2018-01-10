@@ -7,14 +7,10 @@
     <section class="content-header">
         <h1>
             {{ 'header.restaurant.track_dailysales.title'|trans }}
-            <small>{{ restaurant.name|upper }}</small>
+            <small>{{ 'header.restaurant.track_dailysales.optional'|trans }}</small>
         </h1>
         {{ include('layout/parts/breadcrumb.html.twig',
             {'pages': [
-                {
-                    'title': restaurant.name,
-                    'href': path('restaurant_view', {'id': restaurant.id})
-                },
                 {
                     'title': 'restaurant.track_dailysales.page_title'|trans
                 }

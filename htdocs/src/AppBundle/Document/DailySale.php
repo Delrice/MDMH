@@ -58,9 +58,14 @@ class DailySale
     private $date;
 
     /**
-     * @ODM\Field(type="integer")
+     * @ODM\Field(type="string")
      */
     private $week;
+
+    /**
+     * @ODM\Field(type="integer")
+     */
+    private $weekNumber;
 
     /**
      * @ODM\Field(type="string")
@@ -289,7 +294,29 @@ class DailySale
      */
     public function setWeek()
     {
-        $this->week = $this->date->format('W');
+        $weekNumber = (int)$this->date->format('W');
+        $weekYear = (int)$this->date->format('Y');
+
+        $lastDayOfTheYear = \DateTime::createFromFormat('d/m/Y', '31/12/'.$this->year);
+        $lastDayWeekNumber = (int)$lastDayOfTheYear->format('W');
+
+        // If the last day is in week 53, decrement weekNumber by one
+        if ($lastDayWeekNumber == 53) {
+            $weekNumber--;
+        }
+
+        // If weekNumber is 53 (from previous year)
+        if ($weekNumber == 53) {
+            $weekNumber--;
+            $weekYear--;
+        }
+
+        if (strlen(strval($weekNumber)) == 1) {
+            $weekNumber = '0'.$weekNumber;
+        }
+
+        $this->week = $weekYear.'/'.$weekNumber;
+        $this->weekNumber = (int)$weekNumber;
     }
 
     /**

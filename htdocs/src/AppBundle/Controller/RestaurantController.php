@@ -265,6 +265,32 @@ class RestaurantController extends Controller
     }
 
     /**
+     * @Route("/track/globaldaily/{year}/{month}", name="restaurant_track_global_dailysales", defaults={"year"=null, "month"=null})
+     */
+    public function trackGlobalDailySalesAction(Request $request, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
+    {
+        if (null === $year)
+            $year = strftime('%Y', time());
+
+        if (null === $month)
+            $month = strftime('%m', time());
+
+        $trackingDailySales = $salesManager->trackDailySales($year, $month);
+
+        $navigation = $utils->generateMonthNavigation('restaurant_track_global_dailysales', null, $year, $month);
+
+        return $this->render('restaurants/track_global_dailysales.html.twig', [
+            'currentMenuActive' => [
+                'menu.supervisor.track_dailysales'
+            ],
+            'navigation' => $navigation,
+            'elements' => $trackingDailySales,
+            'cYear' => $year,
+            'pYear' => $year - 1
+        ]);
+    }
+
+    /**
      * @Route("/track/weekly/{id}/{year}", name="restaurant_track_weeklysales", defaults={"year"=null})
      */
     public function trackWeeklySalesAction(Request $request, $id, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
@@ -307,8 +333,6 @@ class RestaurantController extends Controller
      */
     public function trackGlobalWeeklySalesAction(Request $request, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
-        $dm = $this->get('doctrine_mongodb')->getManager();
-
         if (null === $year)
             $year = strftime('%Y', time());
 

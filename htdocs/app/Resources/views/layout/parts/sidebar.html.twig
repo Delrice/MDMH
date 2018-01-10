@@ -48,9 +48,19 @@
                 <li class="header text-uppercase">
                     <span class="text-warning">{{ 'menu.supervisor'|trans }}</span>
                 </li>
+                <li{% if 'menu.supervisor.track_dailysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                    <a href="{{ path('restaurant_track_global_dailysales') }}" title="{{ 'menu.supervisor.track_dailysales'|trans }}">
+                        <i class="fa fa-area-chart"></i> <span>{{ 'menu.supervisor.track_dailysales'|trans }}</span>
+                    </a>
+                </li>
                 <li{% if 'menu.supervisor.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('restaurant_track_global_weeklysales') }}" title="{{ 'menu.supervisor.track_weeklysales'|trans }}">
                         <i class="fa fa-area-chart"></i> <span>{{ 'menu.supervisor.track_weeklysales'|trans }}</span>
+                    </a>
+                </li>
+                <li{% if 'menu.supervisor.south_est' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                    <a href="{{ path('supervisor_south_est') }}" title="{{ 'menu.supervisor.south_est'|trans }}">
+                        <i class="fa fa-pie-chart"></i> <span>{{ 'menu.supervisor.south_est'|trans }}</span>
                     </a>
                 </li>
             </ul>

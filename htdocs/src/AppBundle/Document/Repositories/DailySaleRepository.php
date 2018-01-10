@@ -19,14 +19,21 @@ class DailySaleRepository extends DocumentRepository
      * @param Restaurant $restaurant
      * @return \Doctrine\MongoDB\Iterator|\Doctrine\ODM\MongoDB\CommandCursor
      */
-    public function computeMonthlySalesForYear($year, Restaurant $restaurant)
+    public function computeMonthlySalesForYear($year, Restaurant $restaurant=null)
     {
         $builder = $this->createAggregationBuilder(DailySale::class);
-        $builder
-            ->match()
+        if ($restaurant) {
+            $builder
+                ->match()
                 ->field('restaurant')->references($restaurant)
-                ->field('year')->equals((int)$year)
-            ->group()
+                ->field('year')->equals((int)$year);
+        } else {
+            $builder
+                ->match()
+                ->field('year')->equals((int)$year);
+        }
+
+        $builder->group()
                 ->field('id')->expression(['month' => '$month'])
                 ->field('foodSaleTotal')->sum('$foodSaleAmount')
             ->sort([
@@ -77,17 +84,17 @@ class DailySaleRepository extends DocumentRepository
             $builder
                 ->match()
                 ->field('restaurant')->references($restaurant)
-                ->field('year')->equals((int)$year);
+                ->field('week')->equals(new \MongoRegex("/$year\/*/"));
         } else {
             $builder
                 ->match()
-                ->field('year')->equals((int)$year);
+                ->field('week')->equals(new \MongoRegex("/$year\/*/"));
         }
         $builder->group()
-                ->field('id')->expression(['week' => '$week'])
+                ->field('id')->expression(['week' => '$week', 'weekNumber' => '$weekNumber'])
                 ->field('foodSaleTotal')->sum('$foodSaleAmount')
             ->sort([
-                '_id' => 'ASC'
+                '_id' => 'DESC'
             ])
         ;
 
@@ -101,7 +108,7 @@ class DailySaleRepository extends DocumentRepository
      * @param Restaurant $restaurant
      * @return object
      */
-    public function findLastYearEntryForSameDayName($currentYear, $currentMonth, $currentDay, Restaurant $restaurant)
+    public function findLastYearEntryForSameDayName($currentYear, $currentMonth, $currentDay, Restaurant $restaurant=null)
     {
         // Here, get the precedent CA for the same day 1 year ago
         $dateTime = \DateTime::createFromFormat('d/m/Y', $currentDay.'/'.$currentMonth.'/'.$currentYear);
@@ -116,12 +123,27 @@ class DailySaleRepository extends DocumentRepository
         $lastMonth = $lastYearDateTime->format('m');
         $lastDay = $lastYearDateTime->format('d');
 
-        $lastYearDailySale = $this->findOneBy([
+        if ($restaurant) {
+            $lastYearDailySale = $this->findOneBy([
                 'year' => (int)$lastYear,
                 'month' => (int)$lastMonth,
                 'day' => (int)$lastDay,
                 'restaurant' => $restaurant
             ]);
+        } else {
+            $lastYearDailySales = $this->findBy([
+                'year' => (int)$lastYear,
+                'month' => (int)$lastMonth,
+                'day' => (int)$lastDay
+            ]);
+
+            $totalAmount = 0;
+            foreach ($lastYearDailySales as $lastYearDailySale) {
+                $totalAmount += $lastYearDailySale->getFoodSaleAmount();
+            }
+            $lastYearDailySale->setFoodSaleAmount($totalAmount);
+        }
+
         return $lastYearDailySale;
     }
 }

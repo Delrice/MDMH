@@ -15,6 +15,7 @@ menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
 menu.supervisor: Supervision
 menu.supervisor.track_weeklysales: 'Suivi ventes hebdomadaires'
+menu.supervisor.track_dailysales: 'Suivi ventes journalières'
 menu.restaurants: Restaurants
 menu.restaurant.view: 'Aperçu'
 menu.restaurant.budget: 'Gestion des budgets'
@@ -34,6 +35,21 @@ month-sep: 'Septembre'
 month-oct: 'Octobre'
 month-nov: 'Novembre'
 month-dec: 'Décembre'
+
+month-1: 'Janvier'
+month-2: 'Février'
+month-3: 'Mars'
+month-4: 'Avril'
+month-5: 'Mai'
+month-6: 'Juin'
+month-7: 'Juillet'
+month-8: 'Août'
+month-9: 'Septembre'
+month-10: 'Octobre'
+month-11: 'Novembre'
+month-12: 'Décembre'
+
+week: 'Sem'
 
 
 
@@ -108,7 +124,6 @@ exception.access.restaurant: 'Vous n''êtes pas autorisé à accéder à cette r
 restaurant.daily_sales.page_title: 'Gestion des ventes'
 header.restaurant.daily_sales.optional: 'Gestion des ventes journalières'
 restaurant.track_dailysales.page_title: 'Ventes journalières'
-header.restaurant.track_dailysales.optional: 'Suivi des ventes journalières'
 restaurant.view.infos: 'Infos'
 restaurant.view.page_title: 'Détails restaurant'
 header.restaurant.view.optional: ''
@@ -161,6 +176,8 @@ dayname-sun: 'dimanche'
 monthlySales.dailySales: 'Mes ventes du mois'
 
 ### TRACK DAILYSALES
+header.restaurant.track_dailysales.title: 'Suivi des ventes journalières'
+header.restaurant.track_dailysales.optional: 'marché Alésien'
 track.dailysales.dayname: 'Jour'
 track.dailysales.date: 'Date'
 track.dailysales.precedent_sales: 'Ventes pYear'
@@ -178,8 +195,8 @@ track.dailysales.total_year_to_date: 'Year to date'
 
 ### TRACK WEEKLYSALES
 restaurant.track_weeklysales.page_title: 'Ventes hebdomadaires'
-header.restaurant.track_weeklysales.optional: 'Suivi des ventes hebdomadaires'
-header.restaurant.track_weeklysales.title: 'Marché'
+header.restaurant.track_weeklysales.optional: 'marché Alésien'
+header.restaurant.track_weeklysales.title: 'Suivi des ventes hebdomadaires'
 track.weeklysales.week: 'N° semaine'
 track.weeklysales.year: 'year'
 track.weeklysales.ratio: 'évol'
@@ -187,4 +204,14 @@ track.weeklysales.ratio2: 'évol 2'
 track.weeklysales.SE: 'SE'
 track.weeklysales.ratio_SE: 'écart'
 
-
+### SOUTH EST
+menu.supervisor.south_est: 'SE'
+supervisor.south_est.page_title: 'Marché global Sud-Est'
+header.supervisor.south_est.title: 'Marché global Sud-Est'
+header.supervisor.south_est.optional: ''
+supervisor.south_est.table_header: 'Chiffres du SE'
+supervisor.south_est.annual: 'Chiffre annuel'
+supervisor.south_est.monthly: 'Chiffres mensuels'
+supervisor.south_est.weekly: 'Chiffres hebdomadaires'
+supervisor.south_est.edit.create_button: 'Enregistrer'
+supervisor.south_est.update.success: 'Marché SE modifié avec succès'
