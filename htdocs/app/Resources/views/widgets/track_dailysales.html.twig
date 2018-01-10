@@ -47,15 +47,14 @@
                     {{ elements.total.currentCA.value|number_format(0, '.', ' ') }} &euro;<br>
                     <span>{{ elements.total.currentCA.progression|number_format(2, '.', ' ') }} %</span>
                 </td>
-                <td class="bg-yellow">
-                    {{ elements.total.budget.value|number_format(0, '.', ' ') }} &euro;
+                <td>
+                    <div class="box-body bg-yellow">{{ elements.total.budget.value|number_format(0, '.', ' ') }} &euro;</div>
                 </td>
                 <td{{ elements.total.futureCA.progression < 0 ? ' class="text-red"' }}>
                     {{ elements.total.futureCA.value|number_format(0, '.', ' ') }} &euro;<br>
                     <span>{{ elements.total.futureCA.progression|number_format(2, '.', ' ') }} %</span>
                     {% if elements.total.futureCA.progression_supp|default(false) %}
-                        <br>
-                        <i>({{ elements.total.futureCA.progression_supp|number_format(0, '.', ' ') }} &euro;)</i>
+                        <i>&nbsp;({{ elements.total.futureCA.progression_supp|number_format(0, '.', ' ') }} &euro;)</i>
                     {% endif %}
                 </td>
             </tr>

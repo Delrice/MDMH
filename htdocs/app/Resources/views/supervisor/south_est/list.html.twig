@@ -1,5 +1,15 @@
 {% extends 'layout/base.html.twig' %}
 
+{% form_theme form _self %}
+
+{%- block form_row -%}
+    <div class="col-md-2">
+        {{- form_label(form) -}}
+        {{- form_errors(form) -}}
+        {{- form_widget(form) -}}
+    </div>
+{%- endblock form_row -%}
+
 {% block title %}{{ 'supervisor.south_est.page_title'|trans }}{% endblock %}
 
 {% block page_header %}
@@ -33,36 +43,33 @@
                         </div>
                         <!-- /.box-header -->
 
+                        <!-- .box-body -->
                         <div class="box-body">
-                            {{ form_label(form.annual) }}
-                            {{ form_widget(form.annual) }}
-
+                            {{ form_row(form.annual) }}
                         </div>
                         <!-- /.box-body -->
 
+                        <hr>
+
+                        <!-- .box-body -->
                         <div class="box-body">
                             {{ form_label(form.monthly) }}
-                            <ul class="list-inline">
-                                {% for month in form.monthly %}
-                                    <li class="col-md-2">
-                                        {{ form_label(month) }}
-                                        {{ form_widget(month) }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                            <hr class="no-border">
+                            {% for month in form.monthly %}
+                                {{ form_row(month) }}
+                            {% endfor %}
                         </div>
                         <!-- /.box-body -->
 
+                        <hr>
+
+                        <!-- .box-body -->
                         <div class="box-body">
                             {{ form_label(form.weekly) }}
-                            <ul class="list-inline">
-                                {% for number, week in form.weekly %}
-                                    <li class="col-md-1">
-                                        {{ form_label(week) }}&nbsp;{{ number }}
-                                        {{ form_widget(week) }}
-                                    </li>
-                                {% endfor %}
-                            </ul>
+                            <hr class="no-border">
+                            {% for number, week in form.weekly %}
+                                {{ form_row(week, {'label': 'week'|trans({'nb': number})}) }}
+                            {% endfor %}
                         </div>
                         <!-- /.box-body -->
 
@@ -76,5 +83,5 @@
         </div>
     </section>
     <!-- /.content -->
-
 {% endblock %}
+

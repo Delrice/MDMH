@@ -178,6 +178,8 @@ class SalesManager
 
             if (!empty($monthlySalesEntries[$i])) {
                 foreach ($monthlySalesEntries[$i] as $monthlySalesEntry) {
+                    dump('add budget '.$monthlySalesEntry->getBudgetAmount());
+                    dump('add sales '.$monthlySalesEntry->getFoodSaleAmount());
                     $trackDailySales->setCurrentBudget($monthlySalesEntry->getBudgetAmount());
                     $trackDailySales->setCurrentSales($monthlySalesEntry->getFoodSaleAmount());
 
@@ -235,14 +237,18 @@ class SalesManager
             $trackingDailySales['total']['futureCA']['progression_supp'] = $f - $prevJ;
         }
 
-        $restaurantBudget = $this->dm->getRepository(Budget::class)->findOneBy([
-            'restaurant' => $this->restaurant,
-            'year' => $year
-        ]);
-        if ($restaurantBudget) {
-            $annualBudget = $restaurantBudget->toArray();
-            $monthName = strtolower(strftime('%b', mktime(0, 0, 0, $month, 1, $year)));
-            $trackingDailySales['total']['budget']['value'] = $annualBudget[$monthName];
+        $searchOptions = ['year' => $year];
+        if ($this->restaurant) {
+            $searchOptions['restaurant'] = $this->restaurant;
+        }
+
+        $restaurantBudgetList = $this->dm->getRepository(Budget::class)->findBy($searchOptions);
+        if ($restaurantBudgetList) {
+            foreach ($restaurantBudgetList as $restaurantBudget) {
+                $annualBudget = $restaurantBudget->toArray();
+                $monthName = strtolower(strftime('%b', mktime(0, 0, 0, $month, 1, $year)));
+                $trackingDailySales['total']['budget']['value'] += $annualBudget[$monthName];
+            }
         }
 
         return $trackingDailySales;
