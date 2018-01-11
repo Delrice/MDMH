@@ -5,8 +5,6 @@ namespace AppBundle\Controller;
 use AppBundle\Document\User;
 use AppBundle\Form\UserCreationType;
 use AppBundle\Form\UserEditionType;
-use Doctrine\Bundle\MongoDBBundle\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
@@ -16,7 +14,7 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
  * @package AppBundle\Controller
  * @Route("/users")
  */
-class UserController extends Controller
+class UserController extends BaseController
 {
     /**
      * @Route("/profile/{id}", name="user_profile", defaults={"id": null})

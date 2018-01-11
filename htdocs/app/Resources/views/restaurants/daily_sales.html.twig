@@ -6,8 +6,8 @@
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ restaurant.name|upper }}
-            <small>{{ 'header.restaurant.daily_sales.optional'|trans }}</small>
+            {{ 'header.restaurant.daily_sales.title'|trans }}
+            <small>{{ restaurant.name|upper }}</small>
         </h1>
         {{ include('layout/parts/breadcrumb.html.twig',
             {'pages': [

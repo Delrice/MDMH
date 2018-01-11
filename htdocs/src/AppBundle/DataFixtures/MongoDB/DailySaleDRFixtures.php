@@ -427,7 +427,7 @@ class DailySaleDRFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 14504, 'budget' => 14121],
                         ['sale' => 7355, 'budget' => 8121],
                         ['sale' => 9237, 'budget' => 8721],
-                        ['sale' => 0, 'budget' => 11121],
+                        ['sale' => 10738, 'budget' => 11121],
                         ['sale' => 0, 'budget' => 8621],
                         ['sale' => 0, 'budget' => 13121],
                         ['sale' => 0, 'budget' => 13821],

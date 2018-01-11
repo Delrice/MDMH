@@ -2,14 +2,12 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Document\Product;
 use AppBundle\Services\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DashboardController extends Controller
+class DashboardController extends BaseController
 {
     /**
      * @Route("/", name="homepage")
@@ -26,9 +24,5 @@ class DashboardController extends Controller
     {
         $restaurants = $securityService->getUserRestaurants();
         return new Response();
-        dump($restaurants);
-        return $this->render('widgets/dailysales.html.twig', [
-            'restaurants' => $restaurants
-        ]);
     }
 }

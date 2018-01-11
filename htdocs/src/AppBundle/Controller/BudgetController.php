@@ -5,20 +5,20 @@ namespace AppBundle\Controller;
 use AppBundle\Document\Budget;
 use AppBundle\Document\Restaurant;
 use AppBundle\Form\BudgetType;
+use AppBundle\Manager\RestaurantManager;
+use AppBundle\Services\Security;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class BudgetController
  * @package AppBundle\Controller
- * @Route("/budget")
  */
-class BudgetController extends Controller
+class BudgetController extends BaseController
 {
     /**
-     * @Route("/new/{id}/{year}", name="restaurant_budget_new")
+     * @Route("/budget/new/{id}/{year}", name="restaurant_budget_new")
      */
     public function newBudgetForRestaurantAction(Request $request, $id, $year)
     {
@@ -58,7 +58,7 @@ class BudgetController extends Controller
     /**
      * @param Request $request
      * @param $id
-     * @Route("/edit/{id}", name="restaurant_budget_edit")
+     * @Route("/budget/edit/{id}", name="restaurant_budget_edit")
      */
     public function editAction(Request $request, $id)
     {
@@ -91,4 +91,34 @@ class BudgetController extends Controller
             ]
         ]);
     }
+
+    /**
+     * @Route("/restaurants/budgets/{id}/{year}", name="restaurant_budgets", defaults={"year"=null})
+     */
+    public function budgetAction($id, $year, Security $securityService, RestaurantManager $restaurantManager)
+    {
+        $checkerResult = $this->checkUserAccess($id, $securityService);
+        if ($checkerResult instanceof RedirectResponse)
+            return $checkerResult;
+
+        $dm = $this->get('doctrine_mongodb')->getManager();
+        $restaurant = $dm->getRepository(Restaurant::class)->find($id);
+
+        $restaurantManager->setRestaurant($restaurant);
+        $annualBudgets = $restaurantManager->getAllPlannedBudgets();
+
+        if (null === $year)
+            $year = strftime('%Y', time());
+
+        return $this->render('restaurants/budget.html.twig', [
+            'currentMenuActive' => [
+                'menu.restaurant.'.$id,
+                'menu.restaurant.'.$id.'.budget'
+            ],
+            'restaurant' => $restaurant,
+            'annualBudgets' => $annualBudgets,
+            'year' => $year
+        ]);
+    }
+
 }

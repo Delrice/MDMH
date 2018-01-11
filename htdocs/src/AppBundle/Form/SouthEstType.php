@@ -5,7 +5,7 @@ namespace AppBundle\Form;
 use AppBundle\Document\SouthEst;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -19,13 +19,13 @@ class SouthEstType extends AbstractType
             ])
             ->add('monthly', CollectionType::class, [
                 'label' => 'supervisor.south_est.monthly',
-                'entry_type' => TextType::class,
+                'entry_type' => NumberType::class,
                 'required' => false,
                 'label_format' => 'month-%name%'
             ])
             ->add('weekly', CollectionType::class, [
                 'label' => 'supervisor.south_est.weekly',
-                'entry_type' => TextType::class,
+                'entry_type' => NumberType::class,
                 'required' => false,
                 'label_format' => 'week'
             ])

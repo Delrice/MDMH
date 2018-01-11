@@ -50,14 +50,19 @@
                 </li>
                 <li{% if 'menu.supervisor.track_dailysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('restaurant_track_global_dailysales') }}" title="{{ 'menu.supervisor.track_dailysales'|trans }}">
-                        <i class="fa fa-area-chart"></i> <span>{{ 'menu.supervisor.track_dailysales'|trans }}</span>
+                        <i class="fa fa-line-chart"></i> <span>{{ 'menu.supervisor.track_dailysales'|trans }}</span>
                     </a>
                 </li>
                 <li{% if 'menu.supervisor.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('restaurant_track_global_weeklysales') }}" title="{{ 'menu.supervisor.track_weeklysales'|trans }}">
-                        <i class="fa fa-area-chart"></i> <span>{{ 'menu.supervisor.track_weeklysales'|trans }}</span>
+                        <i class="fa fa-line-chart"></i> <span>{{ 'menu.supervisor.track_weeklysales'|trans }}</span>
                     </a>
                 </li>
+                {#<li{% if 'menu.supervisor.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                    <a href="{{ path('restaurant_track_global_weeklysales') }}" title="{{ 'menu.supervisor.track_monthlysales'|trans }}">
+                        <i class="fa fa-line-chart"></i> <span>{{ 'menu.supervisor.track_monthlysales'|trans }}</span>
+                    </a>
+                </li>#}
                 <li{% if 'menu.supervisor.south_est' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('supervisor_south_est') }}" title="{{ 'menu.supervisor.south_est'|trans }}">
                         <i class="fa fa-pie-chart"></i> <span>{{ 'menu.supervisor.south_est'|trans }}</span>
@@ -88,28 +93,29 @@
                                     <i class="fa fa-eye"></i> <span>{{ 'menu.restaurant.view'|trans }}</span>
                                 </a>
                             </li>
-
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.budget' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_budgets', {'id': restaurant.id}) }}" id="restaurant-budget-{{ restaurant.identifier }}">
                                     <i class="fa fa-balance-scale"></i> <span>{{ 'menu.restaurant.budget'|trans }}</span>
                                 </a>
                             </li>
-
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.daily_sales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_daily_sales', {'id': restaurant.id}) }}" id="restaurant-sales-{{ restaurant.identifier }}">
                                     <i class="fa fa-calculator"></i> <span>{{ 'menu.restaurant.daily_sales'|trans }}</span>
                                 </a>
                             </li>
-
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_dailysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_track_dailysales', {'id': restaurant.id}) }}" id="restaurant-track-dailysales-{{ restaurant.identifier }}">
-                                    <i class="fa fa-bar-chart"></i> <span>{{ 'menu.restaurant.track_dailysales'|trans }}</span>
+                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_dailysales'|trans }}</span>
                                 </a>
                             </li>
-
-                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                            {#<li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_weeklysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_track_weeklysales', {'id': restaurant.id}) }}" id="restaurant-track-weeklysales-{{ restaurant.identifier }}">
                                     <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_weeklysales'|trans }}</span>
+                                </a>
+                            </li>#}
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                                <a href="{{ path('restaurant_track_weeklysales', {'id': restaurant.id}) }}" id="restaurant-track-monthlysales-{{ restaurant.identifier }}">
+                                    <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_monthlysales'|trans }}</span>
                                 </a>
                             </li>
                         </ul>

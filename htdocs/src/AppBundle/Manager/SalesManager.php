@@ -178,8 +178,6 @@ class SalesManager
 
             if (!empty($monthlySalesEntries[$i])) {
                 foreach ($monthlySalesEntries[$i] as $monthlySalesEntry) {
-                    dump('add budget '.$monthlySalesEntry->getBudgetAmount());
-                    dump('add sales '.$monthlySalesEntry->getFoodSaleAmount());
                     $trackDailySales->setCurrentBudget($monthlySalesEntry->getBudgetAmount());
                     $trackDailySales->setCurrentSales($monthlySalesEntry->getFoodSaleAmount());
 

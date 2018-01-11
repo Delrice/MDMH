@@ -14,14 +14,17 @@ menu.administrator: Administration
 menu.administrator.users: Utilisateurs
 menu.administrator.restaurants: Restaurants
 menu.supervisor: Supervision
-menu.supervisor.track_weeklysales: 'Suivi ventes hebdomadaires'
 menu.supervisor.track_dailysales: 'Suivi ventes journalières'
+menu.supervisor.track_weeklysales: 'Suivi ventes hebdomadaires'
+menu.supervisor.track_monthlysales: 'Suivi ventes mensuelles'
+menu.supervisor.south_est: 'Gestion marché SE'
 menu.restaurants: Restaurants
 menu.restaurant.view: 'Aperçu'
 menu.restaurant.budget: 'Gestion des budgets'
 menu.restaurant.daily_sales: 'Saisie ventes journalières'
 menu.restaurant.track_dailysales: 'Suivi ventes journalières'
 menu.restaurant.track_weeklysales: 'Suivi ventes hebdomadaires'
+menu.restaurant.track_monthlysales: 'Suivi ventes mensuelles'
 ### COMMON
 month-jan: 'Janvier'
 month-feb: 'Février'
@@ -122,7 +125,7 @@ restaurant.edit.page_title: 'Modifier un restaurant'
 restaurant.edit.users: 'Directeur(s) rattaché(s) :'
 exception.access.restaurant: 'Vous n''êtes pas autorisé à accéder à cette resource'
 restaurant.daily_sales.page_title: 'Gestion des ventes'
-header.restaurant.daily_sales.optional: 'Gestion des ventes journalières'
+header.restaurant.daily_sales.title: 'Gestion des ventes journalières'
 restaurant.track_dailysales.page_title: 'Ventes journalières'
 restaurant.view.infos: 'Infos'
 restaurant.view.page_title: 'Détails restaurant'
@@ -131,7 +134,7 @@ header.restaurant.view.optional: ''
 
 ### BUDGET
 restaurant.budget.page_title: 'Budgets'
-header.restaurant.budget.optional: 'Gestion et suivi du budget'
+header.restaurant.budget.title: 'Gestion et suivi des budgets'
 restaurant.view.budget: 'Budgets annuels'
 restaurant.budget.month: 'Mois'
 restaurant.budget.budget: 'Prévu'
@@ -205,7 +208,6 @@ track.weeklysales.SE: 'SE'
 track.weeklysales.ratio_SE: 'écart'
 
 ### SOUTH EST
-menu.supervisor.south_est: 'SE'
 supervisor.south_est.page_title: 'Marché global Sud-Est'
 header.supervisor.south_est.title: 'Marché global Sud-Est'
 header.supervisor.south_est.optional: ''

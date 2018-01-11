@@ -20,6 +20,10 @@ use Doctrine\ODM\MongoDB\Mapping\Annotations as ODM;
  *  @ODM\Index(keys={"restaurant.$id"="asc", "week"="asc"}),
  *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc"}),
  *  @ODM\Index(keys={"restaurant.$id"="asc", "year"="asc", "month"="asc", "day"="asc"}),
+ *  @ODM\Index(keys={"year"="asc"}),
+ *  @ODM\Index(keys={"week"="asc"}),
+ *  @ODM\Index(keys={"year"="asc", "month"="asc"}),
+ *  @ODM\Index(keys={"year"="asc", "month"="asc", "day"="asc"}),
  * })
  */
 class DailySale

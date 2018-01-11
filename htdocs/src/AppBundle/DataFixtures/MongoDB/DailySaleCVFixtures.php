@@ -427,7 +427,7 @@ class DailySaleCVFixtures extends Fixture implements FixtureInterface, Container
                         ['sale' => 8017, 'budget' => 7750],
                         ['sale' => 5123, 'budget' => 5100],
                         ['sale' => 5801, 'budget' => 5400],
-                        ['sale' => 0, 'budget' => 7500],
+                        ['sale' => 7086, 'budget' => 7500],
                         ['sale' => 0, 'budget' => 5650],
                         ['sale' => 0, 'budget' => 7500],
                         ['sale' => 0, 'budget' => 7600],
