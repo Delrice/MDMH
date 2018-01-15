@@ -12,10 +12,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class DailySalesController
+ * @package AppBundle\Controller
+ * @Route("/restaurants")
+ */
 class DailySalesController extends BaseController
 {
     /**
-     * @Route("/restaurants/sales/{id}/{year}/{month}", name="restaurant_daily_sales", defaults={"year"=null, "month"=null})
+     * @Route("/sales/{id}/{year}/{month}", name="restaurant_daily_sales", defaults={"year"=null, "month"=null})
      */
     public function dailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
@@ -71,7 +76,7 @@ class DailySalesController extends BaseController
     }
 
     /**
-     * @Route("/restaurants/track/daily/{id}/{year}/{month}", name="restaurant_track_dailysales", defaults={"year"=null, "month"=null})
+     * @Route("/track/daily/{id}/{year}/{month}", name="restaurant_track_dailysales", defaults={"year"=null, "month"=null})
      */
     public function trackDailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
@@ -110,7 +115,7 @@ class DailySalesController extends BaseController
     }
 
     /**
-     * @Route("/restaurants/track/globaldaily/{year}/{month}", name="restaurant_track_global_dailysales", defaults={"year"=null, "month"=null})
+     * @Route("/track/globaldaily/{year}/{month}", name="restaurant_track_global_dailysales", defaults={"year"=null, "month"=null})
      */
     public function trackGlobalDailySalesAction(Request $request, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {

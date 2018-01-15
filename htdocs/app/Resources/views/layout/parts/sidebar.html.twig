@@ -58,11 +58,11 @@
                         <i class="fa fa-line-chart"></i> <span>{{ 'menu.supervisor.track_weeklysales'|trans }}</span>
                     </a>
                 </li>
-                {#<li{% if 'menu.supervisor.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
-                    <a href="{{ path('restaurant_track_global_weeklysales') }}" title="{{ 'menu.supervisor.track_monthlysales'|trans }}">
+                <li{% if 'menu.supervisor.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                    <a href="{{ path('restaurant_track_global_monthlysales') }}" title="{{ 'menu.supervisor.track_monthlysales'|trans }}">
                         <i class="fa fa-line-chart"></i> <span>{{ 'menu.supervisor.track_monthlysales'|trans }}</span>
                     </a>
-                </li>#}
+                </li>
                 <li{% if 'menu.supervisor.south_est' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('supervisor_south_est') }}" title="{{ 'menu.supervisor.south_est'|trans }}">
                         <i class="fa fa-pie-chart"></i> <span>{{ 'menu.supervisor.south_est'|trans }}</span>
@@ -118,11 +118,11 @@
                                     <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_weeklysales'|trans }}</span>
                                 </a>
                             </li>
-                            {#<li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
-                                <a href="{{ path('restaurant_track_weeklysales', {'id': restaurant.id}) }}" id="restaurant-track-monthlysales-{{ restaurant.identifier }}">
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                                <a href="{{ path('restaurant_track_monthlysales', {'id': restaurant.id}) }}" id="restaurant-track-monthlysales-{{ restaurant.identifier }}">
                                     <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_monthlysales'|trans }}</span>
                                 </a>
-                            </li>#}
+                            </li>
                         </ul>
                     </li>
                 {% endfor %}

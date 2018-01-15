@@ -1,0 +1,34 @@
+{% extends 'layout/base.html.twig' %}
+
+{% block title %}{{ 'restaurant.track_monthlysales.page_title'|trans }}{% endblock %}
+
+{% block page_header %}
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+        <h1>
+            {{ 'header.restaurant.track_monthlysales.title'|trans }}
+            <small>{{ 'header.restaurant.track_monthlysales.optional'|trans }}</small>
+        </h1>
+        {{ include('layout/parts/breadcrumb.html.twig',
+            {'pages': [
+                {
+                    'title': 'restaurant.track_monthlysales.page_title'|trans
+                }
+            ]
+            })
+        }}
+    </section>
+{% endblock %}
+
+{% block content %}
+    <section class="content">
+        <div class="row">
+            <div class="col-md-12">
+                {{ include('widgets/track_monthlysales.html.twig', {
+                    'elements': elements|default([])
+                }) }}
+            </div>
+        </div>
+    </section>
+    <!-- /.content -->
+{% endblock %}

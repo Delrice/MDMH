@@ -72,9 +72,9 @@ class DailySaleRepository extends DocumentRepository
     }
 
     /**
-     * @param $searchOptions
-     * @return mixed
-     * @throws \Doctrine\ODM\MongoDB\MongoDBException
+     * @param $year
+     * @param Restaurant|null $restaurant
+     * @return \Doctrine\MongoDB\Iterator|\Doctrine\ODM\MongoDB\CommandCursor
      */
     public function getDailySalesGroupedByWeek($year, Restaurant $restaurant=null)
     {
@@ -83,18 +83,43 @@ class DailySaleRepository extends DocumentRepository
         if ($restaurant) {
             $builder
                 ->match()
-                ->field('restaurant')->references($restaurant)
-                ->field('week')->equals(new \MongoRegex("/$year\/*/"));
+                    ->field('restaurant')->references($restaurant)
+                    ->field('week')->equals(new \MongoRegex("/$year\/*/"));
         } else {
             $builder
                 ->match()
-                ->field('week')->equals(new \MongoRegex("/$year\/*/"));
+                    ->field('week')->equals(new \MongoRegex("/$year\/*/"));
         }
         $builder->group()
                 ->field('id')->expression(['week' => '$week', 'weekNumber' => '$weekNumber'])
                 ->field('foodSaleTotal')->sum('$foodSaleAmount')
             ->sort([
                 '_id' => 'DESC'
+            ])
+        ;
+
+        return $builder->execute();
+    }
+
+    /**
+     * @param Restaurant|null $restaurant
+     * @return \Doctrine\MongoDB\Iterator|\Doctrine\ODM\MongoDB\CommandCursor
+     */
+    public function getDailySalesGroupedByMonth(Restaurant $restaurant=null)
+    {
+        $builder = $this->createAggregationBuilder(DailySale::class);
+
+        if ($restaurant) {
+            $builder
+                ->match()
+                    ->field('restaurant')->references($restaurant);
+        }
+
+        $builder->group()
+                ->field('id')->expression(['year' => '$year', 'month' => '$month'])
+                ->field('foodSaleTotal')->sum('$foodSaleAmount')
+            ->sort([
+                '_id' => 'ASC'
             ])
         ;
 

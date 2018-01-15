@@ -10,6 +10,7 @@ namespace AppBundle\Manager;
 
 use AppBundle\Document\Budget;
 use AppBundle\Document\DailySale;
+use AppBundle\Document\MarketRank;
 use AppBundle\Document\Restaurant;
 use AppBundle\Document\SouthEst;
 use AppBundle\Model\MonthlySales;
@@ -335,5 +336,81 @@ class SalesManager
         }
 
         return $trackingWeeklySales;
+    }
+
+    public function trackMonthlySales()
+    {
+        $trackingMonthlySales = [
+            'items' => [],
+            'year' => [
+                'min' => strftime('%Y', time()) - 2,
+                'max' => strftime('%Y', time())
+            ]
+        ];
+
+        $computedMonthlySales = [];
+        foreach ($this->utils->getMonths() as $monthNumber=>$monthShortName) {
+            $computedMonthlySales[$monthNumber] = [
+                'month' => $monthShortName,
+                'year' => 0,
+                'amount' => 0,
+                'ratio_year1_year' => 0,
+                'SE' => 0,
+                'ratio_year_SE' => 0,
+                'rank' => 0
+            ];
+        }
+
+        $SEList = $marketRankList = [];
+
+        $monthlySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByMonth($this->restaurant);
+        if ($monthlySales->count()) {
+            foreach ($monthlySales as $monthlyResult) {
+                $monthNumber = $monthlyResult['_id']['month'];
+                $year = $monthlyResult['_id']['year'];
+                $amount = $monthlyResult['foodSaleTotal'];
+
+                if ($year < $trackingMonthlySales['year']['min'])
+                    $trackingMonthlySales['year']['min'] = $year;
+
+                $item = $computedMonthlySales[$monthNumber];
+
+                $item['year'] = $year;
+                $item['amount'] = $amount;
+
+                // SE
+                if (empty($SEList[$year])) {
+                    $SE = $this->dm->getRepository(SouthEst::class)->findOneBy(['year' => (int)$year]);
+                    if (!$SE)
+                        $SE = new SouthEst();
+                    $SEList[$year] = $SE;
+                } else {
+                    $SE = $SEList[$year];
+                }
+                $item['SE'] = $SE->getMonth($monthNumber);
+
+                // MarketRank
+                if (empty($marketRankList[$year])) {
+                    $marketRank = $this->dm->getRepository(MarketRank::class)->findOneBy(['year' => (int)$year]);
+                    if (!$marketRank)
+                        $marketRank = new MarketRank();
+                    $marketRankList[$year] = $marketRank;
+                } else {
+                    $marketRank = $marketRankList[$year];
+                }
+                $item['rank'] = $marketRank->getMonth($monthNumber);
+
+                if (!empty($trackingMonthlySales['items'][$monthNumber][$year - 1])) {
+                    $precedentYear = $trackingMonthlySales['items'][$monthNumber][$year - 1];
+                    $item['ratio_year1_year'] = !empty($precedentYear['amount'])? round((($item['amount'] - $precedentYear['amount']) / $precedentYear['amount']) * 100, 2): -100;
+                    $item['ratio_year_SE'] = $item['ratio_year1_year'] - $item['SE'];
+                }
+
+                $trackingMonthlySales['items'][$monthNumber][$year] = $item;
+            }
+            ksort($trackingMonthlySales['items']);
+        }
+
+        return $trackingMonthlySales;
     }
 }

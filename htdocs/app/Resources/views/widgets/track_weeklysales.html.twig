@@ -30,41 +30,4 @@
             </tr>
         {% endfor %}
     </table>
-
-    {#<div class="box-footer">
-        <table class="table table-bordered text-center">
-            <tr>
-                <th>{{ 'track.dailysales.total_precedent_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-                <th>{{ 'track.dailysales.total_daily_current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-                <th>{{ 'track.dailysales.total_current_sales'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-                <th>{{ 'track.dailysales.total_current_budget'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-                <th>{{ 'track.dailysales.total_year_to_date'|trans({'pYear': pYear, 'cYear': cYear}) }}</th>
-            </tr>
-            <tr>
-                <td{{ elements.total.precedentCA.progression < 0 ? ' class="text-red"' }}>
-                    {{ elements.total.precedentCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.precedentCA.progression|number_format(2, '.', ' ') }}%</span>
-                </td>
-                <td{{ elements.total.cumul_daily_budget.progression < 0 ? ' class="text-red"' }}>
-                    {{ elements.total.cumul_daily_budget.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.cumul_daily_budget.progression|number_format(2, '.', ' ') }}%</span>
-                </td>
-                <td{{ elements.total.currentCA.progression < 0 ? ' class="text-red"' }}>
-                    {{ elements.total.currentCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.currentCA.progression|number_format(2, '.', ' ') }}%</span>
-                </td>
-                <td class="bg-yellow">
-                    {{ elements.total.budget.value|number_format(0, '.', ' ') }} &euro;
-                </td>
-                <td{{ elements.total.futureCA.progression < 0 ? ' class="text-red"' }}>
-                    {{ elements.total.futureCA.value|number_format(0, '.', ' ') }} &euro;<br>
-                    <span>{{ elements.total.futureCA.progression|number_format(2, '.', ' ') }}%</span>
-                    {% if elements.total.futureCA.progression_supp|default(false) %}
-                        <br>
-                        <i>({{ elements.total.futureCA.progression_supp|number_format(0, '.', ' ') }} &euro;)</i>
-                    {% endif %}
-                </td>
-            </tr>
-        </table>
-    </div>#}
 </div>

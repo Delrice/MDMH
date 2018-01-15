@@ -207,6 +207,19 @@ track.weeklysales.ratio2: 'évol 2'
 track.weeklysales.SE: 'SE'
 track.weeklysales.ratio_SE: 'écart'
 
+### TRACK MONTHLYSALES
+restaurant.track_monthlysales.page_title: 'Ventes mensuelles'
+header.restaurant.track_monthlysales.optional: 'marché Alésien'
+header.restaurant.track_monthlysales.title: 'Suivi des ventes mensuelles'
+track.monthlysales.year: 'Année'
+track.monthlysales.amount: 'CA'
+track.monthlysales.ratio_year1_year: '% AUG'
+track.monthlysales.SE: '% SE'
+track.monthlysales.ratio_year_SE: '# SE'
+track.monthlysales.rank: 'RANG'
+
+
+
 ### SOUTH EST
 supervisor.south_est.page_title: 'Marché global Sud-Est'
 header.supervisor.south_est.title: 'Marché global Sud-Est'

@@ -10,10 +10,15 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
+/**
+ * Class WeeklySalesController
+ * @package AppBundle\Controller
+ * @Route("/restaurants")
+ */
 class WeeklySalesController extends BaseController
 {
     /**
-     * @Route("/restaurants/track/weekly/{id}/{year}", name="restaurant_track_weeklysales", defaults={"year"=null})
+     * @Route("/track/weekly/{id}/{year}", name="restaurant_track_weeklysales", defaults={"year"=null})
      */
     public function trackWeeklySalesAction(Request $request, $id, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
@@ -51,7 +56,7 @@ class WeeklySalesController extends BaseController
     }
 
     /**
-     * @Route("/restaurants/track/globalweekly/{year}", name="restaurant_track_global_weeklysales", defaults={"year"=null})
+     * @Route("/track/globalweekly/{year}", name="restaurant_track_global_weeklysales", defaults={"year"=null})
      */
     public function trackGlobalWeeklySalesAction(Request $request, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
