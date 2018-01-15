@@ -105,7 +105,7 @@ class DailySaleRepository extends DocumentRepository
      * @param Restaurant|null $restaurant
      * @return \Doctrine\MongoDB\Iterator|\Doctrine\ODM\MongoDB\CommandCursor
      */
-    public function getDailySalesGroupedByMonth(Restaurant $restaurant=null)
+    public function getDailySalesGroupedByMonth(Restaurant $restaurant=null, $yearMin=null)
     {
         $builder = $this->createAggregationBuilder(DailySale::class);
 
@@ -114,6 +114,9 @@ class DailySaleRepository extends DocumentRepository
                 ->match()
                     ->field('restaurant')->references($restaurant);
         }
+
+        if (null !== $yearMin)
+            $builder->match()->field('year')->gt($yearMin);
 
         $builder->group()
                 ->field('id')->expression(['year' => '$year', 'month' => '$month'])

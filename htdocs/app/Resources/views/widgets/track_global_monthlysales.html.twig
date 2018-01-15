@@ -1,0 +1,111 @@
+<div class="box box-info box-body">
+    {# FIRST 6 MONTHS #}
+    <table class="table table-bordered text-center">
+        <tr class="bg-gray-active">
+            <th style="width: 90px">{{ 'track.global_monthlysales.sales'|trans }}</th>
+            {% for year in elements.year.min..elements.year.max %}
+                <th>{{ year }}</th>
+                {% if loop.index == (loop.length - 2) %}
+                    <th>{{ 'track.global_monthlysales.ratio_year2_year1'|trans }}</th>
+                {% elseif loop.index == (loop.length - 1) %}
+                    <th>{{ 'track.global_monthlysales.ratio_year1_year'|trans }}</th>
+                {% endif %}
+            {% endfor %}
+            <th>{{ 'track.global_monthlysales.SE'|trans }}</th>
+            <th>{{ 'track.global_monthlysales.ratio_year_SE'|trans }}</th>
+            <th>{{ 'track.global_monthlysales.ratio_year2_year'|trans }}</th>
+        </tr>
+
+        {% for monthNumber, month in elements.items if monthNumber <= 6 %}
+            <tr>
+                <td>{{ ('month-' ~ monthNumber)|trans }}</td>
+                {% for year in elements.year.min..elements.year.max %}
+                    <td>{{ month[year]|default([])? month[year]['amount']|number_format(0, '.', ' '): '--' }} &euro;</td>
+
+                    {% if loop.index == (loop.length - 2) %}
+                        <td>{{ month[year]|default([])? month[year]['ratio_year1_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% elseif loop.index == (loop.length - 1) %}
+                        <td>{{ month[year]|default([])? month[year]['ratio_year1_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% endif %}
+
+                    {% if loop.last %}
+                        <td>{{ month[year]|default([])? month[year]['SE']|number_format(2, '.', ' '): '--' }} %</td>
+                        <td>{{ month[year]|default([])? month[year]['ratio_year_SE']|number_format(2, '.', ' '): '--' }}</td>
+                        <td>{{ month[year]|default([])? month[year]['ratio_year2_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td>{{ 'track.global_monthlysales.total_semestre'|trans }}</td>
+            {% for year, amount in elements.total.first_semestre %}
+                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+            {% endfor %}
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+        </tr>
+
+        <tr>
+            <td colspan="13"></td>
+        </tr>
+
+        <tr class="bg-gray-active">
+            <th style="width: 90px">{{ 'track.global_monthlysales.sales'|trans }}</th>
+            {% for year in elements.year.min..elements.year.max %}
+                <th>{{ year }}</th>
+                {% if loop.index == (loop.length - 2) %}
+                    <th>{{ 'track.global_monthlysales.ratio_year2_year1'|trans }}</th>
+                {% elseif loop.index == (loop.length - 1) %}
+                    <th>{{ 'track.global_monthlysales.ratio_year1_year'|trans }}</th>
+                {% endif %}
+            {% endfor %}
+            <th>{{ 'track.global_monthlysales.SE'|trans }}</th>
+            <th>{{ 'track.global_monthlysales.ratio_year_SE'|trans }}</th>
+            <th>{{ 'track.global_monthlysales.ratio_year2_year'|trans }}</th>
+        </tr>
+
+        {% for monthNumber, month in elements.items if monthNumber > 6 %}
+            <tr>
+                <td>{{ ('month-' ~ monthNumber)|trans }}</td>
+                {% for year in elements.year.min..elements.year.max %}
+                    <td>{{ month[year]|default([])? month[year]['amount']|number_format(0, '.', ' '): '--' }} &euro;</td>
+
+                    {% if loop.index == (loop.length - 2) %}
+                        <td>{{ month[year]|default([])? month[year]['ratio_year1_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% elseif loop.index == (loop.length - 1) %}
+                        <td>{{ month[year]|default([])? month[year]['ratio_year1_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% endif %}
+
+                    {% if loop.last %}
+                        <td>{{ month[year]|default([])? month[year]['SE']|number_format(2, '.', ' '): '--' }} %</td>
+                        <td>{{ month[year]|default([])? month[year]['ratio_year_SE']|number_format(2, '.', ' '): '--' }}</td>
+                        <td>{{ month[year]|default([])? month[year]['ratio_year2_year']|number_format(2, '.', ' '): '--' }} %</td>
+                    {% endif %}
+                {% endfor %}
+            </tr>
+        {% endfor %}
+
+        <tr>
+            <td>{{ 'track.global_monthlysales.total_semestre'|trans }}</td>
+            {% for year, amount in elements.total.second_semestre %}
+                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+            {% endfor %}
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+        </tr>
+
+        <tr>
+            <td>{{ 'track.global_monthlysales.total_annual'|trans }}</td>
+            {% for year, amount in elements.total.annual %}
+                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+            {% endfor %}
+            <td>--</td>
+            <td>--</td>
+            <td>--</td>
+        </tr>
+    </table>
+
+</div>

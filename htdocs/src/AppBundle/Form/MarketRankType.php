@@ -14,6 +14,9 @@ class MarketRankType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('annual', null, [
+                'label' => 'supervisor.market_rank.annual'
+            ])
             ->add('monthly', CollectionType::class, [
                 'label' => 'supervisor.market_rank.monthly',
                 'entry_type' => NumberType::class,

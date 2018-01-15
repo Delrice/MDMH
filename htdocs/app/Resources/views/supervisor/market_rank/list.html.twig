@@ -45,6 +45,14 @@
 
                         <!-- .box-body -->
                         <div class="box-body">
+                            {{ form_row(form.annual) }}
+                        </div>
+                        <!-- /.box-body -->
+
+                        <hr>
+
+                        <!-- .box-body -->
+                        <div class="box-body">
                             {{ form_label(form.monthly) }}
                             <hr class="no-border">
                             {% for month in form.monthly %}

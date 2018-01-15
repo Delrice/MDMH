@@ -338,6 +338,9 @@ class SalesManager
         return $trackingWeeklySales;
     }
 
+    /**
+     * @return array
+     */
     public function trackMonthlySales()
     {
         $trackingMonthlySales = [
@@ -407,6 +410,129 @@ class SalesManager
                 }
 
                 $trackingMonthlySales['items'][$monthNumber][$year] = $item;
+            }
+            ksort($trackingMonthlySales['items']);
+        }
+
+        return $trackingMonthlySales;
+    }
+
+    /**
+     * @return array
+     */
+    public function trackGlobalMonthlySales()
+    {
+        $trackingMonthlySales = [
+            'items' => [],
+            'total' => [
+                'first_semestre' => [],
+                'second_semestre' => [],
+                'annual' => []
+            ],
+            'year' => [
+                'min' => strftime('%Y', time()) - 2,
+                'max' => strftime('%Y', time())
+            ]
+        ];
+
+        $computedMonthlySales = [];
+        foreach ($this->utils->getMonths() as $monthNumber=>$monthShortName) {
+            $computedMonthlySales[$monthNumber] = [
+                'month' => $monthShortName,
+                'year' => 0,
+                'amount' => 0,
+                'ratio_year2_year1' => 0,
+                'ratio_year1_year' => 0,
+                'ratio_year2_year' => 0,
+                'SE' => 0,
+                'ratio_year_SE' => 0,
+                'rank' => 0
+            ];
+        }
+
+        $SEList = $marketRankList = [];
+        $currentYear = strftime('%Y', time());
+
+        $monthlySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByMonth($this->restaurant, strftime('%Y', time()) - 7);
+        if ($monthlySales->count()) {
+            foreach ($monthlySales as $monthlyResult) {
+                $monthNumber = $monthlyResult['_id']['month'];
+                $year = $monthlyResult['_id']['year'];
+                $amount = $monthlyResult['foodSaleTotal'];
+
+                if ($year < $trackingMonthlySales['year']['min'])
+                    $trackingMonthlySales['year']['min'] = $year;
+
+                $item = $computedMonthlySales[$monthNumber];
+
+                $item['year'] = $year;
+                $item['amount'] = $amount;
+
+                // SE
+                if (empty($SEList[$year])) {
+                    $SE = $this->dm->getRepository(SouthEst::class)->findOneBy(['year' => (int)$year]);
+                    if (!$SE)
+                        $SE = new SouthEst();
+                    $SEList[$year] = $SE;
+                } else {
+                    $SE = $SEList[$year];
+                }
+                $item['SE'] = $SE->getMonth($monthNumber);
+
+                // MarketRank
+                if (empty($marketRankList[$year])) {
+                    $marketRank = $this->dm->getRepository(MarketRank::class)->findOneBy(['year' => (int)$year]);
+                    if (!$marketRank)
+                        $marketRank = new MarketRank();
+                    $marketRankList[$year] = $marketRank;
+                } else {
+                    $marketRank = $marketRankList[$year];
+                }
+                $item['rank'] = $marketRank->getMonth($monthNumber);
+
+                if (!empty($trackingMonthlySales['items'][$monthNumber][$year - 1])) {
+                    $precedentYear = $trackingMonthlySales['items'][$monthNumber][$year - 1];
+                    $item['ratio_year1_year'] = !empty($precedentYear['amount'])? round((($item['amount'] - $precedentYear['amount']) / $precedentYear['amount']) * 100, 2): -100;
+                    $item['ratio_year_SE'] = $item['ratio_year1_year'] - $item['SE'];
+                }
+
+                if (!empty($trackingMonthlySales['items'][$monthNumber][$year - 2])) {
+                    $precedentYear = $trackingMonthlySales['items'][$monthNumber][$year - 2];
+                    $item['ratio_year2_year'] = !empty($precedentYear['amount'])? round((($item['amount'] - $precedentYear['amount']) / $precedentYear['amount']) * 100, 2): -100;
+                }
+
+                $trackingMonthlySales['items'][$monthNumber][$year] = $item;
+
+                if (!isset($trackingMonthlySales['total']['first_semestre'][$year]))
+                    $trackingMonthlySales['total']['first_semestre'][$year] = 0;
+
+                if (!isset($trackingMonthlySales['total']['second_semestre'][$year]))
+                    $trackingMonthlySales['total']['second_semestre'][$year] = 0;
+
+                if (!isset($trackingMonthlySales['total']['annual'][$year]))
+                    $trackingMonthlySales['total']['annual'][$year] = 0;
+
+                if ($monthNumber <= 6) {
+                    $trackingMonthlySales['total']['first_semestre'][$year] += $item['amount'];
+
+                    if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['first_semestre'][$year.'-ratio']))
+                        $trackingMonthlySales['total']['first_semestre'][$year.'-ratio'] = false;
+                    if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['first_semestre'][$year.'-ratio']))
+                        $trackingMonthlySales['total']['first_semestre'][$year.'-ratio'] = false;
+                } else {
+                    $trackingMonthlySales['total']['second_semestre'][$year] += $item['amount'];
+
+                    if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['second_semestre'][$year.'-ratio']))
+                        $trackingMonthlySales['total']['second_semestre'][$year.'-ratio'] = false;
+                    if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['second_semestre'][$year.'-ratio']))
+                        $trackingMonthlySales['total']['second_semestre'][$year.'-ratio'] = false;
+                }
+
+                $trackingMonthlySales['total']['annual'][$year] += $item['amount'];
+                if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['annual'][$year.'-ratio']))
+                    $trackingMonthlySales['total']['annual'][$year.'-ratio'] = false;
+                if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['annual'][$year.'-ratio']))
+                    $trackingMonthlySales['total']['annual'][$year.'-ratio'] = false;
             }
             ksort($trackingMonthlySales['items']);
         }

@@ -34,12 +34,18 @@ class MarketRank
     private $year;
 
     /**
+     * @ODM\Field(type="integer")
+     */
+    private $annual;
+
+    /**
      * @ODM\Field(type="hash")
      */
     private $monthly;
 
     public function __construct()
     {
+        $this->annual = 0;
         $this->monthly = [];
     }
 
@@ -65,6 +71,22 @@ class MarketRank
     public function setYear($year)
     {
         $this->year = $year;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAnnual()
+    {
+        return $this->annual;
+    }
+
+    /**
+     * @param mixed $annual
+     */
+    public function setAnnual($annual)
+    {
+        $this->annual = $annual;
     }
 
     /**

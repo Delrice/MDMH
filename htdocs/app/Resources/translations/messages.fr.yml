@@ -218,6 +218,15 @@ track.monthlysales.SE: '% SE'
 track.monthlysales.ratio_year_SE: '# SE'
 track.monthlysales.rank: 'RANG'
 
+### TRACK GLOBAL MONTHLYSALES
+track.global_monthlysales.sales: 'Ventes'
+track.global_monthlysales.ratio_year2_year1: 'Evol'
+track.global_monthlysales.ratio_year1_year: 'Evol'
+track.global_monthlysales.SE: 'SE'
+track.global_monthlysales.ratio_year_SE: '#'
+track.global_monthlysales.ratio_year2_year: 'Evol n-2'
+track.global_monthlysales.total_semestre: 'Total semestre'
+track.global_monthlysales.total_annual: 'Total annuel'
 
 
 ### SOUTH EST
@@ -237,7 +246,8 @@ supervisor.market_rank.page_title: 'Classement du marché'
 header.supervisor.market_rank.title: 'Classement du marché'
 header.supervisor.market_rank.optional: ''
 supervisor.market_rank.table_header: 'Classement mensuel dans le SE'
-supervisor.market_rank.monthly: 'Chiffres mensuels'
+supervisor.market_rank.annual: 'Classement annuel'
+supervisor.market_rank.monthly: 'Classements mensuels'
 supervisor.market_rank.edit.create_button: 'Enregistrer'
 supervisor.market_rank.update.success: 'Classement modifié avec succès'
 

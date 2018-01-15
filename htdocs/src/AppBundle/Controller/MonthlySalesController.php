@@ -50,7 +50,7 @@ class MonthlySalesController extends BaseController
      */
     public function trackGlobalMonthlySalesAction(Request $request, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
-        $trackingMonthlySales = $salesManager->trackMonthlySales();
+        $trackingMonthlySales = $salesManager->trackGlobalMonthlySales();
 
         return $this->render('restaurants/track_global_monthlysales.html.twig', [
             'currentMenuActive' => [
