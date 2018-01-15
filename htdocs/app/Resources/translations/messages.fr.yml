@@ -217,3 +217,14 @@ supervisor.south_est.monthly: 'Chiffres mensuels'
 supervisor.south_est.weekly: 'Chiffres hebdomadaires'
 supervisor.south_est.edit.create_button: 'Enregistrer'
 supervisor.south_est.update.success: 'Marché SE modifié avec succès'
+
+### MARKET RANK
+menu.supervisor.market_rank: 'Classement du marché'
+supervisor.market_rank.page_title: 'Classement du marché'
+header.supervisor.market_rank.title: 'Classement du marché'
+header.supervisor.market_rank.optional: ''
+supervisor.market_rank.table_header: 'Classement mensuel dans le SE'
+supervisor.market_rank.monthly: 'Chiffres mensuels'
+supervisor.market_rank.edit.create_button: 'Enregistrer'
+supervisor.market_rank.update.success: 'Classement modifié avec succès'
+
