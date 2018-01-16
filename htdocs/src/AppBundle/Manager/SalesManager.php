@@ -451,8 +451,6 @@ class SalesManager
         }
 
         $SEList = $marketRankList = [];
-        $currentYear = strftime('%Y', time());
-
         $monthlySales = $this->dm->getRepository(DailySale::class)->getDailySalesGroupedByMonth($this->restaurant, strftime('%Y', time()) - 7);
         if ($monthlySales->count()) {
             foreach ($monthlySales as $monthlyResult) {
@@ -503,62 +501,72 @@ class SalesManager
 
                 $trackingMonthlySales['items'][$monthNumber][$year] = $item;
 
-                if (!isset($trackingMonthlySales['total']['first_semestre'][$year]))
-                    $trackingMonthlySales['total']['first_semestre'][$year] = 0;
+                if (empty($trackingMonthlySales['total']['first_semestre'][$year])) {
+                    $trackingMonthlySales['total']['first_semestre'][$year] = [
+                        'month' => 'first_semestre',
+                        'year' => $year,
+                        'amount' => 0,
+                        'ratio_year2_year1' => 0,
+                        'ratio_year1_year' => 0,
+                        'ratio_year2_year' => 0,
+                        'SE' => $SE->getFirstSemestre(),
+                        'ratio_year_SE' => 0,
+                        'rank' => '--'
+                    ];
+                }
 
-                if (!isset($trackingMonthlySales['total']['second_semestre'][$year]))
-                    $trackingMonthlySales['total']['second_semestre'][$year] = 0;
+                if (empty($trackingMonthlySales['total']['second_semestre'][$year])) {
+                    $trackingMonthlySales['total']['second_semestre'][$year] = [
+                        'month' => 'second_semestre',
+                        'year' => $year,
+                        'amount' => 0,
+                        'ratio_year2_year1' => 0,
+                        'ratio_year1_year' => 0,
+                        'ratio_year2_year' => 0,
+                        'SE' => $SE->getSecondSemestre(),
+                        'ratio_year_SE' => 0,
+                        'rank' => '--'
+                    ];
+                }
 
-                if (!isset($trackingMonthlySales['total']['annual'][$year]))
-                    $trackingMonthlySales['total']['annual'][$year] = 0;
+                if (empty($trackingMonthlySales['total']['annual'][$year])) {
+                    $trackingMonthlySales['total']['annual'][$year] = [
+                        'month' => 'annual',
+                        'year' => $year,
+                        'amount' => 0,
+                        'ratio_year2_year1' => 0,
+                        'ratio_year1_year' => 0,
+                        'ratio_year2_year' => 0,
+                        'SE' => $SE->getAnnual(),
+                        'ratio_year_SE' => 0,
+                        'rank' => $marketRank->getAnnual()
+                    ];
+                }
 
                 if ($monthNumber <= 6) {
-                    $trackingMonthlySales['total']['first_semestre'][$year] += $item['amount'];
-
-                    if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['first_semestre'][$year.'-ratio']))
-                        $trackingMonthlySales['total']['first_semestre'][$year.'-ratio'] = false;
-
-                    if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['first_semestre'][$year.'-ratio']))
-                        $trackingMonthlySales['total']['first_semestre'][$year.'-ratio'] = false;
-
-                    if ($year == $currentYear - 1 || $year == $currentYear - 2) {
-                        $ratio = !empty($trackingMonthlySales['total']['first_semestre'][$year-1])? round((($trackingMonthlySales['total']['first_semestre'][$year] - $trackingMonthlySales['total']['first_semestre'][$year-1]) / $trackingMonthlySales['total']['first_semestre'][$year-1]) * 100, 2): -100;
-                        $trackingMonthlySales['total']['first_semestre'][$year.'-ratio'] = $ratio;
-                    }
-
-                    if ($year == $currentYear) {
-                        $trackingMonthlySales['total']['first_semestre']['SE-ratio'] = $SE->getFirstSemestre();
-                        $trackingMonthlySales['total']['second_semestre']['SE-ratio'] = $SE->getSecondSemestre();
-                    }
+                    $trackingMonthlySales['total']['first_semestre'][$year]['amount'] += $item['amount'];
+                    if (!empty($trackingMonthlySales['total']['first_semestre'][$year - 1]['amount']))
+                        $trackingMonthlySales['total']['first_semestre'][$year]['ratio_year1_year'] = (($trackingMonthlySales['total']['first_semestre'][$year]['amount'] - $trackingMonthlySales['total']['first_semestre'][$year - 1]['amount']) / $trackingMonthlySales['total']['first_semestre'][$year - 1]['amount']) * 100;
+                    if (!empty($trackingMonthlySales['total']['first_semestre'][$year - 2]['amount']))
+                        $trackingMonthlySales['total']['first_semestre'][$year]['ratio_year2_year'] = (($trackingMonthlySales['total']['first_semestre'][$year]['amount'] - $trackingMonthlySales['total']['first_semestre'][$year - 2]['amount']) / $trackingMonthlySales['total']['first_semestre'][$year - 2]['amount']) * 100;
+                    $trackingMonthlySales['total']['first_semestre'][$year]['ratio_year_SE'] = $trackingMonthlySales['total']['first_semestre'][$year]['ratio_year1_year'] - $trackingMonthlySales['total']['first_semestre'][$year]['SE'];
                 } else {
-                    $trackingMonthlySales['total']['second_semestre'][$year] += $item['amount'];
+                    $trackingMonthlySales['total']['second_semestre'][$year]['amount'] += $item['amount'];
 
-                    if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['second_semestre'][$year.'-ratio']))
-                        $trackingMonthlySales['total']['second_semestre'][$year.'-ratio'] = false;
-
-                    if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['second_semestre'][$year.'-ratio']))
-                        $trackingMonthlySales['total']['second_semestre'][$year.'-ratio'] = false;
-
-                    if ($year == $currentYear - 1 || $year == $currentYear - 2) {
-                        $ratio = !empty($trackingMonthlySales['total']['second_semestre'][$year-1])? round((($trackingMonthlySales['total']['second_semestre'][$year] - $trackingMonthlySales['total']['second_semestre'][$year-1]) / $trackingMonthlySales['total']['second_semestre'][$year-1]) * 100, 2): -100;
-                        $trackingMonthlySales['total']['second_semestre'][$year.'-ratio'] = $ratio;
-                    }
+                    if (!empty($trackingMonthlySales['total']['second_semestre'][$year - 1]['amount']))
+                        $trackingMonthlySales['total']['second_semestre'][$year]['ratio_year1_year'] = (($trackingMonthlySales['total']['second_semestre'][$year]['amount'] - $trackingMonthlySales['total']['second_semestre'][$year - 1]['amount']) / $trackingMonthlySales['total']['second_semestre'][$year - 1]['amount']) * 100;
+                    if (!empty($trackingMonthlySales['total']['second_semestre'][$year - 2]['amount']))
+                        $trackingMonthlySales['total']['second_semestre'][$year]['ratio_year2_year'] = (($trackingMonthlySales['total']['second_semestre'][$year]['amount'] - $trackingMonthlySales['total']['second_semestre'][$year - 2]['amount']) / $trackingMonthlySales['total']['second_semestre'][$year - 2]['amount']) * 100;
+                    $trackingMonthlySales['total']['second_semestre'][$year]['ratio_year_SE'] = $trackingMonthlySales['total']['second_semestre'][$year]['ratio_year1_year'] - $trackingMonthlySales['total']['second_semestre'][$year]['SE'];
                 }
 
-                $trackingMonthlySales['total']['annual'][$year] += $item['amount'];
-                if ($year == $currentYear - 2 && !isset($trackingMonthlySales['total']['annual'][$year.'-ratio']))
-                    $trackingMonthlySales['total']['annual'][$year.'-ratio'] = false;
-                if ($year == $currentYear - 1 && !isset($trackingMonthlySales['total']['annual'][$year.'-ratio']))
-                    $trackingMonthlySales['total']['annual'][$year.'-ratio'] = false;
+                $trackingMonthlySales['total']['annual'][$year]['amount'] += $item['amount'];
+                if (!empty($trackingMonthlySales['total']['annual'][$year - 1]['amount']))
+                    $trackingMonthlySales['total']['annual'][$year]['ratio_year1_year'] = (($trackingMonthlySales['total']['annual'][$year]['amount'] - $trackingMonthlySales['total']['annual'][$year - 1]['amount']) / $trackingMonthlySales['total']['annual'][$year - 1]['amount']) * 100;
+                if (!empty($trackingMonthlySales['total']['annual'][$year - 2]['amount']))
+                    $trackingMonthlySales['total']['annual'][$year]['ratio_year2_year'] = (($trackingMonthlySales['total']['annual'][$year]['amount'] - $trackingMonthlySales['total']['annual'][$year - 2]['amount']) / $trackingMonthlySales['total']['annual'][$year - 2]['amount']) * 100;
+                $trackingMonthlySales['total']['annual'][$year]['ratio_year_SE'] = $trackingMonthlySales['total']['annual'][$year]['ratio_year1_year'] - $trackingMonthlySales['total']['annual'][$year]['SE'];
 
-                if ($year == $currentYear - 1 || $year == $currentYear - 2) {
-                    $ratio = !empty($trackingMonthlySales['total']['annual'][$year-1])? round((($trackingMonthlySales['total']['annual'][$year] - $trackingMonthlySales['total']['annual'][$year-1]) / $trackingMonthlySales['total']['annual'][$year-1]) * 100, 2): -100;
-                    $trackingMonthlySales['total']['annual'][$year.'-ratio'] = $ratio;
-                }
-
-                if ($year == $currentYear) {
-                    $trackingMonthlySales['total']['annual']['SE-ratio'] = $SE->getAnnual();
-                }
             }
             ksort($trackingMonthlySales['items']);
         }
