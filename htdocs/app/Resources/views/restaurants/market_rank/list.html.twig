@@ -10,19 +10,19 @@
     </div>
 {%- endblock form_row -%}
 
-{% block title %}{{ 'supervisor.market_rank.page_title'|trans }}{% endblock %}
+{% block title %}{{ 'restaurants.market_rank.page_title'|trans }}{% endblock %}
 
 {% block page_header %}
     <!-- Content Header (Page header) -->
     <section class="content-header">
         <h1>
-            {{ 'header.supervisor.market_rank.title'|trans }}
-            <small>{{ 'header.supervisor.market_rank.optional'|trans }}</small>
+            {{ 'header.restaurants.market_rank.title'|trans }}
+            <small>{{ restaurant.name|upper }}</small>
         </h1>
         {{ include('layout/parts/breadcrumb.html.twig',
             {'pages': [
                 {
-                    'title': 'supervisor.market_rank.page_title'|trans
+                    'title': 'restaurants.market_rank.page_title'|trans
                 }
             ]
             })

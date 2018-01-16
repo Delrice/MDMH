@@ -68,11 +68,11 @@
                         <i class="fa fa-pie-chart"></i> <span>{{ 'menu.supervisor.south_est'|trans }}</span>
                     </a>
                 </li>
-                <li{% if 'menu.supervisor.market_rank' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                {#<li{% if 'menu.supervisor.market_rank' in currentMenuActive|default([]) %} class="active"{% endif %}>
                     <a href="{{ path('supervisor_market_rank') }}" title="{{ 'menu.supervisor.market_rank'|trans }}">
                         <i class="fa fa-trophy"></i> <span>{{ 'menu.supervisor.market_rank'|trans }}</span>
                     </a>
-                </li>
+                </li>#}
             </ul>
             <!-- /.sidebar-menu -->
         {% endif %}
@@ -121,6 +121,11 @@
                             <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.track_monthlysales' in currentMenuActive|default([]) %} class="active"{% endif %}>
                                 <a href="{{ path('restaurant_track_monthlysales', {'id': restaurant.id}) }}" id="restaurant-track-monthlysales-{{ restaurant.identifier }}">
                                     <i class="fa fa-area-chart"></i> <span>{{ 'menu.restaurant.track_monthlysales'|trans }}</span>
+                                </a>
+                            </li>
+                            <li{% if 'menu.restaurant.' ~ restaurant.id ~ '.market_rank' in currentMenuActive|default([]) %} class="active"{% endif %}>
+                                <a href="{{ path('restaurant_market_rank', {'id': restaurant.id}) }}" id="restaurant-market-rank-{{ restaurant.identifier }}">
+                                    <i class="fa fa-trophy"></i> <span>{{ 'menu.restaurant.market_rank'|trans }}</span>
                                 </a>
                             </li>
                         </ul>

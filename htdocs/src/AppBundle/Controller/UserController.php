@@ -58,7 +58,7 @@ class UserController extends BaseController
     /**
      * @Route("/", name="user_list")
      */
-    public function listAction(Request $request)
+    public function listAction()
     {
         $userList = $this->get('doctrine_mongodb')
             ->getRepository(User::class)

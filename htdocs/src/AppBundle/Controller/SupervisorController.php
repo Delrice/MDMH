@@ -4,7 +4,7 @@ namespace AppBundle\Controller;
 
 use AppBundle\Document\MarketRank;
 use AppBundle\Document\SouthEst;
-use AppBundle\Form\MarketRankType;
+use AppBundle\Form\MarketRankGlobalType;
 use AppBundle\Form\SouthEstType;
 use AppBundle\Services\Utils;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,7 +93,8 @@ class SupervisorController extends BaseController
         $dm = $this->get('doctrine_mongodb')->getManager();
         if (null == $id) {
             $entry = $dm->getRepository(MarketRank::class)->findOneBy([
-                'year' => (int)$year
+                'year' => (int)$year,
+                'restaurant' => null
             ]);
 
             if (!$entry) {
@@ -112,7 +113,7 @@ class SupervisorController extends BaseController
             $entry = $dm->getRepository(MarketRank::class)->find($id);
         }
 
-        $form = $this->createForm(MarketRankType::class, $entry);
+        $form = $this->createForm(MarketRankGlobalType::class, $entry);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

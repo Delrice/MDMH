@@ -7,7 +7,6 @@ use AppBundle\Manager\SalesManager;
 use AppBundle\Services\Security;
 use AppBundle\Services\Utils;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,7 +19,7 @@ class WeeklySalesController extends BaseController
     /**
      * @Route("/track/weekly/{id}/{year}", name="restaurant_track_weeklysales", defaults={"year"=null})
      */
-    public function trackWeeklySalesAction(Request $request, $id, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackWeeklySalesAction($id, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -58,7 +57,7 @@ class WeeklySalesController extends BaseController
     /**
      * @Route("/track/globalweekly/{year}", name="restaurant_track_global_weeklysales", defaults={"year"=null})
      */
-    public function trackGlobalWeeklySalesAction(Request $request, $year, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackGlobalWeeklySalesAction($year, SalesManager $salesManager, Utils $utils)
     {
         if (null === $year)
             $year = strftime('%Y', time());

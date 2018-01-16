@@ -2,7 +2,6 @@
 
 namespace AppBundle\Controller;
 
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -12,7 +11,7 @@ class SecurityController extends BaseController
     /**
      * @Route("/login", name="security_login")
      */
-    public function loginAction(Request $request, AuthenticationUtils $authUtils)
+    public function loginAction(AuthenticationUtils $authUtils)
     {
         // get the login error if there is one
         $error = $authUtils->getLastAuthenticationError();

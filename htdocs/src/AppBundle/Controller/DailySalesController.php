@@ -78,7 +78,7 @@ class DailySalesController extends BaseController
     /**
      * @Route("/track/daily/{id}/{year}/{month}", name="restaurant_track_dailysales", defaults={"year"=null, "month"=null})
      */
-    public function trackDailySalesAction(Request $request, $id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackDailySalesAction($id, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -117,7 +117,7 @@ class DailySalesController extends BaseController
     /**
      * @Route("/track/globaldaily/{year}/{month}", name="restaurant_track_global_dailysales", defaults={"year"=null, "month"=null})
      */
-    public function trackGlobalDailySalesAction(Request $request, $year, $month, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackGlobalDailySalesAction($year, $month, SalesManager $salesManager, Utils $utils)
     {
         if (null === $year)
             $year = strftime('%Y', time());

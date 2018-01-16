@@ -39,6 +39,16 @@ class SouthEst
     private $annual;
 
     /**
+     * @ODM\Field(type="integer")
+     */
+    private $firstSemestre;
+
+    /**
+     * @ODM\Field(type="integer")
+     */
+    private $secondSemestre;
+
+    /**
      * @ODM\Field(type="hash")
      */
     private $monthly;
@@ -93,6 +103,38 @@ class SouthEst
     public function setAnnual($annual)
     {
         $this->annual = $annual;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFirstSemestre()
+    {
+        return $this->firstSemestre;
+    }
+
+    /**
+     * @param mixed $firstSemestre
+     */
+    public function setFirstSemestre($firstSemestre)
+    {
+        $this->firstSemestre = $firstSemestre;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSecondSemestre()
+    {
+        return $this->secondSemestre;
+    }
+
+    /**
+     * @param mixed $secondSemestre
+     */
+    public function setSecondSemestre($secondSemestre)
+    {
+        $this->secondSemestre = $secondSemestre;
     }
 
     /**

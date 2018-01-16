@@ -2,7 +2,7 @@
     {# FIRST 6 MONTHS #}
     <table class="table table-bordered text-center">
         <tr class="bg-gray-active">
-            <th style="width: 90px">{{ 'track.global_monthlysales.sales'|trans }}</th>
+            <th class="bg-gray-active" style="width: 90px">{{ 'track.global_monthlysales.sales'|trans }}</th>
             {% for year in elements.year.min..elements.year.max %}
                 <th>{{ year }}</th>
                 {% if loop.index == (loop.length - 2) %}
@@ -37,12 +37,11 @@
             </tr>
         {% endfor %}
 
-        <tr>
+        <tr class="bg-gray-light">
             <td>{{ 'track.global_monthlysales.total_semestre'|trans }}</td>
             {% for year, amount in elements.total.first_semestre %}
-                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+                <td>{{ 'ratio' not in year? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: (amount|number_format(2, '.', ' ') ~ ' %')|raw }}</td>
             {% endfor %}
-            <td>--</td>
             <td>--</td>
             <td>--</td>
         </tr>
@@ -87,22 +86,20 @@
             </tr>
         {% endfor %}
 
-        <tr>
+        <tr class="bg-gray-light">
             <td>{{ 'track.global_monthlysales.total_semestre'|trans }}</td>
             {% for year, amount in elements.total.second_semestre %}
-                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+                <td>{{ 'ratio' not in year? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: (amount|number_format(2, '.', ' ') ~ ' %')|raw }}</td>
             {% endfor %}
-            <td>--</td>
             <td>--</td>
             <td>--</td>
         </tr>
 
-        <tr>
+        <tr class="bg-gray">
             <td>{{ 'track.global_monthlysales.total_annual'|trans }}</td>
             {% for year, amount in elements.total.annual %}
-                <td>{{ amount? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: '--' }}</td>
+                <td>{{ 'ratio' not in year? (amount|number_format(0, '.', ' ') ~ ' &euro;')|raw: (amount|number_format(2, '.', ' ') ~ ' %')|raw }}</td>
             {% endfor %}
-            <td>--</td>
             <td>--</td>
             <td>--</td>
         </tr>

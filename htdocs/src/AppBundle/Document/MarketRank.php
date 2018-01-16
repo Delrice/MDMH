@@ -29,6 +29,11 @@ class MarketRank
     private $id;
 
     /**
+     * @ODM\ReferenceOne(targetDocument="Restaurant", inversedBy="budgets")
+     */
+    private $restaurant;
+
+    /**
      * @ODM\Field(type="integer")
      */
     private $year;
@@ -43,8 +48,9 @@ class MarketRank
      */
     private $monthly;
 
-    public function __construct()
+    public function __construct(Restaurant $restaurant=null)
     {
+        $this->restaurant = $restaurant;
         $this->annual = 0;
         $this->monthly = [];
     }
@@ -55,6 +61,22 @@ class MarketRank
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @return Restaurant
+     */
+    public function getRestaurant()
+    {
+        return $this->restaurant;
+    }
+
+    /**
+     * @param mixed $restaurant
+     */
+    public function setRestaurant(Restaurant $restaurant)
+    {
+        $this->restaurant = $restaurant;
     }
 
     /**

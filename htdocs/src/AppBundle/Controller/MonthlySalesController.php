@@ -5,9 +5,7 @@ namespace AppBundle\Controller;
 use AppBundle\Document\Restaurant;
 use AppBundle\Manager\SalesManager;
 use AppBundle\Services\Security;
-use AppBundle\Services\Utils;
 use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
@@ -20,7 +18,7 @@ class MonthlySalesController extends BaseController
     /**
      * @Route("/track/monthly/{id}", name="restaurant_track_monthlysales")
      */
-    public function trackMonthlySalesAction(Request $request, $id, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackMonthlySalesAction($id, Security $securityService, SalesManager $salesManager)
     {
         $checkerResult = $this->checkUserAccess($id, $securityService);
         if ($checkerResult instanceof RedirectResponse)
@@ -48,7 +46,7 @@ class MonthlySalesController extends BaseController
     /**
      * @Route("/track/globalmonthly", name="restaurant_track_global_monthlysales")
      */
-    public function trackGlobalMonthlySalesAction(Request $request, Security $securityService, SalesManager $salesManager, Utils $utils)
+    public function trackGlobalMonthlySalesAction(SalesManager $salesManager)
     {
         $trackingMonthlySales = $salesManager->trackGlobalMonthlySales();
 
